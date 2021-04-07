@@ -19,10 +19,33 @@
 #include <cctype> /// the library to use toupper or tolower
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
+#include "dispersion_fuction.h"
 
 #pragma once
 using namespace std;
 
+template<class Key>
 class Pseudorandom_Hash {
+    private: 
+    int table_size;
+    public:
+    Pseudorandom_Hash(const int n);
+    ~Pseudorandom_Hash();
+    int operator()(const Key &x);
+};
 
+template<class Key>
+Pseudorandom_Hash<Key>::Pseudorandom_Hash(const int n) {
+    table_size = n;
+};
+
+template<class Key>
+Pseudorandom_Hash<Key>::~Pseudorandom_Hash() {
+
+};
+
+template<class Key>
+int Pseudorandom_Hash<Key>::operator()(const Key &x) {
+    srand(x);
+        return (rand() % table_size);
 };

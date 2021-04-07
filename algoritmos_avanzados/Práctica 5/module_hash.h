@@ -19,10 +19,26 @@
 #include <cctype> /// the library to use toupper or tolower
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
+#include "dispersion_fuction.h"
 
 #pragma once
 using namespace std;
 
+template<class Key>
 class Module_Hash {
+    private:
+        int table_size;
+    public:
+    Module_Hash(const int n);
+    int operator()(const Key &x);
+};
 
+template<class Key>
+Module_Hash<Key>::Module_Hash(const int n) {
+    table_size = n;
+};
+
+template<class Key>
+int Module_Hash<Key>::operator()(const Key &x) {
+    return (x % table_size);
 };

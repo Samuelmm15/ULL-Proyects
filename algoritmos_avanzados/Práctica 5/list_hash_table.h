@@ -31,8 +31,8 @@ class List_Hash { /// Con esta clase se implementa la lista que se encuentra den
         int list_created = 0;
     public:
         List_Hash(int n); /// Los constructores de las clases deben de declararse sin establecer nada delante
-        bool Find_Key_List_Hash(int n, int insert);
-        bool Insert_Key_List_Hash();
+        bool Find_Key_List_Hash(int n, int find);
+        bool Insert_Key_List_Hash(int n, int insert_key);
 };
 
 template<class Key>
@@ -41,25 +41,53 @@ List_Hash<Key>::List_Hash(int n) {
 };
 
 template<class Key>
-bool List_Hash<Key>::Find_Key_List_Hash(int n, int insert) {
+bool List_Hash<Key>::Find_Key_List_Hash(int n, int find) {
     if (list_created == 0) { /// La lista no ha sido creada, la creamos 
         nDates_copy = n; /// tenemos copiado el tamaño de la tabla para poder implementar las listas
         for (int i = 0; i < nDates_copy; i++) {
             list_hash.push_back(i);
         }
+        cout << "La lista no había sido creada dentro de la celda, la creamos..." << endl;
         list_created = 1; /// La lista ha sido creada
+        return false;
     } else if (list_created == 1) { /// si se produce que la lista ya ha sido creada
-        list<Key>::iterator p = list_hash.begin();
-        while (p != list_hash.end()) {
-            if (p->insert) {
-                return true;
-            }
-            p++; /// avanzamos a la siguiente posicion de la lista
-        }
+      list<int>::iterator p = list_hash.begin();
+      while (p != list_hash.end()) {
+          if (*p == find) {
+            return true;
+          } else {
+            return false;
+          }
+          p++;
+      }      
     }
 };
 
 template<class Key>
-bool List_Hash<Key>::Insert_Key_List_Hash() {
+bool List_Hash<Key>::Insert_Key_List_Hash(int n, int insert_key) {
+    if (list_created == 0) {
+        nDates_copy = n; /// tenemos copiado el tamaño de la tabla para poder implementar las listas
+        for (int i = 0; i < nDates_copy; i++) {
+            list_hash.push_back(i);
+        }
+        cout << "La lista no había sido creada dentro de la celda, la creamos..." << endl;
+        list_created = 1; /// La lista ha sido creada
+        return false;
+    } else if (list_created == 1) {
+        int inserted = 0;
+        list<int>::iterator p = list_hash.begin();
+        while (p != list_hash.end()) {
+            if (*p == insert_key) {
+                inserted = 1;
+                return false;
+            } 
+            p++;
+        }
+        if (inserted == 0) {
+            list_hash.emplace_back(insert_key); /// añadimos el numero que queremos insertar al final de la lista
+            return true;
+        }
+
     
+    }
 };

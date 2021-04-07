@@ -26,9 +26,7 @@ using namespace std;
 template<class Key>
 class Dispersion_Fuction {
     public:
-        virtual unsigned operator() (const Key& k) const = 0; /// se necesita declarar como virtual, si ocurre algun fallo quitar esto
+        Dispersion_Fuction();
+        virtual int operator() (const Key &x) = 0; /// se necesita declarar como virtual, si ocurre algun fallo quitar esto
 };
 
-/* 
- A PARTIR DE ESTE PUNTO SE IMPLEMENTAN EN VARIOS FICHEROS .H LAS FUNCIONES DE DISPERSIÓN QUE HAY QUE IMPLEMENTAR
-*/
