@@ -24,38 +24,53 @@
 using namespace std;
 
 template<class Key>
-class List_Hash { /// Con esta clase se implementa la lista que se encuentra dentro de cada celda dentro de la propia tabla
+class List_Hash { 
     private:
         int nDates_copy;
-        list<Key> list_hash; /// inicializamos el objeto lista y la lista de claves vacía
+        list<Key> list_hash; 
         int list_created = 0;
     public:
-        List_Hash(int n); /// Los constructores de las clases deben de declararse sin establecer nada delante
+        /**
+         * @brief The constructor of the Hash List
+         * 
+         * @param n The size of the Hash List
+         */
+        List_Hash(int n); 
+        /**
+         * @brief The fuction that searchs the key that the user insert
+         * 
+         * @param n The size of the list
+         * @param find The key that is gonna to find at the list
+         * @return true 
+         * @return false 
+         */
         bool Find_Key_List_Hash(int n, int find);
+        /**
+         * @brief The fuction that inserts the keys at a list
+         * 
+         * @param n The size of the List
+         * @param insert_key The key that is gonna to insert
+         * @return true 
+         * @return false 
+         */
         bool Insert_Key_List_Hash(int n, int insert_key);
 };
 
 template<class Key>
 List_Hash<Key>::List_Hash(int n) { 
-    list<Key> list_hash; /// inicializamos el objeto lista y la lista de claves vacía
+    list<Key> list_hash; 
 };
 
 template<class Key>
 bool List_Hash<Key>::Find_Key_List_Hash(int n, int find) {
-    if (list_created == 0) { /// La lista no ha sido creada, la creamos 
-        nDates_copy = n; /// tenemos copiado el tamaño de la tabla para poder implementar las listas
-        for (int i = 0; i < nDates_copy; i++) {
-            list_hash.push_back(i);
-        }
-        cout << "La lista no había sido creada dentro de la celda, la creamos..." << endl;
-        list_created = 1; /// La lista ha sido creada
-        return false;
-    } else if (list_created == 1) { /// si se produce que la lista ya ha sido creada
+    if (list_created == 1) { 
       list<int>::iterator p = list_hash.begin();
       while (p != list_hash.end()) {
           if (*p == find) {
+             cout << "Ha sido encontrado en la posicion: " << *p << " de la lista dentro de la celda." << endl;
             return true;
-          } else {
+          } else if (*p != find) {
+            cout << "Ha sido encontrado en la posicion: " << *p << " de la lista dentro de la celda." << endl;
             return false;
           }
           p++;
@@ -66,12 +81,12 @@ bool List_Hash<Key>::Find_Key_List_Hash(int n, int find) {
 template<class Key>
 bool List_Hash<Key>::Insert_Key_List_Hash(int n, int insert_key) {
     if (list_created == 0) {
-        nDates_copy = n; /// tenemos copiado el tamaño de la tabla para poder implementar las listas
+        nDates_copy = n; 
         for (int i = 0; i < nDates_copy; i++) {
             list_hash.push_back(i);
         }
         cout << "La lista no había sido creada dentro de la celda, la creamos..." << endl;
-        list_created = 1; /// La lista ha sido creada
+        list_created = 1; 
         return false;
     } else if (list_created == 1) {
         int inserted = 0;
@@ -84,10 +99,8 @@ bool List_Hash<Key>::Insert_Key_List_Hash(int n, int insert_key) {
             p++;
         }
         if (inserted == 0) {
-            list_hash.emplace_back(insert_key); /// añadimos el numero que queremos insertar al final de la lista
+            list_hash.emplace_back(insert_key); /// To insert the key at the end of the list
             return true;
         }
-
-    
     }
 };

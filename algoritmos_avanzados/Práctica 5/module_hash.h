@@ -29,7 +29,18 @@ class Module_Hash {
     private:
         int table_size;
     public:
+    /**
+     * @brief The constructor of the module disperse fuction
+     * 
+     * @param n The size of the Hash Table
+     */
     Module_Hash(const int n);
+    /**
+     * @brief The overload of the operator to calculate the position
+     * 
+     * @param x The key number that is gonna to insert
+     * @return int 
+     */
     int operator()(const Key &x);
 };
 
@@ -40,5 +51,5 @@ Module_Hash<Key>::Module_Hash(const int n) {
 
 template<class Key>
 int Module_Hash<Key>::operator()(const Key &x) {
-    return (x % table_size);
+    return (x % table_size); /// the module
 };

@@ -16,10 +16,10 @@
 #include "pseudorandom_hash.h"
 
 void clrscr() {
-    system("clear"); /// con esta función se puede limpiar la pantalla para cada iteraccion del menú
+    system("clear"); /// To clear the shell for the menu
 };
 
-void menu(int &option) { /// funcion para la impresion del menú
+void menu(int &option) { 
     cout << "<< BIENVENIDO AL MENÚ DE SELECCIÓN DE LA OPERACIÓN QUE DESEA REALIZAR >>" << endl;
     cout << "1. Introduzca 1 si quiere realizar la búsqueda de valores clave." << endl;
     cout << "2. Introduzca 2 si quiere realizar la inserción de valores clave." << endl;
@@ -30,21 +30,22 @@ void menu(int &option) { /// funcion para la impresion del menú
 
 int main() { 
     
+    cout << endl;
     cout << "<< BIENVENIDO AL PROGRAMA DE LA TABLA DE HASH >>" << endl;
     int fuction_option = 0;
     cout << "A continuación que función va a utilizar ([1] La función de dispersión módulo o [2] La función de dispersión pseudoaleatoria): ";
     cin >> fuction_option;
 
     int hash_table_size = 0;
-    cout << "Para comenzar introduza el tamaño de la tabla de hash de la cual quiere hacer uso: ";
+    cout << "Para comenzar introduzca el tamaño de la tabla de hash de la cual quiere hacer uso: ";
     cin >> hash_table_size;   
     
     Module_Hash<int> M(hash_table_size);
     Pseudorandom_Hash<int> P(hash_table_size);  
-    Hash_Table<int> H(hash_table_size, fuction_option, M, P); /// incializacion de los valores de la tabla
+    Hash_Table<int> H(hash_table_size, fuction_option, M, P); 
     List_Hash<int> L(H.getnDates());
     
-    /// Menú del programa
+    /// The menu of the programm
     int option = 0;
     do {
         cout << endl;
@@ -59,7 +60,7 @@ int main() {
                     int find_key;
                     cout << "Introduzca el valor clave que quiere buscar en la tabla: ";
                     cin >> find_key;
-                    /// En este punto debemos de realizar la búsqueda de valores
+                    
                     if (H.Find_Key_Hash_Table(find_key, L) == true) {
                         cout << "El valor clave " << find_key << " ha sido encontrado en la tabla de Hash." << endl;  
                     } else if (H.Find_Key_Hash_Table(find_key, L) == false) {
@@ -70,26 +71,28 @@ int main() {
             case 2 :
                 clrscr();
                 if (H.vDates_created == 0) {
-                    H.vDates_created = 1; /// establecemos que la tabla ha sido creada
+                    H.vDates_created = 1; 
                     cout << "La tabla ha sido creada" << endl;
                     H.Create_Table(); /// creamos la tabla
                 } else if (H.vDates_created == 1) {
                     int insert_key;
                     cout << "Introduzca el valor clave que quiere introducir dentro de la tabla: ";
                     cin >> insert_key;
-                    /// A partir de este punto realizamos la inserción de valores en la tabla de hash
+                    
                     int position = 0;
                     if (fuction_option == 1) {
                          position = M(insert_key);
                          if (H.Insert_Key_Hash_Table(insert_key, L, position) == true) {
-                            cout << "El valor clave " << insert_key << " ha sido insertado con exito en la tabla de Hash" << endl;
+                             cout << endl;
+                            cout << "El valor clave " << insert_key << " ha sido insertado con exito en la posicion " << position << endl;
                         } else if (H.Insert_Key_Hash_Table(insert_key, L, position) == false) {
+                            cout << endl;
                             cout << "El valor clave " << insert_key << " NO ha sido insertado en la tabla de Hash, ya se encuentra en ella" << endl;
                         }
                     } else if (fuction_option == 2) {
                         position = P(insert_key);
                         if (H.Insert_Key_Hash_Table(insert_key, L, position) == true) {
-                            cout << "El valor clave " << insert_key << " ha sido insertado con exito en la tabla de Hash" << endl;
+                            cout << "El valor clave " << insert_key << " ha sido insertado con exito en la posicion " << position << endl;
                         } else if (H.Insert_Key_Hash_Table(insert_key, L, position) == false) {
                             cout << "El valor clave " << insert_key << " NO ha sido insertado en la tabla de Hash, ya se encuentra en ella" << endl;
                         }

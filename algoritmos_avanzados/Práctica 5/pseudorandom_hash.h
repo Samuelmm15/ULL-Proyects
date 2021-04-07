@@ -29,8 +29,23 @@ class Pseudorandom_Hash {
     private: 
     int table_size;
     public:
+    /**
+     * @brief The constructor of the pseudorandom disperse fuction
+     *  
+     * @param n The size of the Hash Table 
+     */
     Pseudorandom_Hash(const int n);
+    /**
+     * @brief The destroyer of the pseudorandom disperse fuction
+     * 
+     */
     ~Pseudorandom_Hash();
+    /**
+     * @brief The overload of the operator () to calculate the pseudorandom disperse fuction
+     * 
+     * @param x The key number that is gonna to insert
+     * @return int 
+     */
     int operator()(const Key &x);
 };
 
@@ -47,5 +62,5 @@ Pseudorandom_Hash<Key>::~Pseudorandom_Hash() {
 template<class Key>
 int Pseudorandom_Hash<Key>::operator()(const Key &x) {
     srand(x);
-        return (rand() % table_size);
+        return (rand() % table_size); /// The pseudorandom calculates
 };
