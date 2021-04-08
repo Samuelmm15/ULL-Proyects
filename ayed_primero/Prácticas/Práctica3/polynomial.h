@@ -101,7 +101,13 @@ double Polynomial::Eval(const double x) const {
 // Comparación si son iguales dos polinomios representados por vectores densos
 bool Polynomial::IsEqual(const Polynomial& pol, const double eps) const {
   bool differents = false;
-  
+    for (int i = 0; i < get_size(); i++) {
+      if (IsNotZero(at(i),eps) == true && IsNotZero(pol.at(i), eps) == true) {
+        if (at(i) != pol.at(i)) {
+          differents = true;
+        }
+      }
+    }
   return !differents;
 }
 
@@ -154,7 +160,15 @@ double SparsePolynomial::Eval(const double x) const {
 // Comparación si son iguales dos polinomios representados por vectores dispersos
 bool SparsePolynomial::IsEqual(const SparsePolynomial& spol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  if (get_nz() == spol.get_nz()) {
+    for (int i = 0; i < get_nz(); i++) {
+    if (at(i).get_val() != spol.at(i).get_val()) {
+      differents = true;
+    }
+  }
+  } else if (get_nz() != spol.get_nz()) {
+    differents = true;
+  }
   return !differents;
 }
 
@@ -162,7 +176,26 @@ bool SparsePolynomial::IsEqual(const SparsePolynomial& spol, const double eps) c
 // vector disperso y vector denso
 bool SparsePolynomial::IsEqual(const Polynomial& pol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  int nz_ = 0;
+  for (int i = 0; i < pol.get_size(); i++) {
+    if (IsNotZero(pol.at(i), eps) == true) {
+      nz_++;
+    }
+  }
+
+  int counter = 0;
+  if (nz_ == get_nz()) {
+    for (int i = 0; i < pol.get_size(); i++) {
+      if (IsNotZero(pol.at(i), eps) == true) {
+        if (pol.at(i) != at(counter).get_val()) {
+          differents == true;
+        }
+        counter++;
+      }
+    }
+  } else if (nz_ != get_nz()) {
+    differents = true;
+  }
   return !differents;
 }
 
