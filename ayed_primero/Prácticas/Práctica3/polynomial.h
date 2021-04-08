@@ -82,14 +82,26 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& p) { /// sobrecarga
 // Evaluación de un polinomio representado por vector denso
 double Polynomial::Eval(const double x) const {
   double result{0.0};
-  // poner el código aquí
+  for (int i = 0; i < get_size(); i++) {
+    if (i == 0) {
+      result = at(i);
+    } else if (i == 1) {
+      result = result + (at(i) * x);
+    } else if (i > 1) {
+      double aux = x;
+      for (int j = 2; j <= i; j++) {
+        aux = (aux * x);
+      }
+      result = result + (at(i) * aux);
+    }
+  }
   return result;
 }
 
 // Comparación si son iguales dos polinomios representados por vectores densos
 bool Polynomial::IsEqual(const Polynomial& pol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  
   return !differents;
 }
 
@@ -123,7 +135,19 @@ std::ostream& operator<<(std::ostream& os, const SparsePolynomial& p) {
 // Evaluación de un polinomio representado por vector disperso
 double SparsePolynomial::Eval(const double x) const {
   double result{0.0};
-  // poner el código aquí
+  for (int i = 0; i < get_nz(); i++) {
+    if (at(i).get_inx() == 0) {
+      result = at(i).get_val();
+    } else if (at(i).get_inx() == 1) {
+      result = result + (at(i).get_val() * x);
+    } else if (at(i).get_inx() > 1) {
+      double aux = x;
+      for (int j = 2; j <= at(i).get_inx(); j++) {
+        aux = (aux * x);
+      }
+      result = result + (at(i).get_val() * aux);
+    }
+  }
   return result;
 }
 

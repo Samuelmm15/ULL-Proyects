@@ -67,16 +67,17 @@ sparse_vector_t::sparse_vector_t(const int n) : pv_(n), nz_(0), n_(n) {} /// con
 
 // FASE II
 sparse_vector_t::sparse_vector_t(const vector_t<double>& v, const double eps): pv_(), nz_(0), n_(0) { /// constructor del vector disperso
-  int counter = -1;
   n_ = v.get_size();
-  for (int i = 0; i < n_; i++) { /// recorremos el vector para determinar el tamaño del nuevo vector no disperso
-    
-    if (IsNotZero(v.at(i), eps) == true) {
-      nz_ = nz_ + 1; /// determinamos el tamaño del nuevo vector
+  pv_.resize(n_);
+  bool not_zero;
+  int counter = 0;
+  for (int i = 0; i < n_; i++) {
+    not_zero = IsNotZero(v.get_val(i),eps);  
+    if (not_zero == true) {
+      nz_ = nz_ + 1;
+      pv_[counter].set(v.get_val(i),i);
       counter++;
-      pv_[counter].set(v.at(i), i); /// con esto establecemos el indice y el valor de la celda del vector que va a pertenecer al vector escaso
     }
-  
   }
 }
 
