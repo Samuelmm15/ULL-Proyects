@@ -55,6 +55,7 @@ class SparsePolynomial : public sparse_vector_t { /// clase heredada de la clase
   double Eval(const double) const;
   bool IsEqual(const SparsePolynomial&, const double = EPS) const;
   bool IsEqual(const Polynomial&, const double = EPS) const;
+  double Celd_Change(const SparsePolynomial&, const double = EPS);
 };
 
 // E/S
@@ -198,6 +199,26 @@ bool SparsePolynomial::IsEqual(const Polynomial& pol, const double eps) const {
   }
   return !differents;
 }
+
+double SparsePolynomial::Celd_Change(const SparsePolynomial& spol, const double eps) {
+  int iterator = 0;
+  double result[get_nz()];
+
+  for (int i = 0; i < get_nz(); i++) {
+    if (i == (iterator + 1)) {
+      result[iterator] = at(iterator).get_inx() * at(i).get_val();
+      iterator++;
+    }
+    if (i == (get_nz() - 1)) {
+      result[iterator] = at(iterator).get_inx() * at(0).get_val();
+    }
+  }
+
+  for (int i = 0; i < get_nz(); i++) {
+    std::cout << result[i] << " ";
+  }
+  std::cout << std::endl;
+};
 
 
 #endif  // POLYNOMIAL_H_

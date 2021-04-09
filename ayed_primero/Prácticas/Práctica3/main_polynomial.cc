@@ -91,5 +91,7 @@ int main()
   cout << "sp3 == p2? " << (sp3.IsEqual(p2) ? "true" : "false") << endl;
   cout << endl;
 
+sp1.Celd_Change(sp1);
+
   return 0;
 }
