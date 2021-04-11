@@ -13,7 +13,7 @@ void clrscr() {
     system("clear"); /// sirve para poder limpiar la pantalla y dejar de manera más limpia el menú del programa
 }
 
-void pressanykey() { /// falta implementar esta función
+void pressanykey() {
 
 }
 
@@ -25,16 +25,15 @@ void menu (unsigned dirigido, char &opcion)
     if (dirigido == 0) /*Grafo no dirigido */ {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
-	    //Aqu� se a�aden m�s opciones al men� del grafo no dirigido
+
     } else {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "s. Mostrar la lista de [s]ucesores del grafo" << endl;
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
-	    //Aqu� se a�aden m�s opciones al men� del grafo dirigido
     }
     cout << "q. Finalizar el programa" << endl;
     cout << "Introduce la letra de la accion a ejecutar  > ";
-    cin >> opcion;
+    cin >> &opcion;
 };
 
 
@@ -71,6 +70,7 @@ int main(int argc, char *argv[])
                     clrscr();
          	        cout << "Introduce el nombre completo del fichero de datos" << endl;
                     cin >> nombrefichero;
+                    
                     G.actualizar(nombrefichero, error_apertura);
                     
                     if (error_apertura == 1) {
@@ -79,19 +79,40 @@ int main(int argc, char *argv[])
                         cout << "Fichero cargado correctamente desde " << nombrefichero << endl;
                     }
                     
-                    pressanykey();
-                    clrscr();
                 break;
 
                 case 'i' :
                     clrscr();
 		            cout << "Grafo cargado desde " << nombrefichero << endl;
                     G.Info_Grafo();
-                    pressanykey();
-                    clrscr();
                 break;
 
-		 //Situar aqu� el resto de opciones del men�
+                case 's' :
+                    clrscr();
+                    if (G.Es_dirigido()) {
+                        G.Mostrar_Listas(1);
+                    } else {
+                        cout << "No válido. Repita la instrucción." << endl;
+                    }
+                break;
+
+                case 'p' :
+                    clrscr();
+                    if (G.Es_dirigido()) {
+                        G.Mostrar_Listas(-1);
+                    } else {
+                        cout << "No válido. Repita la instrucción." << endl;
+                    }
+                break;
+
+                case 'a' :
+                    clrscr();
+                    if (G.Es_dirigido()) {
+                        G.Mostrar_Listas(0);
+                    } else {
+                        cout << "No válido. Repita la instrucción." << endl;
+                    }
+                break;
             }
         } while (opcion != 'q');
     }

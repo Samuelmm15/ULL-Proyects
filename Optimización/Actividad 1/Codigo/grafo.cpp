@@ -9,7 +9,7 @@
 #include "grafo.h"
 
 void GRAFO::destroy() {
-	for (unsigned i=0; i< n; i++) {
+	for (int i = 0; i < n; i++) {
 		LS[i].clear();
 		A[i].clear();
 		if (dirigido == 1) {
@@ -27,7 +27,6 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) {
 	textfile.open(nombrefichero);
 
 	if (textfile.is_open()) {
-        this->~GRAFO();
         errorapertura = 0; 
 		// leemos por conversion implicita el numero de nodos, arcos y el atributo dirigido
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
@@ -36,9 +35,9 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) {
         if (dirigido) {
             LS.resize(n);
             LP.resize(n);
-            unsigned i, j, k;
+            int i, j, k;
 	        // leemos los m arcos
-		    for (k=0;k<m;k++) {
+		    for (k = 0;k < m; k++) {
 			    textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c; //damos los valores a dummy.j y dummy.c
                 dummy.j = j - 1;
                 dummy.c = dummy.c;
@@ -51,7 +50,10 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) {
 			    //pendiente de hacer un segundo push_back si es no dirigido. O no.
 			    //pendiente la construcci�n de LP, si es dirigido
             }
-        } 
+            textfile.close();
+        } else if (!dirigido) {
+            /// TENMEMOS QUE HACERLO PARA CUANDO NO ES DIRIGIDO
+        }
     } else {
         errorapertura = 1;
         cout << "<<ERROR>> El archivo introducido no se ha encontrado." << endl;
@@ -59,7 +61,14 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) {
 };
 
 void GRAFO::ListaPredecesores() {
-    
+    ElementoLista dummy;
+    LP.resize(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < LS[i].size(); j++) {
+            dummy.j = i;
+            LP[LS[i][j].j].push_back(dummy);
+        }
+    }
 };
 
 GRAFO::~GRAFO() {
@@ -78,19 +87,45 @@ void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura) {
 };
 
 unsigned GRAFO::Es_dirigido() {
-
+    return dirigido;
 };
 
 void GRAFO::Info_Grafo() {
-
+    if (dirigido == 1) {
+        cout << "Grafo dirigido";
+    } else {
+        cout << "Grafo no dirigido";
+    }
+    cout << " | nodos " << n << " | ";
+    if (dirigido == 1) {
+        cout << "arcos ";
+    } else {
+        cout << "aristas ";
+    }
+    cout << m << " " << endl;
+    cout << endl;
 };
 
 void Mostrar_Lista(vector<LA_nodo> L) {
-
+    for (int i = 0; i < L.size(); i++) {
+        cout << endl << "[" << i + 1 << "] : {";
+        for (int j = 0; j < L[i].size(); j++) {
+            if (j != 0) {
+                cout << "," << " ";
+            }
+            cout << L[i][j].j + 1;
+        }
+        cout << "}";
+    }
+    cout << endl;
 };
 
 void GRAFO :: Mostrar_Listas (int l) {
-
+    if (l == 0 || l == 1) {
+        Mostrar_Lista(LS);
+    } else if (l == -1) {
+        Mostrar_Lista(LP);
+    }
 };
 
 void GRAFO::Mostrar_Matriz() {//Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
