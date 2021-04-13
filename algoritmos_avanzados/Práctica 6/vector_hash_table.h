@@ -29,33 +29,62 @@ class Vector_Hash {
     vector<Key> vector_hash;
     public:
     Vector_Hash(int vector_hash_size);
-    bool Search_Key(Key& x) const;
+    bool Search_Key(int x); 
     bool Insert_Key(int insert_key);
-    bool Is_Full() const;
+    bool Is_Full();
 };
 
 template<class Key>
 Vector_Hash<Key>::Vector_Hash(int vector_hash_size) {
-    for (int i = 0; i < vector_hash_size; i++) {
-        vector_hash.push_back(0);
-    }
-    for (int i = 0; i < vector_hash_size; i++) {
-        cout << vector_hash.at(i) << " ";
-    }
-    cout << endl;
+    vector_hash.resize(vector_hash_size);
 };
 
 template<class Key>
-bool Vector_Hash<Key>::Search_Key(Key& x) const {
-
+bool Vector_Hash<Key>::Search_Key(int x) {
+    for (int i = 0; i < vector_hash.size(); i++) {
+        if (vector_hash.at(i) == x) {
+            return false;
+        } else if (vector_hash.at(i) != x) {
+            return false;
+        }
+    }
 };
 
 template<class Key>
 bool Vector_Hash<Key>::Insert_Key(int insert_key) {
+    if (Search_Key(insert_key) == false) {
+        if (Is_Full() == false) {
+            int iterator = 0;
+            while(vector_hash.at(iterator) != 0) {
+                iterator++;
+            }
+            vector_hash.clear(vector_hash.begin + iterator);  /// ESTE PUNTO ESTA MAL, SOLO FALTA PODER INSERTAR LOS VALORES AL PRINCIPIO DEL VECTOR DE MANERA CORRECTA
+            vector_hash.insert(vector_hash.begin() + iterator,insert_key); /// PRIMERO SE DEBE BORRAR EL ELEMENTO PARA PODER INSERTAR EL NUEVO
+            
+            
+            for (int i = 0; i < vector_hash.size(); i++) {
+                cout << vector_hash.at(i) << " ";
+            }
+            cout << endl;
 
+            return true;
+        } else if (Is_Full() == true) {
+            return false;
+        }
+    }
 };
 
 template<class Key>
-bool Vector_Hash<Key>::Is_Full() const {
-
+bool Vector_Hash<Key>::Is_Full() {
+    int counter = 0;
+    for (int i = 0; i < vector_hash.size(); i++) {
+        if (vector_hash.at(i) != 0) {
+            counter++;
+        }
+    }
+    if (counter == vector_hash.size()) {
+        return true;
+    } else if (counter != vector_hash.size()) {
+        return false;
+    }
 };

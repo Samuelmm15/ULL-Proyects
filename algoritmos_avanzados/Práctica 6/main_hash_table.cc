@@ -56,7 +56,7 @@ int main() {
     int exploration_fuction_option = 0;
     cout << "Por último introduzca el tipo de función de exploracion la cual va a hacer uso." << endl;
     cout << "Introduzca [1] si quiere hacer uso de la exploración lineal." << endl;
-    cout << "Introduza [2] si quiere hacer uso de la exploración cuadrática." << endl;
+    cout << "Introduzca [2] si quiere hacer uso de la exploración cuadrática." << endl;
     cout << "Introduzca [3] si quiere hacer uso de la doble dispersión." << endl;
     cout << "Introduzca [4] si quiere hacer uso de la redispersión." << endl;
     cout << "Que opción quiere escoger: ";
@@ -89,9 +89,9 @@ int main() {
                     cin >> find_key;
                     
                     if (H.Find_Key_Hash_Table(find_key, V) == true) {
-                          
-                    } else if (H.Find_Key_Hash_Table(find_key, V) == false) {
-                        
+                          cout << "La clave " << find_key << " ha sido encontrado dentro de la tabla de Hash." << endl;
+                    } else if (H.Find_Key_Hash_Table(find_key, V) == false) {   
+                        cout << "La clave " << find_key << " no ha sido encontrada dentro de la tabla de Hash." << endl;
                     }
                 }
             break;
@@ -109,8 +109,18 @@ int main() {
                     int position = 0;
                     if (fuction_option == 1) {
                         position = M(insert_key);
+                        if (H.Insert_Key_Hash_Table(insert_key, V, position) == true) {
+                            cout << "La clave " << insert_key << " ha sido insertada con éxito." << endl;
+                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position) == false) {
+                            cout << "La clave " << insert_key << " no ha sido insertada." << endl;
+                        }
                     } else if (fuction_option == 2) {
                         position = P(insert_key);
+                        if (H.Insert_Key_Hash_Table(insert_key, V, position) == true) {
+                            cout << "La clave " << insert_key << " ha sido insertada con éxito." << endl;
+                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position) == false) {
+                            cout << "La clave " << insert_key << " no ha sido insertada." << endl;
+                        }
                     }
                 }
             break;

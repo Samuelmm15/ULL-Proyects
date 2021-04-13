@@ -110,13 +110,21 @@ Hash_Table<Key>::Hash_Table(int const n, int const fuction_option, int const vec
 
 template<class Key>
 bool Hash_Table<Key>::Find_Key_Hash_Table(int find_key, Vector_Hash<Key> V) {
-    
+    for (int i = 0; i < vDates.size(); i++) {
+        if (vDates.at(i).Search_Key(find_key) == true) {
+            return true;
+        } else if (vDates.at(i).Search_Key(find_key) == false) {
+            return false;
+        }
+    }
 };
 
 template<class Key>
 bool Hash_Table<Key>::Insert_Key_Hash_Table(int insert_key, Vector_Hash<Key> V, int position) {
     if (vDates.at(position).Insert_Key(insert_key) == true) {
-
+        return true;
+    } else if (vDates.at(position).Insert_Key(insert_key) == false) {
+        return false;
     }
 };
 
