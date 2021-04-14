@@ -25,5 +25,18 @@ using namespace std;
 
 template<class Key>
 class Lineal_Exploration {
+    public:
+    /**
+     * @brief The fuction that returns the value to explore
+     * 
+     * @param x The key that is gonna to insert
+     * @param i The iterator
+     * @return int 
+     */
+        int operator()(const Key &x, int i);
+};
 
+template<class Key>
+int Lineal_Exploration<Key>::operator()(const Key &x, int i) {
+    return i;
 };

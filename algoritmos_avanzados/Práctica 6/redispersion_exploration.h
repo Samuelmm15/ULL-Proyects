@@ -19,11 +19,26 @@
 #include <cctype> /// the library to use toupper or tolower
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
+#include "pseudorandom_hash.h"
+#include "module_hash.h"
 
 #pragma once
 using namespace std;
 
 template<class Key> 
 class Redispersion_Exploration {
+    public:
+    /**
+     * @brief The fuction that returns the value to explore
+     * 
+     * @param x The key that is gonna to insert
+     * @param i The iterator
+     * @return int 
+     */
+    int operator()(const Key &x, int i);
+};
 
+template<class Key>
+int Redispersion_Exploration<Key>::operator()(const Key &x, int i) {
+    return i;
 };

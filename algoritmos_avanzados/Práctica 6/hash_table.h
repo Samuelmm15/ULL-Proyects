@@ -35,7 +35,7 @@ class Hash_Table {
     private:
         int nDates = 0;
         int nSynonyms = 0;
-        vector<Vector_Hash<Key>> vDates;  /// CAMBIAR ESTO
+        vector<Vector_Hash<Key>> vDates;
         Module_Hash<Key> *fd_M; 
         Pseudorandom_Hash<Key> *fd_P;
         Lineal_Exploration<Key> *fe_lineal;
@@ -71,7 +71,7 @@ class Hash_Table {
      * @return true 
      * @return false 
      */
-    bool Insert_Key_Hash_Table(int insert_key, Vector_Hash<Key> V, int position); 
+    bool Insert_Key_Hash_Table(int insert_key, Vector_Hash<Key> V, int position, int exploration_fuction_option); 
     /**
      * @brief The fuction that creates the Hash Table
      * 
@@ -83,11 +83,14 @@ class Hash_Table {
      * @return int 
      */
     int getnDates();
-    int vDates_created = 0; 
-    vector<int> position_table;
+    /**
+     * @brief To comprobe if de Hash Table is created
+     * 
+     */
+    int vDates_created = 0;
 };
 
-template<class Key> /// esto ya está completo
+template<class Key> 
 Hash_Table<Key>::Hash_Table(int const n, int const fuction_option, int const vector_hash_size, Module_Hash<Key> M, Pseudorandom_Hash<Key> P, Lineal_Exploration<Key> L, Quadratic_Exploration<Key> Q, Double_Dispersion_Exploration<Key> D, Redispersion_Exploration<Key> R) { 
     if (fuction_option == 1) {
         Hash_Table::nDates = n;
@@ -110,20 +113,79 @@ Hash_Table<Key>::Hash_Table(int const n, int const fuction_option, int const vec
 
 template<class Key>
 bool Hash_Table<Key>::Find_Key_Hash_Table(int find_key, Vector_Hash<Key> V) {
+    int num_of_keys = 0;
     for (int i = 0; i < vDates.size(); i++) {
         if (vDates.at(i).Search_Key(find_key) == true) {
-            return true;
+            num_of_keys++;
         } else if (vDates.at(i).Search_Key(find_key) == false) {
-            return false;
+            num_of_keys = num_of_keys;
         }
+    }
+    if (num_of_keys > 0) {
+        return true;
+    } else if (num_of_keys == 0) {
+        return false;
     }
 };
 
 template<class Key>
-bool Hash_Table<Key>::Insert_Key_Hash_Table(int insert_key, Vector_Hash<Key> V, int position) {
+bool Hash_Table<Key>::Insert_Key_Hash_Table(int insert_key, Vector_Hash<Key> V, int position, int exploration_fuction_option) {
     if (vDates.at(position).Insert_Key(insert_key) == true) {
         return true;
-    } else if (vDates.at(position).Insert_Key(insert_key) == false) {
+    } 
+
+    if (vDates.at(position).Is_Full() == true) { 
+        int new_position = 0;
+        int interactions = 0;
+        bool answer = false;
+        if (exploration_fuction_option == 1) { /// Lineal exploration fuction
+            do {
+                interactions++;
+                new_position = fe_lineal->operator()(insert_key, interactions);
+                position = (position + new_position) % nSynonyms;
+                if (vDates.at(position).Insert_Key(insert_key) == true) {
+                    answer = true;
+                }
+            } while(answer != true);
+            return answer;
+        } else if (exploration_fuction_option == 2) { /// Quadratic exploration fuction
+            do {
+                interactions++;
+                new_position = fe_quadratic->operator()(insert_key, interactions);
+                position = (position + new_position);
+                if (vDates.at(position).Insert_Key(insert_key) == true) {
+                    answer = true;
+                }
+            } while(answer != true);
+            return answer;
+        } else if (exploration_fuction_option == 3) { /// Double dispersion exploration fuction
+            do {
+                interactions++;
+                new_position = fe_double->operator()(insert_key, interactions);
+                int new_dispersion_fuction = 0;
+                new_dispersion_fuction = fd_P->operator()(insert_key);
+                position = ((position + (new_position * new_dispersion_fuction)) % nSynonyms);
+                if (vDates.at(position).Insert_Key(insert_key) == true) {
+                    answer = true;
+                }
+            } while(answer != true);
+            return answer;
+        } else if (exploration_fuction_option == 4) { /// Redispersion exploration fuction
+            do {
+                interactions++;
+                new_position = fe_redispersion->operator()(insert_key, interactions);
+                int new_dispersion_fuction = 0;
+                new_dispersion_fuction = fd_P->operator()(insert_key);
+                position = (position * new_dispersion_fuction) % nSynonyms;
+                if (vDates.at(position).Insert_Key(insert_key) == true) {
+                    answer = true;
+                }
+            } while(answer != true);
+            return answer;
+        }
+    }
+
+    if (vDates.at(position).Insert_Key(insert_key) == false) {
         return false;
     }
 };

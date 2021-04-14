@@ -28,9 +28,34 @@ class Vector_Hash {
     private:
     vector<Key> vector_hash;
     public:
+    /**
+     * @brief The constructor of the vector of the Hash Table
+     * 
+     * @param vector_hash_size The size of the vector
+     */
     Vector_Hash(int vector_hash_size);
+    /**
+     * @brief The fuction that searchs the key in the vector
+     * 
+     * @param x The key that is gonna find
+     * @return true 
+     * @return false 
+     */
     bool Search_Key(int x); 
+    /**
+     * @brief The fuction that inserts the key at the vector
+     * 
+     * @param insert_key The key that is gonna to insert
+     * @return true 
+     * @return false 
+     */
     bool Insert_Key(int insert_key);
+    /**
+     * @brief The fuction that comprobes if a vector is full of keys
+     * 
+     * @return true 
+     * @return false 
+     */
     bool Is_Full();
 };
 
@@ -43,7 +68,7 @@ template<class Key>
 bool Vector_Hash<Key>::Search_Key(int x) {
     for (int i = 0; i < vector_hash.size(); i++) {
         if (vector_hash.at(i) == x) {
-            return false;
+            return true;
         } else if (vector_hash.at(i) != x) {
             return false;
         }
@@ -58,9 +83,8 @@ bool Vector_Hash<Key>::Insert_Key(int insert_key) {
             while(vector_hash.at(iterator) != 0) {
                 iterator++;
             }
-            vector_hash.clear(vector_hash.begin + iterator);  /// ESTE PUNTO ESTA MAL, SOLO FALTA PODER INSERTAR LOS VALORES AL PRINCIPIO DEL VECTOR DE MANERA CORRECTA
-            vector_hash.insert(vector_hash.begin() + iterator,insert_key); /// PRIMERO SE DEBE BORRAR EL ELEMENTO PARA PODER INSERTAR EL NUEVO
-            
+            vector_hash.erase(vector_hash.begin() + iterator);  
+            vector_hash.insert(vector_hash.begin() + iterator,insert_key); 
             
             for (int i = 0; i < vector_hash.size(); i++) {
                 cout << vector_hash.at(i) << " ";

@@ -26,5 +26,5 @@ using namespace std;
 template<class Key>
 class Exploration_Fuction {
     public:
-    unsigned operator()(const Key& k, unsigned i) const = 0;
+    virtual int operator()(const Key& k, int i) = 0;
 };

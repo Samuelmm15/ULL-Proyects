@@ -62,7 +62,6 @@ int main() {
     cout << "Que opción quiere escoger: ";
     cin >> exploration_fuction_option;
     
-    /// FALTA ESTABLECER LOS OBJETOS DE LAS FUNCIONES DE EXPLORACION
     Module_Hash<int> M(hash_table_size);
     Pseudorandom_Hash<int> P(hash_table_size);
     Lineal_Exploration<int> L;
@@ -100,7 +99,7 @@ int main() {
                 if (H.vDates_created == 0) {
                     H.vDates_created = 1; 
                     cout << "La tabla ha sido creada" << endl;
-                    H.Create_Table(V); /// creamos la tabla
+                    H.Create_Table(V);
                 } else if (H.vDates_created == 1) {
                     int insert_key;
                     cout << "Introduzca el valor clave que quiere introducir dentro de la tabla: ";
@@ -109,16 +108,16 @@ int main() {
                     int position = 0;
                     if (fuction_option == 1) {
                         position = M(insert_key);
-                        if (H.Insert_Key_Hash_Table(insert_key, V, position) == true) {
+                        if (H.Insert_Key_Hash_Table(insert_key, V, position, exploration_fuction_option) == true) {
                             cout << "La clave " << insert_key << " ha sido insertada con éxito." << endl;
-                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position) == false) {
+                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position, exploration_fuction_option) == false) {
                             cout << "La clave " << insert_key << " no ha sido insertada." << endl;
                         }
                     } else if (fuction_option == 2) {
                         position = P(insert_key);
-                        if (H.Insert_Key_Hash_Table(insert_key, V, position) == true) {
+                        if (H.Insert_Key_Hash_Table(insert_key, V, position, exploration_fuction_option) == true) {
                             cout << "La clave " << insert_key << " ha sido insertada con éxito." << endl;
-                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position) == false) {
+                        } else if (H.Insert_Key_Hash_Table(insert_key, V, position, exploration_fuction_option) == false) {
                             cout << "La clave " << insert_key << " no ha sido insertada." << endl;
                         }
                     }
