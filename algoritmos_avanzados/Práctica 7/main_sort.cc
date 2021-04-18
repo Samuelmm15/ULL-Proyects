@@ -17,13 +17,6 @@ void clrscr() {
     system("clear");
 };
 
-template<typename Key> void Vector_Sort(vector<Key> &vector_sort, Key number_cells);
-
-template<typename Key>
-void Vector_Sort(vector<Key> &vector_sort, Key number_cells) { /// FALTA LA DECLARACIÓN DEL CÓDIGO
-
-};
-
 int main() {
     cout << "<< BIENVENIDO AL PROGRAMA DE ORDENACIÓN DE SECUENCIAS >>" << endl;
 
@@ -53,14 +46,33 @@ int main() {
     cin >> write_option;
 
     clrscr();
-    if (write_option == 1) { /// en este punto comienza el programa
+    vector<int> vector_sort; 
+    Insertion<int> I;
 
-        if (algorithm_option == 1) {
+    if (write_option == 1) { /// en este punto comienza el programa
+        /// comenzamos con la creación del vector de valores
+        int auxiliary = 0;
+        cout << "Para comenzar la ordenación, introduzca los valores que quiere ordenar;" << endl;
+        for (int i = 0; i < cells_size; i++) {
+            cout << "";
+            cin >> auxiliary;
+            vector_sort.push_back(auxiliary);
+        }
+
+        cout << endl;
+        cout << "Finalmente el vector introducido, es el siguiente: " << endl;
+
+        for (int i = 0; i < vector_sort.size(); i++) {
+            cout << vector_sort.at(i) << " ";
+        }
+        cout << endl;
+
+        if (algorithm_option == 1) {  /// en esete punto es donde se producen las operaciones importantes
 
             if (ejecution_trace == 's') {
-        
+                I.Insertion_Comparation(vector_sort, ejecution_trace);
             } else if (ejecution_trace == 'n') {
-
+                I.Insertion_Comparation(vector_sort, ejecution_trace);
             }
 
         } else if (algorithm_option == 2) {
@@ -82,13 +94,32 @@ int main() {
         }
 
     } else if (write_option == 2) {
+        /// Comenzamos con la creación del vector de valores
+        int range_min = 1;
+        int range_max = 1000;
+        int counter = 0;
+        int auxiliary = 0;
+        cout << "Para comenzar se va a crear un vector de manera aleatoria, con valores entre 1 y 1000" << endl;
+        do {
+            auxiliary = rand() % (range_max-range_min-1) + range_min;
+            vector_sort.push_back(auxiliary);
+            counter++;
+        } while (counter != cells_size);
+
+        cout << endl;
+        cout << "Finalmente el vector creado de manera alaeatoria, es el siguiente: " << endl;
+
+        for (int i = 0; i < vector_sort.size(); i++) {
+            cout << vector_sort.at(i) << " ";
+        }
+        cout << endl;
 
         if (algorithm_option == 1) {
 
             if (ejecution_trace == 's') {
-
+                I.Insertion_Comparation(vector_sort, ejecution_trace);
             } else if (ejecution_trace == 'n') {
-
+                I.Insertion_Comparation(vector_sort, ejecution_trace);
             }
 
         } else if (algorithm_option == 2) {
