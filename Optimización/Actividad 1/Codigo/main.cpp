@@ -14,7 +14,7 @@ void clrscr() {
 }
 
 void pressanykey() {
-
+    system("pause");
 }
 
 void menu (unsigned dirigido, char &opcion)
@@ -25,11 +25,13 @@ void menu (unsigned dirigido, char &opcion)
     if (dirigido == 0) /*Grafo no dirigido */ {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
+            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo" << endl;
 
     } else {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "s. Mostrar la lista de [s]ucesores del grafo" << endl;
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
+            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo por sucesores" << endl;
     }
     cout << "q. Finalizar el programa" << endl;
     cout << "Introduce la letra de la accion a ejecutar  > ";
@@ -107,15 +109,20 @@ int main(int argc, char *argv[])
 
                 case 'a' :
                     clrscr();
-                    if (G.Es_dirigido()) {
+                    if (!G.Es_dirigido()) {
                         G.Mostrar_Listas(0);
                     } else {
                         cout << "No válido. Repita la instrucción." << endl;
                     }
                 break;
+
+                case 'm' :
+                    clrscr();
+                    G.RecorridoProfundidad();
+                break;
             }
         } while (opcion != 'q');
     }
     cout << "Fin del programa" << endl;
-	return(0);
+	exit(1);
 };

@@ -21,7 +21,7 @@ void GRAFO::destroy() {
 	A.clear();
 };
 
-void GRAFO::build (char nombrefichero[85], int &errorapertura) {
+void GRAFO::build (char nombrefichero[85], int &errorapertura) { /// COMPROBAR POR QUE LA ACTUALIZACIÓN NO FUNCIONA
     ElementoLista dummy;
 	ifstream textfile;
 	textfile.open(nombrefichero);
@@ -51,10 +51,24 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) {
 			    //pendiente la construcci�n de LP, si es dirigido
             }
             textfile.close();
+
         } else if (!dirigido) {
-            /// TENMEMOS QUE HACERLO PARA CUANDO NO ES DIRIGIDO
+            LS.resize(n);
+            int i,j;
+            for (int k = 0; k < m; k++) {
+                textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
+                dummy.j = j - 1;
+                dummy.c = dummy.c;
+                LS[i - 1].push_back(dummy);
+
+                dummy.j = i - 1;
+                dummy.c = dummy.c;
+                LS[j - 1].push_back(dummy);
+            }
+            
         }
-    } else {
+
+    } else if (!textfile.is_open()){
         errorapertura = 1;
         cout << "<<ERROR>> El archivo introducido no se ha encontrado." << endl;
         }			
@@ -144,7 +158,27 @@ void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vect
 };
 
 void GRAFO::RecorridoProfundidad() {
+    vector<LA_nodo> L;
+    vector<bool> visitado;
+    vector<unsigned> prenum;
+    unsigned prenum_ind = 0;
+    vector<unsigned> postnum;
+    unsigned postnum_ind = 0;
 
+    for (int i = 0; i < L.size(); i++) {
+        for (int j = 0; j < L[i].size(); j++) {
+            visitado.push_back(false); /// establecemos que esa posición no ha sido visitada
+            prenum.push_back(L[i][j].j);
+            prenum_ind = i + 1;
+            postnum.push_back(L[i][j].j + 1);
+            postnum_ind = i + 1;
+            dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
+        } 
+    }
+
+    for (int i = 0; i < n; i++) {
+        
+    }
 };
 
 void GRAFO::bfs_num( unsigned i, /*nodo desde el que realizamos el recorrido en amplitud */ vector<LA_nodo>  L, /*lista que recorremos, LS o LP; por defecto LS */ vector<unsigned> &pred, /*vector de predecesores en el recorrido */ vector<unsigned> &d) { /*vector de distancias a nodo i+1 */
