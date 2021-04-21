@@ -9,16 +9,11 @@
 #include "grafo.h"
 
 void GRAFO::destroy() {
-	for (int i = 0; i < n; i++) {
-		LS[i].clear();
-		A[i].clear();
-		if (dirigido == 1) {
-            LP[i].clear();
-        }
-	}
-	LS.clear();
-	LP.clear();
-	A.clear();
+	m = 0;
+    n = 0;
+    dirigido = 0;
+    LS.clear();
+    LP.clear();
 };
 
 void GRAFO::build (char nombrefichero[85], int &errorapertura) { /// COMPROBAR POR QUE LA ACTUALIZACIÓN NO FUNCIONA
@@ -65,7 +60,7 @@ void GRAFO::build (char nombrefichero[85], int &errorapertura) { /// COMPROBAR P
                 dummy.c = dummy.c;
                 LS[j - 1].push_back(dummy);
             }
-            
+            textfile.close();
         }
 
     } else if (!textfile.is_open()){
@@ -148,37 +143,54 @@ void GRAFO::Mostrar_Matriz() {//Muestra la matriz de adyacencia, tanto los nodos
 
 void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind) { //Recorrido en profundidad recursivo con recorridos enum y postnum 
 	visitado[i] = true;
-    prenum[prenum_ind++]=i;//asignamos el orden de visita prenum que corresponde el nodo i
-    for (unsigned j=0;j<L[i].size();j++) {
+    prenum[prenum_ind++] = i;//asignamos el orden de visita prenum que corresponde el nodo i
+     for (unsigned j = 0; j < L[i].size(); j++) {
         if (!visitado[L[i][j].j]) {
             dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
         }
-        postnum[postnum_ind++]=i;//asignamos el orden de visita posnum que corresponde al nodo i
-    }
+        postnum[postnum_ind++] = i;//asignamos el orden de visita posnum que corresponde al nodo i
+    } 
 };
 
 void GRAFO::RecorridoProfundidad() {
-    vector<LA_nodo> L;
+    /// creación e inicialización de variables y vectores
+    unsigned i = 0;
     vector<bool> visitado;
-    vector<unsigned> prenum;
-    unsigned prenum_ind = 0;
+    vector<unsigned> prenum; 
+    unsigned prenum_ind;
     vector<unsigned> postnum;
-    unsigned postnum_ind = 0;
+    unsigned postnum_ind;
+    /// solicitud al usuario del nodo inicial del recorrido en profundidad
+    cout << "Introduzca el nodo inicial para la realización del recorrido en profundidad: ";
+    cin >> i;
 
-    for (int i = 0; i < L.size(); i++) {
-        for (int j = 0; j < L[i].size(); j++) {
-            visitado.push_back(false); /// establecemos que esa posición no ha sido visitada
-            prenum.push_back(L[i][j].j);
-            prenum_ind = i + 1;
-            postnum.push_back(L[i][j].j + 1);
-            postnum_ind = i + 1;
-            dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
-        } 
+    for (int v = 0; v < n; v++) {
+        visitado.push_back(false);
+        prenum.push_back(0);
+        postnum.push_back(0);
+        prenum_ind = 0;
+        postnum_ind = 0;
     }
-
-    for (int i = 0; i < n; i++) {
-        
+    for (int v = i; v < n; v++) {
+        if (visitado[v] == false) {
+           dfs_num(v, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
+        }
     }
+    
+    /// mostrar en pantalla el preorden
+    cout << endl;
+    cout << "El pre-orden es: " << endl;
+    for (int i = 0; i < prenum.size(); i++) {
+        cout << prenum.at(i) << " ";
+    }
+    cout << endl;
+    /// mostrar en pantalla el postorden
+    cout << endl;
+    cout << "El post-orden es: " << endl;
+    for (int i = 0; i < postnum.size(); i++) {
+        cout << postnum.at(i) << " ";
+    }
+    cout << endl; 
 };
 
 void GRAFO::bfs_num( unsigned i, /*nodo desde el que realizamos el recorrido en amplitud */ vector<LA_nodo>  L, /*lista que recorremos, LS o LP; por defecto LS */ vector<unsigned> &pred, /*vector de predecesores en el recorrido */ vector<unsigned> &d) { /*vector de distancias a nodo i+1 */
