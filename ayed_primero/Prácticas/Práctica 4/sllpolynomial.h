@@ -99,40 +99,144 @@ std::ostream& operator<<(std::ostream& os, const SllPolynomial& p) {
 // Evaluación de un polinomio representado por lista simple
 double SllPolynomial::Eval(const double x) const {
   double result{0.0};
+  double unknown = x;
   SllPolyNode *aux{get_head()};
   bool first{true};
 
   while (aux != NULL) {
     int inx{aux->get_data().get_inx()};
     double val{aux->get_data().get_val()};
-    if (val > 0) {
-      
-    } else {
-      
+    if (inx == 0) {
+      result = result + val;
+    } else if (inx == 1) {
+      result = result + (val * x);
+    } else if (inx > 1) {
+      for (int i = 2; i <= inx; i++) {
+        unknown = (unknown * x);
+      }
+      result = result + (val * unknown);
+      unknown = x;  
     }
-
-    
-
+    aux = aux->get_next();
   }
-  
   return result;
 };
 
 // Comparación si son iguales dos polinomios representados por listas simples
-bool SllPolynomial::IsEqual(const SllPolynomial& sllpol,
-			    const double eps) const {
+bool SllPolynomial::IsEqual(const SllPolynomial& sllpol, const double eps) const {
   bool differents = false;
-  // poner el código aquí
+  SllPolyNode *aux{get_head()};
+  SllPolyNode *aux_sllpol{sllpol.get_head()};
+  int counter = 0;
+  int counter_aux = 0;
+
+  while (aux != NULL) {      
+    aux = aux->get_next();
+    counter++;
+  }
+
+  while(aux_sllpol != NULL) {
+    aux_sllpol = aux_sllpol->get_next();
+    counter_aux++;
+  }
+  
+  if (counter == counter_aux) {
+    aux = get_head();
+    aux_sllpol = sllpol.get_head();
+
+    while ((aux != NULL) && (aux_sllpol != NULL)) {
+      double val{aux->get_data().get_val()};
+      double val_sllpol{aux_sllpol->get_data().get_val()};
+
+      if ((IsNotZero(val, eps) == true) && (IsNotZero(val_sllpol,eps) == true)) {
+        if ((val != val_sllpol)) {
+          differents = true;
+        } 
+      }    
+      
+      aux = aux->get_next();
+      aux_sllpol = aux_sllpol->get_next();
+    }
+  } else {
+    differents = true;
+  }
 
   return !differents;
 };
 
 // FASE IV
 // Generar nuevo polinomio suma del polinomio invocante mas otro polinomio
-void SllPolynomial::Sum(const SllPolynomial& sllpol,
-			SllPolynomial& sllpolsum,
-			const double eps) {
-  // poner el código aquí
+void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, const double eps) {
+  SllPolyNode *aux{get_head()};
+  SllPolyNode *aux_sllpol{sllpol.get_head()};
+  
+  pair_double_t variable;
+  SllPolyNode *aux_sllpolsum;
+  
+  while ((aux != NULL) && (aux_sllpol != NULL)) {
+    int inx{aux->get_data().get_inx()};
+    double val{aux->get_data().get_val()};
+
+    int inx_sllpol{aux_sllpol->get_data().get_inx()};
+    double val_sllpol{aux_sllpol->get_data().get_val()};
+
+    double result = 0;
+
+    if ((inx == 0) && (inx_sllpol == 0)) {
+      
+      result = val + val_sllpol;
+      variable.set(result, inx);
+      aux_sllpolsum = new SllPolyNode [inx];
+      aux_sllpolsum->set_data(variable);
+      sllpolsum.push_front(aux_sllpolsum);
+
+    } else if ((inx >= 1) && (inx_sllpol >= 1)) {
+      if (inx == inx_sllpol) {
+
+        result = val + val_sllpol;
+         variable.set(result, inx);
+      aux_sllpolsum = new SllPolyNode [inx];
+      aux_sllpolsum->set_data(variable);
+      sllpolsum.push_front(aux_sllpolsum);
+
+      } else {
+        if (inx > inx_sllpol) {
+
+          result = val;
+           variable.set(result, inx);
+      aux_sllpolsum = new SllPolyNode [inx];
+      aux_sllpolsum->set_data(variable);
+      sllpolsum.push_front(aux_sllpolsum);
+
+        } else {
+          result = val_sllpol;
+          variable.set(result, inx_sllpol);
+          aux_sllpolsum = new SllPolyNode [inx_sllpol];
+          aux_sllpolsum->set_data(variable);
+          sllpolsum.push_front(aux_sllpolsum);
+        } 
+      }
+    } else if (inx == 0) {
+      result = val;
+           variable.set(result, inx);
+      aux_sllpolsum = new SllPolyNode [inx];
+      aux_sllpolsum->set_data(variable);
+      sllpolsum.push_front(aux_sllpolsum);
+    } else if (inx_sllpol == 0) {
+      result = val_sllpol;
+          variable.set(result, inx_sllpol);
+          aux_sllpolsum = new SllPolyNode [inx_sllpol];
+          aux_sllpolsum->set_data(variable);
+          sllpolsum.push_front(aux_sllpolsum);
+    }
+    
+    if ((inx == inx_sllpol) || (inx > inx_sllpol) || (inx < inx_sllpol)) {
+      aux = aux->get_next();
+    }
+    if ((inx_sllpol == inx) || (inx_sllpol > inx) || (inx_sllpol < inx)) {
+      aux_sllpol = aux_sllpol->get_next();
+    }
+  }
 
 };
 
