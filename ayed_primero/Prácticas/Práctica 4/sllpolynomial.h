@@ -40,6 +40,7 @@ class SllPolynomial : public sll_t<pair_double_t> { /// clase heredada
   double Eval(const double) const; /// evaluación de un polinomio
   bool IsEqual(const SllPolynomial&, const double = EPS) const; /// comprobación de si son iguales
   void Sum(const SllPolynomial&, SllPolynomial&, const double = EPS); /// suma de dos polinomios
+  void Pairpolynomial(SllPolynomial& sllpar) const;
 };
 
 
@@ -58,7 +59,7 @@ SllPolynomial::SllPolynomial(const vector_t<double>& v, const double eps) { /// 
     if (IsNotZero(v.get_val(i), eps) == true) {
       counter++;
       variable.set(v.get_val(i), i);
-      aux = new SllPolyNode [counter];
+      aux = new SllPolyNode [1];
       aux->set_data(variable);
       push_front(aux); 
     }
@@ -119,7 +120,7 @@ double SllPolynomial::Eval(const double x) const {
     }
     aux = aux->get_next();
   }
-  return result;
+  return result; 
 };
 
 // Comparación si son iguales dos polinomios representados por listas simples
@@ -161,7 +162,7 @@ bool SllPolynomial::IsEqual(const SllPolynomial& sllpol, const double eps) const
     differents = true;
   }
 
-  return !differents;
+  return !differents; 
 };
 
 // FASE IV
@@ -186,7 +187,7 @@ void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, c
       
       result = val + val_sllpol;
       variable.set(result, inx);
-      aux_sllpolsum = new SllPolyNode [inx];
+      aux_sllpolsum = new SllPolyNode [1];
       aux_sllpolsum->set_data(variable);
       sllpolsum.push_front(aux_sllpolsum);
 
@@ -194,40 +195,12 @@ void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, c
       if (inx == inx_sllpol) {
 
         result = val + val_sllpol;
-         variable.set(result, inx);
-      aux_sllpolsum = new SllPolyNode [inx];
-      aux_sllpolsum->set_data(variable);
-      sllpolsum.push_front(aux_sllpolsum);
+        variable.set(result, inx);
+        aux_sllpolsum = new SllPolyNode [1];
+        aux_sllpolsum->set_data(variable);
+        sllpolsum.push_front(aux_sllpolsum);
 
-      } else {
-        if (inx > inx_sllpol) {
-
-          result = val;
-           variable.set(result, inx);
-      aux_sllpolsum = new SllPolyNode [inx];
-      aux_sllpolsum->set_data(variable);
-      sllpolsum.push_front(aux_sllpolsum);
-
-        } else {
-          result = val_sllpol;
-          variable.set(result, inx_sllpol);
-          aux_sllpolsum = new SllPolyNode [inx_sllpol];
-          aux_sllpolsum->set_data(variable);
-          sllpolsum.push_front(aux_sllpolsum);
-        } 
       }
-    } else if (inx == 0) {
-      result = val;
-           variable.set(result, inx);
-      aux_sllpolsum = new SllPolyNode [inx];
-      aux_sllpolsum->set_data(variable);
-      sllpolsum.push_front(aux_sllpolsum);
-    } else if (inx_sllpol == 0) {
-      result = val_sllpol;
-          variable.set(result, inx_sllpol);
-          aux_sllpolsum = new SllPolyNode [inx_sllpol];
-          aux_sllpolsum->set_data(variable);
-          sllpolsum.push_front(aux_sllpolsum);
     }
     
     if ((inx == inx_sllpol) || (inx > inx_sllpol) || (inx < inx_sllpol)) {
@@ -236,9 +209,31 @@ void SllPolynomial::Sum(const SllPolynomial& sllpol, SllPolynomial& sllpolsum, c
     if ((inx_sllpol == inx) || (inx_sllpol > inx) || (inx_sllpol < inx)) {
       aux_sllpol = aux_sllpol->get_next();
     }
-  }
+  } 
 
 };
+
+// Modificación
+void SllPolynomial::Pairpolynomial(SllPolynomial& sllpar) const {
+  SllPolyNode *aux{get_head()};
+  
+  SllPolyNode *aux_pair;
+  pair_double_t variable;
+
+  int counter = 0;
+
+  while (aux != NULL) {
+    int inx{aux->get_data().get_inx()};
+    double val{aux->get_data().get_val()};
+    if (inx % 2 == 0) {
+      variable.set(val, inx);
+      aux_pair = new SllPolyNode [1];
+      aux_pair->set_data(variable);
+      sllpar.push_front(aux_pair);
+    }
+    aux = aux->get_next();
+  }
+}; 
 
 
 #endif  // SLLPOLYNOMIAL_H_

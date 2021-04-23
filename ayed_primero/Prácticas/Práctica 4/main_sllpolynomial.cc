@@ -72,5 +72,10 @@ int main()
   sllp2.Sum(sllp3, sllpsum23);
   cout << "sllp2 + sllp3= " << sllpsum23;
 
+  // Modificación
+  SllPolynomial sllpar;
+  sllp3.Pairpolynomial(sllpar);
+  cout << endl;
+  cout << "Polinomio de pares" << sllpar << endl; 
   return 0;
 }
