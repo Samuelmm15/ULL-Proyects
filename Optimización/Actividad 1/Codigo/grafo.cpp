@@ -156,25 +156,26 @@ void GRAFO::RecorridoProfundidad() {
     /// creación e inicialización de variables y vectores
     unsigned i = 0;
     vector<bool> visitado;
-    vector<unsigned> prenum; 
+    vector<unsigned> prenum;
+    prenum.resize(n); 
     unsigned prenum_ind;
     vector<unsigned> postnum;
+    postnum.resize(n);
     unsigned postnum_ind;
     /// solicitud al usuario del nodo inicial del recorrido en profundidad
     cout << "Introduzca el nodo inicial para la realización del recorrido en profundidad: ";
     cin >> i;
 
+
     for (int v = 0; v < n; v++) {
         visitado.push_back(false);
-        prenum.push_back(0);
-        postnum.push_back(0);
         prenum_ind = 0;
         postnum_ind = 0;
     }
-    for (int v = i; v < n; v++) {
+    for (int v = i; v <= n; v++) {
         if (visitado[v] == false) {
            dfs_num(v, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
-        }
+        } 
     }
     
     /// mostrar en pantalla el preorden
