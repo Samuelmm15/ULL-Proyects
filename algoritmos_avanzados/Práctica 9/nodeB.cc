@@ -25,5 +25,19 @@ using namespace std;
 
 template<class Key>
 class NodeB {
+    public:
+    void Insert_Node(int node, vector<Key> &preorder, vector<Key> &postorder, vector<Key> &in_order, int *left_node, int *right_node);
+};
 
+template<class Key>
+void NodeB<Key>::Insert_Node(int node, vector<Key> &preorder, vector<Key> &postorder, vector<Key> &in_order, int *left_node, int *right_node) {
+    if ((left_node == NULL) && (right_node == NULL)) {
+
+    } else if ((left_node != NULL) && (right_node == NULL)) {
+
+    } else if ((left_node == NULL) && (right_node != NULL)) {
+
+    } else if ((left_node != NULL) && (right_node != NULL)) {
+
+    }
 };
