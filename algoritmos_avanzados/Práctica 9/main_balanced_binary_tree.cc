@@ -27,15 +27,7 @@ void menu(int &option) {
 
 int main() {
 
-    int tree_size = 0;
-    cout << endl;
-    cout << "Antes de comenzar..." << endl;
-    cout << "Introduzca el tamaño del árbol del que va a hacer uso: ";
-    cin >> tree_size;
-
-    AB<int> BTree(tree_size); /// creamos el objeto árbol
-    NodeB<int> Node;
-
+    AB<int> BTree; /// creamos el objeto árbol
 
     int option = 0; /// implementación del menú de opciones
     int key_value = 0;
@@ -48,7 +40,7 @@ int main() {
                 cout << endl;
                 cout << "Introduzca la clave que quiere añadir al árbol binario: ";
                 cin >> key_value;
-                BTree.Insert(key_value, Node);
+                BTree.Insert(key_value);
             break;
 
             case 2:

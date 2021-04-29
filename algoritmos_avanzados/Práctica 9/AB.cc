@@ -19,39 +19,179 @@
 #include <cctype> /// the library to use toupper or tolower
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
+#include <queue>
 #include "nodeB.cc"
+#include "cola.cc"
 
 #pragma once
 using namespace std;
 
 template<class Key>
 class AB {
+    private:
+    NodeB<Key> *root; /// raiz del árbol
     public:
-    int *left_node; /// Para poder establecer si la rama ya ha sido creada o no
-    int *right_node;
-    vector<Key> preorder;
-    vector<Key> postorder;
-    vector<Key> in_order;
-    AB(int tree_size);
+    AB();
+    ~AB();
+    void Prune(NodeB<Key>* &node);
+    bool Isempty(NodeB<Key> *node);
+    bool Isleaf(NodeB<Key> *node);
+    const int Size();
+    const int BranchSize(NodeB<Key> *node);
+    const int Height();
+    const int BranchHeight(NodeB<Key> *node);
+    const bool Balanced();
+    const bool BalancedBranch(NodeB<Key> *node);
     void Search(Key &x);
-    void Insert(const Key &x, NodeB<Key> Node);
+    void Insert(const Key &x);
+    void BalancedInsert(const Key &date, NodeB<Key> *node);
+    void Travels(NodeB<Key> *node); /// hacemos uso del preorden
+    void LevelsRoute(NodeB<Key> *root); 
 };
 
 template<class Key>
-AB<Key>::AB(int tree_size) {
-    left_node = NULL; /// inicializamos los punteros a nulo
-    right_node = NULL;
-    preorder.resize(tree_size);
-    postorder.resize(tree_size);
-    in_order.resize(tree_size);
+AB<Key>::AB() {
+    root = NULL;
+};
+
+template<class Key>
+void AB<Key>::Prune(NodeB<Key>* &node) {
+    if (node == NULL)
+        return;
+    Prune(node->left);
+    Prune(node->right);
+    delete node;
+    node = NULL;
+};
+
+template<class Key>
+AB<Key>::~AB() {
+    Prune(root);
+};
+
+template<class Key>
+bool AB<Key>::Isempty(NodeB<Key> *node) {
+    return node == NULL;
+};
+
+template<class Key>
+bool AB<Key>::Isleaf(NodeB<Key> *node) {
+    return !node->right && !node->left;
+};
+
+template<class Key>
+const int AB<Key>::Size() {
+    return BranchSize(root);
+};
+
+template<class Key>
+const int AB<Key>::BranchSize(NodeB<Key> *node) {
+    if (node == NULL)
+        return 0;
+    return (1 + BranchSize(node->left) + BranchSize(node->right));
+};
+
+template<class Key>
+const int AB<Key>::Height() {
+    return BranchHeight(root);
+};
+
+template<class Key>
+const int AB<Key>::BranchHeight(NodeB<Key> *node) {
+    if (node == NULL)
+        return 0;
+    int height_i = BranchHeight(node->left);
+    int height_d = BranchHeight(node->right);
+    if (height_d > height_i)
+        return height_d++;
+    else
+        return height_i++;
+};
+
+template<class Key>
+const bool AB<Key>::Balanced() {
+    return BalancedBranch(root);
+};
+
+template<class Key>
+const bool AB<Key>::BalancedBranch(NodeB<Key> *node) {
+    if (node == NULL)
+        return true;
+    int eq = BranchSize(node->left) - BranchSize(node->right);
+    switch (eq) {
+        case -1:
+        case 0:
+        case 1:
+        return BalancedBranch(node->left) && BalancedBranch(node->right);
+        default: return false;
+    }
 };
 
 template<class Key>
 void AB<Key>::Search(Key &x) {
-
+    
 };
 
 template<class Key>
-void AB<Key>::Insert(const Key &x, NodeB<Key> Node) {
-    Node.Insert_Node(x, preorder, postorder, in_order, left_node, right_node);
+void AB<Key>::Insert(const Key &x) {
+    if (root == NULL)
+        root = new NodeB<int>(x, NULL, NULL);
+    else
+        BalancedInsert(x, root);
+};
+
+template<class Key>
+void AB<Key>::BalancedInsert(const Key &date, NodeB<Key> *node) {
+    if (BranchSize(node->left) <= BranchSize(node->right)) {
+        if (node->left != NULL)
+            BalancedInsert(date, node->left);
+        else
+            node->left = new NodeB<int>(date, NULL, NULL);
+    }
+    else {
+        if (node->right != NULL)
+            BalancedInsert(date, node->right);
+        else
+            node->right = new NodeB<int>(date, NULL, NULL);
+    }
+    
+    cout << "El valor insertado ha sido: " << date << endl;
+    LevelsRoute(root);
+};
+
+template<class Key>
+void AB<Key>::Travels(NodeB<Key> *node) {
+    if (node == NULL)
+        return;
+    Insert(node->data);
+    Travels(node->left);
+    Travels(node->right);
+};
+
+template<class Key>
+void AB<Key>::LevelsRoute(NodeB<Key> *root) { /// CORREGIR ESTO
+    Cola Q;
+    NodeB<int> *node;
+    int level = 0;
+    int actual_level = 0;
+    Q.insertar(root, 0);
+
+    while (!Q.vacia()) {
+        Q.extraer(node, level);
+        if (level > actual_level)
+            actual_level = level;
+
+            cout << actual_level << endl;
+            cout << node << endl;
+        if (node != NULL) {
+            Insert(node);
+            Q.insertar(node->left, level + 1);
+            Q.insertar(node->right, level + 1);
+            cout << actual_level << endl;
+            cout << node << endl;
+        }
+        else {
+
+        }
+    }
 };
