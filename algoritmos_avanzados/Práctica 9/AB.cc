@@ -20,8 +20,8 @@
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
 #include <queue>
+#include <deque>
 #include "nodeB.cc"
-#include "cola.cc"
 
 #pragma once
 using namespace std;
@@ -45,7 +45,7 @@ class AB {
     void Search(Key &x);
     void Insert(const Key &x);
     void BalancedInsert(const Key &date, NodeB<Key> *node);
-    void Travels(NodeB<Key> *node); /// hacemos uso del preorden
+    void Preorder(NodeB<Key> *node); /// hacemos uso del preorden
     void LevelsRoute(NodeB<Key> *root); 
 };
 
@@ -160,38 +160,35 @@ void AB<Key>::BalancedInsert(const Key &date, NodeB<Key> *node) {
 };
 
 template<class Key>
-void AB<Key>::Travels(NodeB<Key> *node) {
+void AB<Key>::Preorder(NodeB<Key> *node) { /// si se quiere realizar una búsqueda también se puede hacer mediante a esto, debido a que en el punto donde pone procesa, se puede implementar algun tipo de búsqueda dentro del árbol
     if (node == NULL)
         return;
-    Insert(node->data);
-    Travels(node->left);
-    Travels(node->right);
+    cout << node->data << endl;
+    Preorder(node->left);
+    Preorder(node->right);
 };
 
 template<class Key>
 void AB<Key>::LevelsRoute(NodeB<Key> *root) { /// CORREGIR ESTO
-    Cola Q;
+    deque<int> Q;
     NodeB<int> *node;
     int level = 0;
     int actual_level = 0;
-    Q.insertar(root, 0);
+    Q.push_back(root->data);
 
-    while (!Q.vacia()) {
-        Q.extraer(node, level);
+    while (!Q.empty()) {
+        node->data = Q.back();
+        level = Q.back();
         if (level > actual_level)
             actual_level = level;
-
-            cout << actual_level << endl;
-            cout << node << endl;
+            cout << endl;
         if (node != NULL) {
-            Insert(node);
-            Q.insertar(node->left, level + 1);
-            Q.insertar(node->right, level + 1);
-            cout << actual_level << endl;
-            cout << node << endl;
+            cout << node->data << endl;
+            Q.push_back(node->data);
+            Q.push_back(node->data);
         }
         else {
 
         }
-    }
+    } 
 };
