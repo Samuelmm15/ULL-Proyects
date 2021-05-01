@@ -19,9 +19,8 @@
 #include <cctype> /// the library to use toupper or tolower
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
-#include <queue>
-#include <deque>
 #include "nodeB.cc"
+#include "cola.cc"
 
 #pragma once
 using namespace std;
@@ -170,22 +169,27 @@ void AB<Key>::Preorder(NodeB<Key> *node) { /// si se quiere realizar una búsque
 
 template<class Key>
 void AB<Key>::LevelsRoute(NodeB<Key> *root) { /// CORREGIR ESTO
-    deque<int> Q;
+    Queue<int> Q;
     NodeB<int> *node;
     int level = 0;
     int actual_level = 0;
-    Q.push_back(root->data);
 
-    while (!Q.empty()) {
-        node->data = Q.back();
-        level = Q.back();
+    Node *front = NULL;
+    Node *end = NULL;
+
+    Q.insert(front, end, root->data); /// insertamos los dos valores
+    Q.insert(front, end, 0);
+
+    while (!Q.empty(front)) {
+        node->data = Q.extract(front, end);
+        level = Q.extract(front, end);
         if (level > actual_level)
             actual_level = level;
             cout << endl;
         if (node != NULL) {
             cout << node->data << endl;
-            Q.push_back(node->data);
-            Q.push_back(node->data);
+            Q.insert(front, end, node->data);
+            Q.insert(front, end, node->data);
         }
         else {
 
