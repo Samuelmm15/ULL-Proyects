@@ -16,7 +16,7 @@ void clrscr() {
     system("clear");
 };
 
-void menu(int &option) {
+void menu(int &option) {  /// The menu of the program
     cout << "<< BIENVENIDO AL MENÚ DE OPCIONES >> " << endl;
     cout << "[0] Salir." << endl;
     cout << "[1] Insertar Clave." << endl;
@@ -27,10 +27,11 @@ void menu(int &option) {
 
 int main() {
 
-    AB<int> BTree; /// creamos el objeto árbol
+    AB<int> BTree; 
 
-    int option = 0; /// implementación del menú de opciones
+    int option = 0;
     int key_value = 0;
+    int search_value = 0;
     do {
         cout << endl;
         menu(option);
@@ -45,6 +46,15 @@ int main() {
 
             case 2:
                 clrscr();
+                cout << endl;
+                cout << "Introduzca la clave que quiere buscar en el árbol binario: ";
+                cin >> search_value;
+
+                if (BTree.Search(search_value) == true) {
+                    cout << "El valor " << search_value << " ha sido encontrado en el árbol binario."; 
+                } else if (BTree.Search(search_value) == false) {
+                    cout << "El valor " << search_value << " NO ha sido encontrado en el árbol binario.";
+                }
             break;
         }
     } while(option != 0);
