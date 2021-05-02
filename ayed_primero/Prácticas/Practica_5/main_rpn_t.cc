@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Samuel Martín Morales
+// FECHA: 02/05/2021
+// EMAIL: alu0101359526@ull.edu.es
 // VERSION: 2.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 5

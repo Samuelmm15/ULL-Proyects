@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Samuel Martín Morales
+// FECHA: 02/05/2021
+// EMAIL: alu0101359526@ull.edu.es
 // VERSION: 2.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // TEMA: 4
@@ -23,14 +23,14 @@ template <class T> class dll_node_t {
   ~dll_node_t(void) {}
 
   // getters & setters
-  dll_node_t<T>* get_next(void) const { return next_; }
-  void set_next(dll_node_t<T>* next) { next_ = next; }
+  dll_node_t<T>* get_next(void) const { return next_; } /// para obtener el siguiente nodo
+  void set_next(dll_node_t<T>* next) { next_ = next; } /// para establecer el siguiente nodo
   
-  dll_node_t<T>* get_prev(void) const { return prev_; }
-  void set_prev(dll_node_t<T>* prev) { prev_ = prev; }
+  dll_node_t<T>* get_prev(void) const { return prev_; } /// para obtener el nodo previo
+  void set_prev(dll_node_t<T>* prev) { prev_ = prev; } /// para establecer el nodo previo
   
-  const T& get_data(void) const { return data_; }
-  void set_data(const T& data) { data_ = data; }
+  const T& get_data(void) const { return data_; } /// para obtener el dato del nodo
+  void set_data(const T& data) { data_ = data; } /// para establecer el dato del nodo
 
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;

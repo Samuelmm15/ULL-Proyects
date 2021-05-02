@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Samuel Martín Morales
+// FECHA: 02/05/2021
+// EMAIL: alu0101359526@ull.edu.es
 // VERSION: 2.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // PRÁCTICA Nº: 5
@@ -28,12 +28,12 @@ template <class T> class queue_l_t {
   ~queue_l_t(void) {}
 
   // operaciones
-  bool empty(void) const;
-  int size(void) const;
-  void push(const T& dato);
-  void pop(void);
-  const T& front(void) const;
-  const T& back(void) const;
+  bool empty(void) const; /// para comprobar si la cola está vacía
+  int size(void) const; /// para obtener el tamaño de la cola
+  void push(const T& dato); /// para meter valores en la cola
+  void pop(void); /// para eliminar valores de la cola
+  const T& front(void) const; /// para obtener el valor del principio de la cola
+  const T& back(void) const; /// para obtener el final de la cola
 
   // E/S
   std::ostream& write(std::ostream& os = std::cout) const;

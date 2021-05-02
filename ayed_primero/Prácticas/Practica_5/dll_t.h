@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Samuel Martín Morales
+// FECHA: 02/05/2021
+// EMAIL: alu0101359526@ull.edu.es
 // VERSION: 2.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // TEMA: 4
@@ -25,20 +25,20 @@ template <class T> class dll_t {
   ~dll_t(void); 
 
   // getters
-  dll_node_t<T>* get_tail(void) const { return tail_; }
-  dll_node_t<T>* get_head(void) const { return head_; }
-  int get_size(void) const { return sz_; }
+  dll_node_t<T>* get_tail(void) const { return tail_; } /// para obtener el final
+  dll_node_t<T>* get_head(void) const { return head_; } /// para obtener el comienzo
+  int get_size(void) const { return sz_; } /// para obtener el tamaño
 
-  bool empty(void) const;
+  bool empty(void) const; /// para comprobar si está vacía
 
   // operaciones
-  void push_back(dll_node_t<T>*);
-  void push_front(dll_node_t<T>*);
+  void push_back(dll_node_t<T>*); /// opreación para insertar los valores
+  void push_front(dll_node_t<T>*); /// operación para insertar los valores
 
-  dll_node_t<T>* pop_back(void);
-  dll_node_t<T>* pop_front(void);
+  dll_node_t<T>* pop_back(void); /// operación para borrar los valores
+  dll_node_t<T>* pop_front(void); /// operación para borrar los valores
 
-  dll_node_t<T>* erase(dll_node_t<T>*);
+  dll_node_t<T>* erase(dll_node_t<T>*); /// operación para borrar
 
   // E/S
   std::ostream& write(std::ostream& = std::cout) const;

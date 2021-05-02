@@ -1,6 +1,6 @@
-// AUTOR: 
-// FECHA: 
-// EMAIL: 
+// AUTOR: Samuel Martín Morales
+// FECHA: 02/05/2021
+// EMAIL: alu0101359526@ull.edu.es
 // VERSION: 2.0
 // ASIGNATURA: Algoritmos y Estructuras de Datos
 // TEMA: 5
@@ -26,10 +26,10 @@ template<class T> class stack_l_t {
   ~stack_l_t(void) {}
 
   // operaciones
-  void push(const T&);
-  void pop(void);
-  const T& top(void) const;
-  bool empty(void) const;
+  void push(const T&); /// para meter valores en la pila
+  void pop(void); /// para borrar valores de la pila
+  const T& top(void) const; /// para obtener el valor que está encima de la pila
+  bool empty(void) const; /// para comprobar si la pila está vacía
 
   // E/S	
   std::ostream& write(std::ostream& os = std::cout) const;
