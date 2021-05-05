@@ -68,20 +68,31 @@ template<class T> const int rpn_t<T>::evaluate(queue_l_t<char>& q) {
 }
 
 template<class T> void rpn_t<T>::operate_(const char c) {
-  assert(c == '+' || c == '-' || c == '*' || c == '/');
+  assert(c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == 'r' || c == 'l' || c == 'c');
   
   int x = 0;
   int y = 0;
   int solution = 0;
-  // poner código
-  x = W.top();
-  W.pop();
-  std::cout << "   Sacamos de la pila un operando: " << x << std::endl;
+
+  if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+    // poner código
+    x = W.top();
+    W.pop();
+    std::cout << "   Sacamos de la pila un operando: " << x << std::endl;
   
-  // poner código
-  y = W.top();
-  W.pop();
-  std::cout << "   Sacamos de la pila otro operando: " << y << std::endl;
+    // poner código
+    y = W.top();
+    W.pop();
+    std::cout << "   Sacamos de la pila otro operando: " << y << std::endl;
+  } 
+  if (c == 'r' || c == 'l' || c == 'c') {
+    // poner código
+    x = W.top();
+    W.pop();
+    std::cout << "   Sacamos de la pila un operando: " << x << std::endl;
+  }
+  
+  int counter = 0;
   
   switch (c) {
     case '+':
@@ -97,6 +108,22 @@ template<class T> void rpn_t<T>::operate_(const char c) {
       break;
     case '/':
       solution = y / x;
+      break;
+    case '^':
+      solution = y * y;
+      while (counter != (x - 2)) {
+        counter++;
+        solution = solution * y;
+      }
+      break;
+    case 'r':
+      solution = sqrt(x);
+      break;
+    case 'l':
+      solution = log2(x);
+      break;
+    case 'c':
+      solution = x * x;
       break;
   }
 
