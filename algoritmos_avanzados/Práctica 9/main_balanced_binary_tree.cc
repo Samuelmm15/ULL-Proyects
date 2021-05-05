@@ -9,8 +9,8 @@
  * 
  */
 
-#include "AB.cc"
-#include "nodeB.cc"
+#include "AB.h"
+#include "nodeB.h"
 
 void clrscr() {
     system("clear");

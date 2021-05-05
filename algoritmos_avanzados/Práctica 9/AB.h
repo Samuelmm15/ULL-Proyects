@@ -20,7 +20,7 @@
 #include <sstream> /// library to use the convertors of strings and numbers (istringstream or ostringstream)
 #include <list> /// library to use the class list
 #include <deque>
-#include "nodeB.cc"
+#include "nodeB.h"
 
 #pragma once
 using namespace std;
