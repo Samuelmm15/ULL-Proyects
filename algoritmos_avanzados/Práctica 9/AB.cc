@@ -242,24 +242,19 @@ bool AB<Key>::Search(Key &x) {
 };
 
 template<class Key>
-bool AB<Key>::BranchSearch(Key &x, NodeB<Key> *node) {
-    if (counter == 0) {
-        if ((node->data < x) || (node->data > x)) {
-            BranchSearch(x, node->left);
-            counter++;
-        }
-    } else if (counter == 1) {
-        if ((node->data < x) || (node->data > x)) {
-            BranchSearch(x, node->right);
-        }
-    }
+bool AB<Key>::BranchSearch(Key &x, NodeB<Key> *node) {    
     if (node == NULL) {
         return false;
     }
+    
     if (node->data == x) {
         return true;
     }
-};
+
+    if ((node->data != x) && (node->left == NULL)) {
+        BranchSearch(x, node->right);
+    }
+}
 
 template<class Key>
 void AB<Key>::Insert(const Key &x) {
