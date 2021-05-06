@@ -156,6 +156,8 @@ class AB {
      * @param node 
      */
     void Print(NodeB<Key> *node);
+    void Exchange_root();
+    void Max_change(NodeB<Key> *root);
 };
 
 template<class Key>
@@ -269,7 +271,7 @@ bool AB<Key>::BranchSearch(Key &x, NodeB<Key> *root) {
             Q.push_back(pair<NodeB<Key> *, int>(node->right, level + 1));
         }
     }
-    return aux;   
+    return aux; 
 };
 
 template<class Key>
@@ -348,3 +350,44 @@ void AB<Key>::Print(NodeB<Key> *node) {
         cout << "]";
     }
 };
+
+template<class Key>
+void AB<Key>::Exchange_root() {
+    Max_change(root);
+};
+
+template<class Key>
+void AB<Key>::Max_change(NodeB<Key> *root) {
+    deque<pair<NodeB<Key> *, int>> Q;
+    NodeB<int> *node;
+    int level = 0;
+    int actual_level = 0;
+    int root_number = 0;
+    root_number = root->data;
+    int constante = 0;
+    constante = root_number;
+
+    Q.push_back(pair<NodeB<Key> *, int>(root, 0));
+
+    while (!Q.empty()) {
+        node = Q.front().first;
+        level = Q.front().second;
+        Q.pop_front();
+        if (level > actual_level) {
+            actual_level = level;
+        }
+        if (node != NULL) {
+            if (node->data > root_number) {
+                root_number = node->data;
+            }
+            Q.push_back(pair<NodeB<Key> *, int>(node->left, level + 1));
+            Q.push_back(pair<NodeB<Key> *, int>(node->right, level + 1));
+        }
+    } 
+
+    root->data = root_number;
+
+    LevelsRoute(root);
+
+
+}; 
