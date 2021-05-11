@@ -63,7 +63,6 @@ template<class T> const int rpn_t<T>::evaluate(queue_l_t<char>& q) {
   // poner código
   int solution = 0;
   solution = W.top();
-  W.pop();
   return solution;
 }
 
@@ -77,19 +76,19 @@ template<class T> void rpn_t<T>::operate_(const char c) {
   if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
     // poner código
     x = W.top();
-    W.pop();
     std::cout << "   Sacamos de la pila un operando: " << x << std::endl;
+    W.pop();
   
     // poner código
     y = W.top();
-    W.pop();
     std::cout << "   Sacamos de la pila otro operando: " << y << std::endl;
+    W.pop();
   } 
   if (c == 'r' || c == 'l' || c == 'c') {
     // poner código
     x = W.top();
-    W.pop();
     std::cout << "   Sacamos de la pila un operando: " << x << std::endl;
+    W.pop();
   }
   
   int counter = 0;

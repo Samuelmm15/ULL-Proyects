@@ -36,6 +36,8 @@ template<class T> class stack_l_t {
 
 private:
   dll_t<T> l_;
+  int min_(void) const;
+  int max_(void) const;
 };
 
 
@@ -49,6 +51,8 @@ template<class T> void stack_l_t<T>::push(const T& dato) {
 template<class T> void stack_l_t<T>::pop(void) {
   assert(!empty());
   delete l_.pop_front();
+  std::cout << "Mínimo elemento en la pila: " << min_() << std::endl;
+  std::cout << "Máximo elemento en la pila: " << max_() << std::endl;
 }
 
 template<class T> const T& stack_l_t<T>::top(void) const {
@@ -70,6 +74,38 @@ template<class T> std::ostream& stack_l_t<T>::write(std::ostream& os) const {
   os << " └─────┘" << std::endl;
   return os;
 }
+
+template<class T> 
+int stack_l_t<T>::min_(void) const {
+  dll_node_t<T>* aux = l_.get_head();
+  int comparation = 10000000;
+  while (aux != NULL) {
+   if (comparation >= aux->get_data()) {
+      comparation = aux->get_data();
+    } 
+    aux = aux->get_next();
+  }
+  if (comparation == 10000000) {
+    return 0;
+  }
+  return comparation;
+};
+
+template<class T>
+int stack_l_t<T>::max_(void) const {
+  dll_node_t<T>* aux = l_.get_head();
+  int comparation = -100000000;
+  while (aux != NULL) {
+    if (comparation <= aux->get_data()) {
+      comparation = aux->get_data();
+    } 
+    aux = aux->get_next();
+  } 
+  if (comparation == -100000000) {
+    return 0;
+  }
+  return comparation;
+};
 
 
 #endif  // STACKL_H_
