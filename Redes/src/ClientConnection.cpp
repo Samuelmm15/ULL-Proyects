@@ -155,8 +155,16 @@ void ClientConnection::WaitForRequests() {
         }
 	   
       }
-      else if (COMMAND("PORT")) {
+      else if (COMMAND("PORT")) { /// está incorrecto
 	  // To be implemented by students
+        fscanf(fd, "%s", arg);
+        if (strcmp(arg, "README") == 0) {
+            fprintf(fd, "200 OK\n");
+        }
+        else {
+            fprintf(fd, "500 Internal server error. \n");
+            parar = true;
+        }
       }
       else if (COMMAND("PASV")) {
 	  // To be implemented by students
