@@ -157,12 +157,13 @@ void ClientConnection::WaitForRequests() {
       }
       else if (COMMAND("PORT")) { /// está incorrecto
 	  // To be implemented by students
-        fscanf(fd, "%s", arg);
-        if (strcmp(arg, "README") == 0) {
-            fprintf(fd, "200 OK\n");
+      int act_ip[5];
+        fscanf(fd, "%s,%s,%s,%s,%s,%s", &act_ip[0], &act_ip[1], &act_ip[2], &act_ip[3], &act_ip[4], &act_ip[5]);
+        if (act_ip[0] == act_ip[1]) { /// comprobar esto
+            fprintf(fd, "425\r\n");
         }
         else {
-            fprintf(fd, "500 Internal server error. \n");
+            fprintf(fd, "200 OK.\r\n");
             parar = true;
         }
       }
