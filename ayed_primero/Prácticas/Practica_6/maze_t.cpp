@@ -113,20 +113,7 @@ maze_t::is_ok_(const int i, const int j) const
   // - fila i y la columna j están dentro de los límites del laberinto,
   // - la celda en (i, j) no puede ser un muro,
   // - la celda (i, j) no puede haber sido visitada antes.
-  int counter = 0;
-  if ((i <= matrix_.get_m()) && (j <= matrix_.get_n())) {
-    counter++;
-  }
-  if (matrix_(i,j) != WALL_ID) {
-    counter++;
-  }
-  if (visited_(i,j) == false) { 
-    counter++;
-  }
-  if (counter == 3) {
-    return true;
-  }
-  return false;
+  return (i <= matrix_.get_m() && j <= matrix_.get_n() && i >= 1 && j >= 1 && matrix_(i,j) != WALL_ID && !visited_(i,j));
 }
 
 
@@ -152,31 +139,14 @@ maze_t::solve_(const int i, const int j)
   // llamando recursivamente a 'solve'. 
   // Si la llamada devuelve 'true', poner en la celda el valor PATH_ID, y
   // propagarla retornando también 'true'
-  int counter_aux = 0;
-  int i_aux = 0;
-  int j_aux = 0;
-
-  i_aux = i + i_d[0];
-  j_aux = j + j_d[0];
-  if (is_ok_(i_aux, j_aux) == true) {
-    solve_(i_aux, j_aux);
-  }
-  i_aux = i + i_d[1];
-  j_aux = j + j_d[1];
-  if (is_ok_(i_aux, j_aux) == true) {
-    solve_(i_aux, j_aux);
-  }
-  i_aux = i + i_d[2];
-  j_aux = j + j_d[2];
-  if (is_ok_(i_aux, j_aux) == true) {
-    solve_(i_aux, j_aux);
-  }
-  i_aux = i + i_d[3];
-  j_aux = j + j_d[3];
-  if (is_ok_(i_aux, j_aux) == true) {
-    solve_(i_aux, j_aux);
-  }
   
+  for (int k = 0; k < 4; k++) {
+    if (is_ok_(i+ i_d[k], j + j_d[k]))
+      if (solve_(i + i_d[k], j + j_d[k])) {
+        matrix_(i,j) = PATH_ID;
+        return true;
+      }
+  }
   // desmarcamos la celda como visitada (denominado "backtracking") y
   // retornamos 'false'
   visited_(i, j) = false;
