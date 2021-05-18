@@ -24,14 +24,35 @@
 using namespace std;
 
 template<class Key>
-class NodeAVL {
+class NodeB {
     public:
-    NodeAVL(int dat, int cl,NodeAVL<Key> *lef = NULL, NodeAVL<Key> *rig = NULL) : data(dat) , clave(cl), bal(0),left(lef) , right(rig) {}
-    int data;
-    int clave;
-    int bal;
-    NodeAVL<Key> *left;
-    NodeAVL<Key> *right; 
+    Key data;
+    NodeB<Key> *left;
+    NodeB<Key> *right;
+    
+    public:
+    NodeB(Key Data) {
+        data = Data;
+        left = nullptr;
+        right = nullptr;
+    }
 };
+
+template<class Key>
+class NodeAVL : public NodeB<Key> {
+    public:
+    NodeAVL<Key> *left;
+    NodeAVL<Key> *right;
+    int bal;
+    
+    public:
+    NodeAVL(Key Data, Key bal) : NodeB<Key>(Data) {
+        left = NULL;
+        right = NULL;
+        bal = 0;
+    }
+};
+
+
 
 
