@@ -24,15 +24,17 @@ void menu (unsigned dirigido, char &opcion)
     cout << "Optimizacion en Grafos, 2020-2021 Samuel Martín Morales" << endl;
     cout << "c. [c]argar grafo desde fichero" << endl;
     if (dirigido == 0) /*Grafo no dirigido */ {
-            cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
-            cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
-            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo" << endl;
+            cout << "i. Mostrar [i]nformacion basica del grafo." << endl;
+            cout << "a. Mostrar la lista de [a]dyacencia del grafo." << endl;
+            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo." << endl;
+            cout << "f. Ejecutar el algoritmo de [F]loyd-Warshall." << endl;
 
     } else {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "s. Mostrar la lista de [s]ucesores del grafo" << endl;
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
             cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo por sucesores" << endl;
+            cout << "f. Ejecutar el algoritmo de [F]loyd-Warshall." << endl;
     }
     cout << "q. Finalizar el programa" << endl;
     cout << "Introduce la letra de la accion a ejecutar  > ";
@@ -120,6 +122,11 @@ int main(int argc, char *argv[])
                 case 'm' :
                     clrscr();
                     G.RecorridoProfundidad();
+                break;
+
+                case 'f' :
+                    clrscr();
+                    G.FloydWarshall();
                 break;
             }
         } while (opcion != 'q');

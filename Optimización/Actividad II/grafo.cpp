@@ -248,6 +248,7 @@ void GRAFO::FloydWarshall() {
             }
         }
     
+    /// Recorremos LS para inicializar P, su predecesor en .j y su distancia en .c
     for (unsigned i = 0; i < n; i++) {
         for (unsigned j = 0; j < LS[i].size(); j++) {
             P[i][LS[i][j].j].j = i;
@@ -256,7 +257,12 @@ void GRAFO::FloydWarshall() {
     }
 
     /// monstrar las matrices y los caminos mínimos
-    
+    cout << "La lista de caminos mínimos es: " << endl;
+    for (unsigned i = 0; i < n; i++) {
+        for (unsigned j = 0; j < P.size(); j++) {
+            cout << P[i][j].j << " --> " << P[i][j].c << ";" << endl;
+        }
+    }
 };
 
 
