@@ -257,11 +257,24 @@ void GRAFO::FloydWarshall() {
     }
 
     /// monstrar las matrices y los caminos mínimos
-    cout << "La lista de caminos mínimos es: " << endl;
-    for (unsigned i = 0; i < n; i++) {
-        for (unsigned j = 0; j < P.size(); j++) {
-            cout << P[i][j].j << " --> " << P[i][j].c << ";" << endl;
-        }
+    for (int k = 0; k < n; k++) {
+    	for (int i = 0; i < n; i++) {
+		    if (i != k) {
+			    for (int j = 0; j < n; j++) {
+				    if (j != k) {
+					    if ((P[i][j].c > P[i][k].c + P[k][i].c) && (P[i][k].c != maxint) && (P[k][j].c != maxint)) {
+						    P[i][j].c = P[i][k].c + P[k][j].c;
+						    P[i][j].j = P[k][j].j;
+					    }
+				    }
+			    }	
+		    }
+	    }
+    }
+    
+    for (int i = 0; i < n; i++) {
+            cout << P[i][i].j << " | "; 
+            cout << P[i][i].c << " | ";
     }
 };
 
