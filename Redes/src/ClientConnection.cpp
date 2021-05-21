@@ -155,29 +155,49 @@ void ClientConnection::WaitForRequests() {
         }
 	   
       }
-      else if (COMMAND("PORT")) { /// está incorrecto
+      else if (COMMAND("PORT")) { /// los argumentos de este comando son <host number>, <port number>
 	  // To be implemented by students
-      int act_ip[5];
-        fscanf(fd, "%s,%s,%s,%s,%s,%s", &act_ip[0], &act_ip[1], &act_ip[2], &act_ip[3], &act_ip[4], &act_ip[5]);
-        if (act_ip[0] == act_ip[1]) { /// comprobar esto
-            fprintf(fd, "425\r\n");
+      int host_number[3];
+      int port_number[1];
+        fscanf(fd, "%d,%d,%d,%d,%d,%d", &host_number[0], &host_number[1], &host_number[2], &host_number[3], &port_number[0], &port_number[1]);
+        if (fscanf) { /// comprobar esto
+            fprintf(fd, "200 The command is correct.\r\n");
         }
         else {
-            fprintf(fd, "200 OK.\r\n");
+            fprintf(fd, "425 Unable to open data connection\r\n");
             parar = true;
         }
       }
-      else if (COMMAND("PASV")) {
+      else if (COMMAND("PASV")) { /// Acceder a modo pasivo
 	  // To be implemented by students
       }
-      else if (COMMAND("STOR") ) {
+      else if (COMMAND("STOR") ) { /// Almacenar un archivo en el host remoto
 	    // To be implemented by students
       }
-      else if (COMMAND("RETR")) {
+      else if (COMMAND("RETR")) {  /// Recupera un archivo remoto
 	   // To be implemented by students
+        fscanf(fd, "%s", arg);
+        if (strcmp(arg, " ") == 0) {
+            fprintf(fd, "150 The status of the file is correct; the data connection will open shortly.\r\n");
+            fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n");
+        }
+        else {
+            fprintf(fd, "425 Unable to open data connection.\r\n");
+            if (strcmp(arg, " ") == 1) {
+                fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
+            }
+        }
+        
       }
-      else if (COMMAND("LIST")) {
-	   // To be implemented by students	
+      else if (COMMAND("LIST")) { /// Enumerar archivos remotos
+	   // To be implemented by students
+       fprintf(fd, "125 The data connection is now open, the transfer starts."); /// COMPROBAR ESTE COMANDO, ESTÁ MAL IMPLEMENTADO
+        do {
+            fscanf(fd, "%s", arg);
+            printf("%s", arg);
+        } while(strcmp(arg, " ") == 1);
+
+        fprintf(fd, "225 Correct requested file action; completed.");
       }
       else if (COMMAND("SYST")) {
            fprintf(fd, "215 UNIX Type: L8.\n");   

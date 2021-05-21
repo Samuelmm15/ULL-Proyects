@@ -273,8 +273,17 @@ void GRAFO::FloydWarshall() {
     }
     
     for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             cout << P[i][i].j << " | "; 
-            cout << P[i][i].c << " | ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << P[i][i].c << " | "; 
+        }
+        cout << endl;
     }
 };
 
