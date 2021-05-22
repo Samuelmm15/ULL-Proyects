@@ -173,6 +173,15 @@ void ClientConnection::WaitForRequests() {
       }
       else if (COMMAND("STOR") ) { /// Almacenar un archivo en el host remoto
 	    // To be implemented by students
+        char* auxiliary;
+        fscanf(fd, "%s", arg); /// ESTA MAL IMPLEMENTADO ESTE COMANDO
+        fscanf(fd, "%s", auxiliary);
+        if (strcmp(arg, " ") == 0) {
+            fprintf(fd, "125 The data connection is now open, the transfer starts.\r\n");
+        } else {
+            fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
+        }
+        fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n"); 
       }
       else if (COMMAND("RETR")) {  /// Recupera un archivo remoto
 	   // To be implemented by students
@@ -191,11 +200,12 @@ void ClientConnection::WaitForRequests() {
       }
       else if (COMMAND("LIST")) { /// Enumerar archivos remotos
 	   // To be implemented by students
+
+       fscanf(fd, "%s", arg);
        fprintf(fd, "125 The data connection is now open, the transfer starts."); /// COMPROBAR ESTE COMANDO, ESTÁ MAL IMPLEMENTADO
-        do {
+        
             fscanf(fd, "%s", arg);
             printf("%s", arg);
-        } while(strcmp(arg, " ") == 1);
 
         fprintf(fd, "225 Correct requested file action; completed.");
       }
