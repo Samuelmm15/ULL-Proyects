@@ -8,14 +8,14 @@
 
 class FTPServer {
 public:
-  FTPServer(int port = 21); /// constructor de la clase
-  void run(); /// para ejecutar el servicio
-  void stop(); /// para parar el servicio
+  FTPServer(int port = 21);
+  void run(); 
+  void stop(); 
 
 private:
-  int port; /// puerto
-  int msock; /// socket
-  std::list<ClientConnection*> connection_list; /// lista de conexión
+  int port;
+  int msock; 
+  std::list<ClientConnection*> connection_list; 
 };
 
 #endif

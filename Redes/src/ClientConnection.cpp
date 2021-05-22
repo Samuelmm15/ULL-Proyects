@@ -38,7 +38,7 @@
 
 
 
-ClientConnection::ClientConnection(int s) { /// constructor de la clase
+ClientConnection::ClientConnection(int s) {
     int sock = (int)(s);
   
     char buffer[MAX_BUFF];
@@ -64,18 +64,17 @@ ClientConnection::ClientConnection(int s) { /// constructor de la clase
 };
 
 
-ClientConnection::~ClientConnection() { /// destructor de la clase
+ClientConnection::~ClientConnection() { 
  	fclose(fd);
 	close(control_socket); 
   
 }
 
-
-int connect_TCP( char *address,  uint16_t  port) { /// para realizar una conexión TCP
+int s;
+int connect_TCP( char *address,  uint16_t  port) { 
     // Implement your code to define a socket here
     struct sockaddr_in sin;
     struct hostent *hent;
-    int s;
 
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET;
@@ -107,7 +106,7 @@ int connect_TCP( char *address,  uint16_t  port) { /// para realizar una conexi�
 
 
 
-void ClientConnection::stop() { /// para finalizar la conexión
+void ClientConnection::stop() { 
     close(data_socket);
     close(control_socket);
     parar = true;
@@ -133,7 +132,8 @@ void ClientConnection::WaitForRequests() {
     }
     
     fprintf(fd, "220 Service ready\n");
-  
+    bool passive_mode = false;
+
     while(!parar) {
 
       fscanf(fd, "%s", command);
@@ -155,12 +155,13 @@ void ClientConnection::WaitForRequests() {
         }
 	   
       }
-      else if (COMMAND("PORT")) { /// los argumentos de este comando son <host number>, <port number>
+      else if (COMMAND("PORT")) { 
 	  // To be implemented by students
       int host_number[3];
       int port_number[1];
+        fflush(fd);
         fscanf(fd, "%d,%d,%d,%d,%d,%d", &host_number[0], &host_number[1], &host_number[2], &host_number[3], &port_number[0], &port_number[1]);
-        if (fscanf) { /// comprobar esto
+        if (fscanf) { 
             fprintf(fd, "200 The command is correct.\r\n");
         }
         else {
@@ -170,42 +171,40 @@ void ClientConnection::WaitForRequests() {
       }
       else if (COMMAND("PASV")) { /// Acceder a modo pasivo
 	  // To be implemented by students
+      if (passive_mode == false) {
+          passive_mode = true;
+      } else {
+          passive_mode = false;
+      }
+
       }
       else if (COMMAND("STOR") ) { /// Almacenar un archivo en el host remoto
 	    // To be implemented by students
-        char* auxiliary;
-        fscanf(fd, "%s", arg); /// ESTA MAL IMPLEMENTADO ESTE COMANDO
-        fscanf(fd, "%s", auxiliary);
+        fflush(fd); /// To clean the buffer
+        fscanf(fd, "%s", arg); 
         if (strcmp(arg, " ") == 0) {
-            fprintf(fd, "125 The data connection is now open, the transfer starts.\r\n");
-        } else {
             fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
-        }
-        fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n"); 
+        } else {
+            ///send(s, arg, 9, 0); /// Función para el envío de datos a través del socket
+            fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n");
+        } 
       }
       else if (COMMAND("RETR")) {  /// Recupera un archivo remoto
 	   // To be implemented by students
         fscanf(fd, "%s", arg);
         if (strcmp(arg, " ") == 0) {
-            fprintf(fd, "150 The status of the file is correct; the data connection will open shortly.\r\n");
-            fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n");
+            fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
         }
         else {
             fprintf(fd, "425 Unable to open data connection.\r\n");
-            if (strcmp(arg, " ") == 1) {
-                fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
-            }
+            fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n");
         }
         
       }
       else if (COMMAND("LIST")) { /// Enumerar archivos remotos
 	   // To be implemented by students
-
-       fscanf(fd, "%s", arg);
-       fprintf(fd, "125 The data connection is now open, the transfer starts."); /// COMPROBAR ESTE COMANDO, ESTÁ MAL IMPLEMENTADO
-        
-            fscanf(fd, "%s", arg);
-            printf("%s", arg);
+        fscanf(fd, "%s", arg);
+        fprintf(fd, "125 The data connection is now open, the transfer starts.");
 
         fprintf(fd, "225 Correct requested file action; completed.");
       }

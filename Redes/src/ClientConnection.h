@@ -6,17 +6,16 @@
 #include <cstdio>
 #include <cstdint>
 
-const int MAX_BUFF=1000; /// tamaño maximo del buffer
+const int MAX_BUFF=1000; 
 
 class ClientConnection {
 public:
-    ClientConnection(int s); /// constructor de la clase
-    ~ClientConnection(); /// destructor de la clase
+    ClientConnection(int s); 
+    ~ClientConnection(); 
     
-    void WaitForRequests(); /// esperar para respuestas
-    void stop(); /// funcion para parar
+    void WaitForRequests(); 
+    void stop(); 
 
-    
 private:  
    bool ok;  // This variable is a flag that avois that the
 	     // server listens if initialization errors occured.
