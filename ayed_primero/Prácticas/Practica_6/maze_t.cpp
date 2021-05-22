@@ -140,13 +140,44 @@ maze_t::solve_(const int i, const int j)
   // Si la llamada devuelve 'true', poner en la celda el valor PATH_ID, y
   // propagarla retornando también 'true'
   
-  for (int k = 0; k < 4; k++) {
-    if (is_ok_(i+ i_d[k], j + j_d[k]))
+  /// Código original del programa
+  /*for (int k = 0; k < 4; k++) {
+    if (is_ok_(i + i_d[k], j + j_d[k]))
       if (solve_(i + i_d[k], j + j_d[k])) {
         matrix_(i,j) = PATH_ID;
         return true;
       }
-  }
+  } */
+
+  /// Código modificación del programa   
+     if (is_ok_(i + i_d[3], j + j_d[3]))
+      if (solve_(i + i_d[3], j + j_d[3])) {
+        matrix_(i,j) = PATH_ID;
+        return true;
+      }
+      
+    if (is_ok_(i + i_d[1], j + j_d[1]))
+      if (solve_(i + i_d[1], j + j_d[1])) {
+        matrix_(i,j) = PATH_ID;
+        return true;
+      }
+
+  if (is_ok_(i + i_d[2], j + j_d[2]))
+      if (solve_(i + i_d[2], j + j_d[2])) {
+        matrix_(i,j) = PATH_ID;
+        return true;
+      }
+
+   /* if (is_ok_(i + i_d[0], j + j_d[0]))
+      if (solve_(i + i_d[0], j + j_d[0])) {
+        matrix_(i,j) = PATH_ID;
+        return true;
+      }*/
+  
+  
+
+
+
   // desmarcamos la celda como visitada (denominado "backtracking") y
   // retornamos 'false'
   visited_(i, j) = false;
