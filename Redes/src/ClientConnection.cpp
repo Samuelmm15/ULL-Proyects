@@ -169,7 +169,7 @@ void ClientConnection::WaitForRequests() {
             parar = true;
         }
       }
-      else if (COMMAND("PASV")) { /// Acceder a modo pasivo
+      else if (COMMAND("PASV")) { /// Access passive mode
 	  // To be implemented by students
       if (passive_mode == false) {
           passive_mode = true;
@@ -178,18 +178,18 @@ void ClientConnection::WaitForRequests() {
       }
 
       }
-      else if (COMMAND("STOR") ) { /// Almacenar un archivo en el host remoto
+      else if (COMMAND("STOR") ) { /// Store a file on the remote host
 	    // To be implemented by students
         fflush(fd); /// To clean the buffer
         fscanf(fd, "%s", arg); 
         if (strcmp(arg, " ") == 0) {
             fprintf(fd, "450 Requested file action not completed. The file is not available.\r\n");
         } else {
-            ///send(s, arg, 9, 0); /// Función para el envío de datos a través del socket
+            ///send(s, arg, 9, 0); /// Function to send data through the socket
             fprintf(fd, "226 Closing the data connection. The requested file action was successful.\r\n");
         } 
       }
-      else if (COMMAND("RETR")) {  /// Recupera un archivo remoto
+      else if (COMMAND("RETR")) {  /// Retrieve a remote file
 	   // To be implemented by students
         fscanf(fd, "%s", arg);
         if (strcmp(arg, " ") == 0) {
@@ -201,7 +201,7 @@ void ClientConnection::WaitForRequests() {
         }
         
       }
-      else if (COMMAND("LIST")) { /// Enumerar archivos remotos
+      else if (COMMAND("LIST")) { /// List remote files
 	   // To be implemented by students
         fscanf(fd, "%s", arg);
         fprintf(fd, "125 The data connection is now open, the transfer starts.");
