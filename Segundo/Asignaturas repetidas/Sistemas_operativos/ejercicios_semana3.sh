@@ -17,3 +17,4 @@ ps -ax | wc -l
 ls -a
 
 # 6. Contar el número de programas alojados en nuestro directorio actual donde el grupo otros tiene permisos de ejecución
+ls -l | cut -d' ' -f1 | grep x | wc -l      # Comprobar como se determina que el archivo se trata de un programa
