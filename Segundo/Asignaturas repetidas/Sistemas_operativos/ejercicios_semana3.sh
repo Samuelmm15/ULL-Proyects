@@ -11,10 +11,10 @@ jobs | grep Detenido | wc -l
 jobs | grep "&$" | tr -s ' ' ' ' | cut -d' ' -f3
 
 # 4. Contar el número total de procesos que estamos ejecutando
-ps --no-headers ux| wc -l
+ps --no-headers ux | wc -l      # La especificación de ux sirve para determinar de que se tratan de todos los procesos que se están ejecutando para el usuario que lanza el comando
 
 # 5. Sacar un listado de todos los directorios que hay en nuestro directorio actual
-ls -a | grep ^d
+ll | grep ^d
 
 # 6. Contar el número de programas alojados en nuestro directorio actual donde el grupo otros tiene permisos de ejecución
 ls -l | grep ^- | cut -d' ' -f1 | grep "x&" | wc -l      
