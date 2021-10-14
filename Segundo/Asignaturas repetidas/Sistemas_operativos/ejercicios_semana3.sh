@@ -17,4 +17,4 @@ ps --no-headers ux | wc -l      # La especificación de ux sirve para determinar
 ll | grep ^d
 
 # 6. Contar el número de programas alojados en nuestro directorio actual donde el grupo otros tiene permisos de ejecución
-ls -l | grep ^- | cut -d' ' -f1 | grep "x&" | wc -l      
+ls -l | grep ^- | cut -d' ' -f1 | grep "x$" | wc -l      
