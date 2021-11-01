@@ -9,6 +9,10 @@
 TITLE="Información del sistema para $HOSTNAME"
 RIGHT_NOW=$(date +"%x %r%Z")
 TIME_STAMP="Actualizada el $RIGHT_NOW por $USER"
+interactive=
+answer=
+overwritten=
+filename=~/sysinfo.txt
 
 # Estilos
 
@@ -63,16 +67,75 @@ home_space()
     fi
 }
 
-# Programa principal
+usage()
+{
+    echo "usage: sysinfo [-f filename] [-i] [-h]"
+}
 
-cat << _EOF_
-
+write_page()    # Función que se encarga de incluir el script-here 
+{
+    cat << _EOF_
     $TEXT_BOLD$TITLE$TEXT_RESET
+    
+    $(system_info)
+    $(show_uptime)
+    $(drive_space)
+    $(home_space)
+    
     $TEXT_GREEN$TIME_STAMP$TEXT_RESET
 
 _EOF_
+}
 
-system_info
-show_uptime
-drive_space
-home_space
+# Programa principal
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -f | --file )
+            shift
+            filename=$1
+            ;;
+        -i | --interactive )
+            interactive=1
+            ;;
+        -h | --help )
+            usage
+            exit
+            ;;
+        * )     # opción por defecto
+            usage   
+            exit 1  # indicación de salida del programa con error
+    esac
+    shift
+
+    if [ "$interactive" = "1" ]; then
+        echo -n "Mostrar el informe del sistema en pantalla (S/N): "
+        read answer
+        if [ "$answer" = "N" ]; then
+            echo -n "Introduzca el nombre del archivo [~/sysinfo.txt]: "
+            read filename
+            if [ "$filename" = "" ]; then
+                filename=~/sysinfo.txt
+            fi
+        fi
+        if [ "$answer" = "N" ]; then
+            if [ -f $filename ]; then   # Condicional necesario para comprobar si un fichero existe, para ello, se hace uso de la opción -f y si se quiere comprobar si existe un directorio, se hace uso de la opción -d
+                echo -n "El archivo de destino existe. ¿Sobreescribir? (S/N): "
+                read overwritten
+                if [ "$overwritten" = "N" ]; then
+                    exit 0
+                fi
+            fi
+        fi
+    fi
+
+done
+
+if [ "$answer" = "S" ]; then
+    write_page
+    exit 0
+fi
+
+# Guardado de todo el informe en un fichero de texto a parte
+echo "$TEXT_BOLD El informe del sistema se ha almacenado en el fichero con ruta $filename $TEXT_RESET"
+write_page > $filename
