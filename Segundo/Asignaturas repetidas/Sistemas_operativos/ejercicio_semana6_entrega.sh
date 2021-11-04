@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # sysinfo - Entrega semana 6
-# Nombre: Samue
+# Nombre: Samuel
 # Apellidos: Martín Morales
 
 # Declaración de variables
