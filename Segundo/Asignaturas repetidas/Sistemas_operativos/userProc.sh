@@ -9,7 +9,8 @@
 # Declaración de variables
 
 time=
-user_who=
+user_list=
+
 
 # Estilo de texto
 
@@ -68,12 +69,23 @@ user_process_usr()   # Función que muestra únicamente los procesos de los usua
 
 user_process_u()    # Función que muestra los procesos lanzados por usuarios especificos
 {
-    exit 1
+    # AÑADIR UNA SALIDA CON ERROR CUANDO SE PRODUCE QUE EL USUARIO NO ES ENCUENTRA EN /ect/passwd 
+
+    echo
+    echo "$TEXT_BOLD La lista de procesos para el usuario: $user_list $TEXT_RESET"
+    echo
+    for i in $(ps -u $user_list --no-headers | awk '{print $1}'); do
+        for j in $(ps --pid $i --no-headers -o etimes); do
+            if [ "$j" -ge "$time" ]; then
+                ps --pid $i -u --no-headers
+            fi
+        done
+    done
 }
 
 user_process_count()    # Función que en vez de sacar la lista de procesos, saca el número de procesos por usuario
 {
-    exit 1
+    
 }
 
 user_process_inv()  # Función que muestra el listado de procesos de manera inversa
@@ -93,6 +105,11 @@ user_process_c()    # Función que realiza la ordenación de la lista de proceso
 
 # Programa principal
 
+if [ "$1" = "" ]; then  # Cuando se ejecuta el script sin ninguna opción
+    time=1
+    user_process
+fi  # El condicional se pone antes debido a que si se ponen distintas opciones de ejecución por línea de comando tras lanzarlas todas también entra en este condional
+
 while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
     case $1 in
         -h | --help )
@@ -108,21 +125,29 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             fi
             
             user_process
-            exit 0
         ;;
         -usr )
             if [ "$time" = "" ]; then
                 time=1
             fi
             user_process_usr
-            exit 0
         ;;
         -u )
-            shift
-            user_list=$1    # ESTO EN EL CASO DE QUE SOLO SE INTRODUZCA UN USUARIO, COMPROBAR PARA CUANDO SE INTRODUCE MÁS DE UN USUARIO
-            user_process_u
+            if [ "$time" = "" ]; then
+                time=1
+            fi
+
+            while [ "$2" != "-t" ] && [ "$2" != "-usr" ] && [ "$2" != "-count" ] && [ "$2" != "-inv" ] && [ "$2" != "-pid" ] && [ "$2" != "-c" ] && [ "$2" != "" ]; do
+                shift 
+                user_list=$1
+                user_process_u
+            done
         ;;
         -count )
+            if [ "$time" = "" ]; then
+                time=1
+            fi
+
             user_process_count
         ;;
         -inv )
@@ -135,14 +160,12 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             user_process_c
         ;;
         * )
+            echo
             echo "<< Opción introducida no soportada >>"
             echo
             usage
             exit 1
     esac
+    shift   # Con este shift se pueden usar varias opciones
 done
-
-if [ "$1" = "" ]; then  # Cuando se ejecuta el script sin ninguna opción
-    time=1
-    user_process
-fi
+exit 0  # Salida de manera correcta del programa
