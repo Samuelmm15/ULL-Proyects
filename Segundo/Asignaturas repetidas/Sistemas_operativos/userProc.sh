@@ -40,13 +40,13 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
 {
     echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los procesos de usuarios es: $time $TEXT_RESET"
     
-    for i in $(ps -A --no-headers | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
-        for j in $(ps --pid $i --no-headers -o etimes); do       # Con la opción etime muestra el tiempo en segundos
-            if [ "$j" -ge "$time" ]; then   # En este punto se encuentra el error de comparación
-                ps --pid $i -u --no-headers
+    for i in $(ps -A --no-headers --sort=-user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
+        for j in $(ps --pid $i --no-headers -o etimes --sort=-user); do       # Con la opción etimes muestra el tiempo en segundos
+            if [ "$j" -ge "$time" ]; then   
+                ps --pid $i -u --no-headers --sort=-user # Se encuentra ordenado en orden alfabetico del usuario, pero inverso
             fi
         done
-    done        # FALTA ORDENAR POR ORDEN ALFABÉTICO
+    done        
 }
 
 user_process_usr()   # Función que muestra únicamente los procesos de los usuarios conectados actualmente en el sistema
