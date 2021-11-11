@@ -41,12 +41,12 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
     echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los procesos de usuarios es: $time $TEXT_RESET"
     
     for i in $(ps -A --no-headers | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
-        for j in $(ps --pid $i --no-headers | awk '{print $3}'); do    
+        for j in $(ps --pid $i --no-headers -o etimes); do       # Con la opción etime muestra el tiempo en segundos
             if [ "$j" -ge "$time" ]; then   # En este punto se encuentra el error de comparación
                 ps --pid $i -u --no-headers
             fi
         done
-    done
+    done        # FALTA ORDENAR POR ORDEN ALFABÉTICO
 }
 
 user_process_usr()   # Función que muestra únicamente los procesos de los usuarios conectados actualmente en el sistema
@@ -56,8 +56,8 @@ user_process_usr()   # Función que muestra únicamente los procesos de los usua
         echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
         echo
         for j in $(ps -u $i --no-headers | awk '{print $1}'); do    # En este punto se obtiene el pid de cada proceso
-            for k in $(ps --pid $j --no-headers | awk '{print $3}'); do # En este punto se obtiene el tiempo a comparar
-                if [ "$k" = "$time" ]; then
+            for k in $(ps --pid $j --no-headers -o etimes); do # En este punto se obtiene el tiempo a comparar
+                if [ "$k" -ge "$time" ]; then
                     ps --pid $j -u --no-headers
                 fi
             done
@@ -111,9 +111,10 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
         ;;
         -usr )
             if [ "$time" = "" ]; then
-                time=00:00:01
+                time=1
             fi
             user_process_usr
+            exit 0
         ;;
         -u )
             shift
@@ -141,6 +142,6 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
 done
 
 if [ "$1" = "" ]; then  # Cuando se ejecuta el script sin ninguna opción
-    time=00:00:01
+    time=1
     user_process
 fi
