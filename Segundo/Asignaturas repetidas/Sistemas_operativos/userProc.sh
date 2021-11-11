@@ -25,6 +25,7 @@ usage() # Función que muestra la correcta ejecución del script
     echo "$TEXT_BOLD<< FUNCIONAMIENTO GENERAL DEL SCRIPT >> $TEXT_RESET"
     echo "usage: ./userProc.sh [-t N] [-usr] [-u {Lista_Usuarios}] [-count] [-inv] [-pid] [-c] [-h | --help]"
     echo "$TEXT_GREEN N (número entero especificado) $TEXT_RESET"
+    echo "$TEXT_GREEN {Lista_Usuarios} (Lista de usuarios a los que se quiere aplicar la lista de procesos de estos) $TEXT_RESET"
 }
 
 error_exit() # CORREGIR ESTA FUNCIÓN Y PONER COMO SE PIDE
@@ -40,10 +41,10 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
 {
     echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los procesos de usuarios es: $time $TEXT_RESET"
     
-    for i in $(ps -A --no-headers --sort=-user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
-        for j in $(ps --pid $i --no-headers -o etimes --sort=-user); do       # Con la opción etimes muestra el tiempo en segundos
+    for i in $(ps -A --no-headers --sort=+user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
+        for j in $(ps --pid $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
             if [ "$j" -ge "$time" ]; then   
-                ps --pid $i -u --no-headers --sort=-user # Se encuentra ordenado en orden alfabetico del usuario, pero inverso
+                ps --pid $i -u --no-headers 
             fi
         done
     done        
