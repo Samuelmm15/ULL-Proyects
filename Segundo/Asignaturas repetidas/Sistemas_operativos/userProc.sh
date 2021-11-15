@@ -9,11 +9,16 @@
 # Declaración de variables
 
 time=
-count=
+option_count=
 add=
 result=
-inv=
-pid=
+option_inv=
+option_pid=
+option_c=
+process_value=
+comparation_c=0
+before_user=
+after_user=
 user_list=
 
 
@@ -47,7 +52,7 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
 {
     echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los procesos de usuarios es: $time $TEXT_RESET"
     
-    if [ "$inv" != 1 ]; then
+    if [ "$option_inv" != 1 ]; then
         for i in $(ps -A --no-headers --sort=+user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
             for j in $(ps --pid $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
                 if [ "$j" -ge "$time" ]; then   
@@ -55,7 +60,7 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
                 fi
             done
         done 
-    elif [ "$inv" = 1 ]; then
+    elif [ "$option_inv" = 1 ]; then
         for i in $(ps -A --no-headers --sort=-user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
             for j in $(ps --pid $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
                 if [ "$j" -ge "$time" ]; then   
@@ -68,7 +73,7 @@ user_process()  # Función que muestra por pantalla un listado de todos los usua
 
 user_process_usr()   # Función que muestra únicamente los procesos de los usuarios conectados actualmente en el sistema
 {
-    if [ "$count" != 1 ] && [ "$pid" != 1 ]; then
+    if [ "$option_count" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then
         for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
             echo
             echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
@@ -81,7 +86,7 @@ user_process_usr()   # Función que muestra únicamente los procesos de los usua
                 done
             done
         done
-    elif [ "$count" = 1 ]; then
+    elif [ "$option_count" = 1 ]; then
         for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
             echo
             echo "$TEXT_BOLD El usuario al que se va a mostrar el número total de procesos es: $i $TEXT_RESET"
@@ -96,7 +101,7 @@ user_process_usr()   # Función que muestra únicamente los procesos de los usua
             done
             echo " El número total de procesos es: $result"
         done
-    elif [ "$pid" = 1 ]; then   # En este caso se ha ordenado de manera inversa en cuanto al pid del proceso
+    elif [ "$option_pid" = 1 ]; then   # En este caso se ha ordenado de manera inversa en cuanto al pid del proceso
         for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
             echo
             echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
@@ -109,6 +114,31 @@ user_process_usr()   # Función que muestra únicamente los procesos de los usua
                 done
             done
         done
+    elif [ "$option_c" = 1 ]; then  # En este caso se muestra la ordenación por el número total de procesos de usuarios
+        echo
+        echo "$TEXT_BOLD La lista de usuarios ordenada por la cantidad de procesos de estos es: $TEXT_RESET"
+        echo
+        for i in $(who | awk '{print $1}'); do
+            process_value=$(ps -u $i --no-headers | wc -l)          # Comprobar si esta función funciona de manera correcta en el caso de que se generen distintos usuarios
+            if [ "$process_value" > "$comparation_c" ]; then
+                comparation_c=$process_value
+                before_user=$i
+                    if [ "$after_user" = "" ]; then
+                        after_user=$before_user
+                    fi
+            else
+                echo "$i"
+            fi
+            if [ "$process_value" = "$comparation_c" ]; then
+                echo "$before_user"
+                comparation_c=0 # reinicializamos la variable a cero
+            fi
+            if [ "$after_user" != "$before_user" ]; then
+                echo "$after_user"
+                after_user=$before_user
+            fi
+        done
+
     fi
     
 }
@@ -117,7 +147,7 @@ user_process_u()    # Función que muestra los procesos lanzados por usuarios es
 {
     # AÑADIR UNA SALIDA CON ERROR CUANDO SE PRODUCE QUE EL USUARIO NO ES ENCUENTRA EN /ect/passwd 
 
-    if [ "$count" != 1 ] && [ "$pid" != 1 ]; then
+    if [ "$option_count" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then
         echo
         echo "$TEXT_BOLD La lista de procesos para el usuario: $user_list $TEXT_RESET"
         echo
@@ -128,7 +158,7 @@ user_process_u()    # Función que muestra los procesos lanzados por usuarios es
                 fi
             done
         done
-    elif [ "$count" = 1 ]; then
+    elif [ "$option_count" = 1 ]; then
         echo
         echo "$TEXT_BOLD El número de procesos de la lista del usuario $user_list es: $TEXT_RESET"
         for i in $(ps -u $user_list --no-headers | awk '{print $1}'); do
@@ -140,7 +170,7 @@ user_process_u()    # Función que muestra los procesos lanzados por usuarios es
             done
         done
         echo " $result"
-    elif [ "$pid" = 1 ]; then   # Impreso de manera inversa teniendo en cuenta el pid
+    elif [ "$option_pid" = 1 ]; then   # Impreso de manera inversa teniendo en cuenta el pid
         echo
         echo "$TEXT_BOLD La lista de procesos de manera inversa para el usuario: $user_list $TEXT_RESET"
         echo
@@ -151,24 +181,30 @@ user_process_u()    # Función que muestra los procesos lanzados por usuarios es
                 fi
             done
         done
+    elif [ "$option_c" = 1 ]; then  # COMPROBAR EL ERROR DEL CÓDIGO DE LA OPCIÓN C PARA ESTE CASO
+        echo
+        echo "$TEXT_BOLD La lista de usuarios ordenada por la cantidad de procesos de estos es: $TEXT_RESET"
+        echo
+        process_value=$(ps -u $user_list --no-headers | wc -l)          # Comprobar si esta función funciona de manera correcta en el caso de que se generen distintos usuarios
+        if [ "$process_value" > "$comparation_c" ]; then
+            comparation_c=$process_value
+            before_user=$i
+                if [ "$after_user" = "" ]; then
+                    after_user=$before_user
+                fi
+        else
+            echo "$i"
+        fi
+        if [ "$process_value" = "$comparation_c" ]; then
+            echo "$before_user"
+            comparation_c=0 # reinicializamos la variable a cero
+        fi
+        if [ "$after_user" != "$before_user" ]; then
+            echo "$after_user"
+            after_user=$before_user
+        fi
     fi
 
-}
-
-
-user_process_inv()  # Función que muestra el listado de procesos de manera inversa
-{
-    exit 1
-}
-
-user_process_pid()  # Función que muestra el listado de procesos ordenados por el pid
-{
-    exit 1
-}
-
-user_process_c()    # Función que realiza la ordenación de la lista de procesos según el número de procesos de usuario
-{
-    exit 1
 }
 
 # Programa principal
@@ -194,7 +230,7 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             
             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
                 if [ "$i" = "-inv" ]; then
-                    inv=1
+                    option_inv=1
                 fi
             done
 
@@ -207,13 +243,19 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
 
             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
                 if [ "$i" = "-count" ]; then
-                    count=1
+                    option_count=1
                 fi
             done
 
             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
                 if [ "$i" = "-pid" ]; then
-                    pid=1
+                    option_pid=1
+                fi
+            done
+
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-c" ]; then
+                    option_c=1
                 fi
             done
 
@@ -226,13 +268,19 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
 
             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
                 if [ "$i" = "-count" ]; then
-                    count=1
+                    option_count=1
                 fi
             done
 
             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
                 if [ "$i" = "-pid" ]; then
-                    pid=1
+                    option_pid=1
+                fi
+            done
+
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-c" ]; then
+                    option_c=1
                 fi
             done
 
@@ -246,13 +294,13 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             exit 1
         ;;
         -inv )
-            user_process_inv
+            exit 1
         ;;
         -pid )
-            user_process_pid
+            exit 1
         ;;
         -c )
-            user_process_c
+            exit 1
         ;;
         * )
             echo
