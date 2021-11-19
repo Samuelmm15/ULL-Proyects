@@ -10,6 +10,7 @@
 
 time=
 result=0
+user_name=
 usu_uid=
 usu_gid=
 usu_max_time=
@@ -23,6 +24,9 @@ comparation_c=0
 before_user=a
 actual_user=
 user_list=
+max_proccess_pid=()    # Declaración de un array
+max_proccess_pid_sorted=()
+counter=0
 
 # Estilo de texto
 
@@ -131,8 +135,44 @@ user_process()
             fi
         done 
     elif [ "$option_pid" = 1 ]; then    # Caso de la opción -t con la opción -pid
-        # COMPROBAR PARA QUE SIRVE ORDENAR POR PID SI ESTAMOS HABLANDO DE USUARIOS Y NO DE PROCESOS
-        exit 1
+        # Entiendo que la lista de usuarios se ordena por el pid del proceso con más tiempo consumido
+        for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do
+            for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
+                max_proccess_pid[counter]=$j
+            done
+            let counter=$counter+1
+        done
+        
+        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
+        counter=0
+
+        # for j in ${max_proccess_pid_sorted[@]}; do # Impresión del vector
+            # echo "$j"
+        # done
+        
+        for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
+                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
+                usu_uid=$(id -u $user_name)
+                usu_gid=$(id -g $user_name)
+                result=$(ps -u $user_name --no-headers | wc -l)
+                usu_max_time=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                usu_max_pid=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                echo
+                echo "$TEXT_BOLD Usuario: $user_name $TEXT_RESET"
+                echo "UID del usuario: $usu_uid"
+                echo "GID del usuario: $usu_gid"
+                echo "Número total de procesos del usuario: $result"
+                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                echo
+        done
+        
+        # for j in ${max_proccess_pid_sorted[@]}; do # Impresión del vector
+            # echo "$j"
+        # done
+
+        # Paǵina de ordenando un array: https://licodeli.blogspot.com/2017/08/ordenando-un-array.html
+        
     fi
 }
 
@@ -193,7 +233,7 @@ user_process_usr()
                 echo
                 before_user=$actual_user
                 result=0
-            elif [ "$before_user" = "$actual_user" ]; then  # 
+            elif [ "$before_user" = "$actual_user" ]; then  
                 before_user=$actual_user
                 result=0
             fi
