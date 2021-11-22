@@ -8,13 +8,18 @@
 
 # Declaración de variables
 
+PROGNAME=$(basename $0)
 time=
+is_a_number='^[0-9]+$'  # Expresión regular que determina los números enteros positivos
 result=0
 user_name=
 usu_uid=
 usu_gid=
 usu_max_time=
 usu_max_pid=
+option_t=
+option_usr=
+option_u=
 option_count=
 option_inv=
 option_pid=
@@ -35,6 +40,8 @@ counter=0
 auxiliary=0
 actual_number=
 before_number=0
+
+# Página dónde se comprueba si una variable es un número: https://uniwebsidad.com/foro/pregunta/262/como-se-puede-comprobar-en-un-script-de-bash-si-el-contenido-de-una-variable-es-un-numero/
 
 # Estilo de texto
 
@@ -57,7 +64,9 @@ error_exit()
 {
     echo "$TEXT_BOLD Se ha producido un <<ERROR>> $TEXT_RESET"
     if [ "$time" = "" ]; then
-        echo "script:$TEXT_UNLINE La opción de ejecución -t se ha introducida de manera incorrecta, falta la especificación del entero N. $TEXT_RESET"
+        echo "${PROGNAME}:$TEXT_UNLINE La opción de ejecución -t se ha introducidO de manera incorrecta; falta especificación del entero N. $TEXT_RESET" 1>&2
+    elif [ "$time" = -1 ]; then
+        echo "${PROGNAME}:$TEXT_UNLINE La opción de ejecución -t se ha introducidO de manera incorrecta; falta especificación del entero N. $TEXT_RESET" 1>&2
     fi
     exit 1
 }
@@ -142,9 +151,9 @@ user_process()
                 result=0
             fi
         done 
-    elif [ "$option_pid" = 1 ]; then    # Caso de la opción -t con la opción -pid
+    elif [ "$option_pid" = 1 ]; then    # Caso de la opción -t con la opción -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
         # Entiendo que la lista de usuarios se ordena por el pid del proceso con más tiempo consumido
-        for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do
+        for i in $(ps -A --no-headers -o user --sort=+user | uniq); do
             for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
                 max_proccess_pid[counter]=$j
             done
@@ -247,9 +256,6 @@ user_process_usr()
             fi
         done
 
-        # for j in ${usr_list[@]}; do # Impresión del vector
-            # echo "$j"
-        # done
     elif [ "$option_count" = 1 ]; then  # Caso en el que se pide usr con la opción -count
         for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
             usr_list[counter]=$i
@@ -585,7 +591,26 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
                 fi
             done
 
-            user_process
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-usr" ]; then
+                    option_usr=1
+                fi
+            done
+
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-u" ]; then
+                    option_u=1
+                fi
+            done
+
+            if [ "$option_usr" != 1 ] & [ "$option_u" != 1 ]; then
+                user_process
+            elif [ "$option_usr" = 1 ]; then
+                user_process_usr
+            elif [ "$option_u" = 1 ]; then
+                user_process_u
+            fi
+            exit 0
         ;;
         -usr )
             if [ "$time" = "" ]; then
@@ -616,7 +641,22 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
                 fi
             done
 
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-t" ]; then
+                    option_t=1
+                    time=-1
+                fi
+                if [[ $i =~ $is_a_number ]]; then
+                    time=$i
+                fi
+            done
+
+            if [ "$time" = -1 ]; then
+                error_exit
+            fi
+
             user_process_usr
+            exit 0
         ;;
         -u )
             if [ "$time" = "" ]; then
@@ -652,18 +692,22 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
                 user_list[counter]=$1
                 let counter=$counter+1
             done
+
+            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+                if [ "$i" = "-t" ]; then
+                    option_t=1
+                    time=-1
+                fi
+                if [[ $i =~ $is_a_number ]]; then
+                    time=$i
+                fi
+            done
+
+            if [ "$time" = -1 ]; then
+                error_exit
+            fi
+
             user_process_u
-        ;;
-        -count )    # COMPROBAR COMO EJECUTAR TODO SIN NECESIDAD DE QUE SE TENGAN QUE PONER COMO CASOS ESTAS OPCIONES
-            exit 0
-        ;;
-        -inv )
-            exit 0
-        ;;
-        -pid )
-            exit 0
-        ;;
-        -c )
             exit 0
         ;;
         * )
@@ -673,6 +717,5 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             usage
             exit 1
     esac
-    shift   # Con este shift se pueden usar varias opciones
 done
 exit 0  # Salida de manera correcta del programa
