@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Nombre: Samuel
-# Apellidos: Martín Morales
-# Correo: alu0101359526@ull.edu.es
+# Name: Samuel
+# Surnames: Martín Morales
+# E-mail: alu0101359526@ull.edu.es
 
-# sysinfo - Práctica de entrega final de bash "Procesos de Usuarios"
+# sysinfo - Bash Final Exercise Practice "User Processes"
 
-# Declaración de variables
+# Declaration of variables
 
-PROGNAME=$(basename $0)
+PROGNAME=$(basename $0) # Variable that specifies the name of the program
 time=
-is_a_number='^[0-9]+$'  # Expresión regular que determina los números enteros positivos
+is_a_number='^[0-9]+$'  # Regular expression that determines positive integers
 result=0
 user_name=
 usu_uid=
@@ -28,31 +28,29 @@ process_value=
 comparation_c=0
 before_user=a
 actual_user=
-user_list=()
+user_list=()    # Array declaration
 user_list_sorted=()
 total_process_list=()
 total_process_list_sorted=()
 usr_list=()
 usr_list_sorted=()
-max_proccess_pid=()    # Declaración de un array
+max_proccess_pid=() 
 max_proccess_pid_sorted=()
 counter=0
 auxiliary=0
 actual_number=
 before_number=0
 
-# Página dónde se comprueba si una variable es un número: https://uniwebsidad.com/foro/pregunta/262/como-se-puede-comprobar-en-un-script-de-bash-si-el-contenido-de-una-variable-es-un-numero/
-
-# Estilo de texto
+# Text style
 
 TEXT_BOLD=$(tput bold)
 TEXT_GREEN=$(tput setaf 2)
 TEXT_UNLINE=$(tput sgr 0 1)
 TEXT_RESET=$(tput sgr0)
 
-# Funciones
+# Functions
 
-usage()
+usage() # Fuction that print the correct usage of the script
 {
     echo "$TEXT_BOLD<< FUNCIONAMIENTO GENERAL DEL SCRIPT >> $TEXT_RESET"
     echo "usage: ./userProc.sh [-t N] [-usr] [-u {Lista_Usuarios}] [-count] [-inv] [-pid] [-c] [-h | --help]"
@@ -60,7 +58,7 @@ usage()
     echo "$TEXT_GREEN {Lista_Usuarios} (Lista de usuarios a los que se quiere aplicar la lista de procesos de estos) $TEXT_RESET"
 }
 
-error_exit()
+error_exit() # Fuction that print a error during the execution of the script
 {
     echo "$TEXT_BOLD Se ha producido un <<ERROR>> $TEXT_RESET"
     if [ "$time" = "" ]; then
@@ -71,12 +69,12 @@ error_exit()
     exit 1
 }
 
-user_process()
+user_process() # Fuction that contents the option -t functioning
 {
     echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los usuarios es: $time $TEXT_RESET"
 
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then     # Caso estándar de la opción -t
-        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
+    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -t
+        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do # With the $ (command) statement, you can use command within a for loop
             actual_user=$i
             result=$(ps -u $i --no-headers | wc -l)
             if [ "$before_user" != "$actual_user" ]; then
@@ -99,10 +97,10 @@ user_process()
                 result=0
             fi
         done 
-    elif [ "$option_count" = 1 ]; then  # Caso de la opción -t con la opción -count
-        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
+    elif [ "$option_count" = 1 ]; then  # Case -t with -count
+        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do 
             actual_user=$i
-            for j in $(ps -u $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
+            for j in $(ps -u $i --no-headers -o etimes); do # With the etimes option it shows the time in seconds
                 if [ "$j" -ge "$time" ]; then   
                     let result=$result+1
                 fi
@@ -127,8 +125,8 @@ user_process()
                 result=0
             fi
         done 
-    elif [ "$option_inv" = 1 ]; then    # Caso de la opción -t con la opción -inv
-        for i in $(ps -A --no-headers -o user --sort=-user | awk '{print $1}'); do      # Con la setencia $(comando), se puede hacer uso de comando dentro del bucle for
+    elif [ "$option_inv" = 1 ]; then # Case -t with -inv
+        for i in $(ps -A --no-headers -o user --sort=-user | awk '{print $1}'); do 
             actual_user=$i
             result=$(ps -u $i --no-headers | wc -l)
             if [ "$before_user" != "$actual_user" ]; then
@@ -151,8 +149,7 @@ user_process()
                 result=0
             fi
         done 
-    elif [ "$option_pid" = 1 ]; then    # Caso de la opción -t con la opción -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
-        # Entiendo que la lista de usuarios se ordena por el pid del proceso con más tiempo consumido
+    elif [ "$option_pid" = 1 ]; then # Case -t with -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
         for i in $(ps -A --no-headers -o user --sort=+user | uniq); do
             for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
                 max_proccess_pid[counter]=$j
@@ -160,9 +157,9 @@ user_process()
             let counter=$counter+1
         done
         
-        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
+        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h)) # Vector ordering form smallest to largest
         
-        for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
+        for i in "${max_proccess_pid_sorted[@]}"; do 
                 user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
                 usu_uid=$(id -u $user_name)
                 usu_gid=$(id -g $user_name)
@@ -177,11 +174,8 @@ user_process()
                 echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
-        done
-
-        # Paǵina de ordenando un array: https://licodeli.blogspot.com/2017/08/ordenando-un-array.html
-        
-    elif [ "$option_c" = 1 ]; then
+        done        
+    elif [ "$option_c" = 1 ]; then # Case -t with -c
         for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do
             for j in $(ps -u $i --no-headers | wc -l); do
                 total_process_list[counter]=$j
@@ -190,7 +184,7 @@ user_process()
             let counter=$counter+1 
         done
 
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los procesos totales de menor a mayor
+        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
         
         for i in "${total_process_list_sorted[@]}"; do
             actual_number=$i
@@ -218,15 +212,15 @@ user_process()
     fi
 }
 
-user_process_usr()
+user_process_usr() # Fuction that contents the option -usr functioning
 {
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then     # Caso en el que se pide de manera estándar la opción usr
-        for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
+    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -usr
+        for i in $(who | awk '{print $1}'); do 
             usr_list[counter]=$i
             let counter=$counter+1
         done
 
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))  # ordenación del vector en orden alfabético
+        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d)) # User ordering
 
         for i in "${usr_list_sorted[@]}"; do
             actual_user=$i
@@ -256,13 +250,13 @@ user_process_usr()
             fi
         done
 
-    elif [ "$option_count" = 1 ]; then  # Caso en el que se pide usr con la opción -count
-        for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
+    elif [ "$option_count" = 1 ]; then  # Case -usr with -count
+        for i in $(who | awk '{print $1}'); do
             usr_list[counter]=$i
             let counter=$counter+1
         done
 
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))  # ordenación del vector en orden alfabético
+        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))
 
         for i in "${usr_list_sorted[@]}"; do
             actual_user=$i
@@ -270,7 +264,7 @@ user_process_usr()
                 echo
                 echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
             fi
-            for j in $(ps -u $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
+            for j in $(ps -u $i --no-headers -o etimes); do      
                 if [ "$j" -ge "$time" ]; then   
                     let result=$result+1
                 fi
@@ -295,13 +289,13 @@ user_process_usr()
                 result=0
             fi
         done
-    elif [ "$option_inv" = 1 ]; then    # caso en el que se pide usr con la opción -inv
-        for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
+    elif [ "$option_inv" = 1 ]; then # Case -usr with -inv
+        for i in $(who | awk '{print $1}'); do
             usr_list[counter]=$i
             let counter=$counter+1
         done
         
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r))  # ordenación del vector en orden alfabético de manera inversa
+        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vectoc in reverse mode
 
         for i in "${usr_list_sorted[@]}"; do
             actual_user=$i
@@ -330,8 +324,8 @@ user_process_usr()
                 result=0
             fi
         done
-    elif [ "$option_pid" = 1 ]; then    # caso en el que se pide usr con la opción -pid
-        for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
+    elif [ "$option_pid" = 1 ]; then # Case -usr with -pid
+        for i in $(who | awk '{print $1}'); do 
             actual_user=$i
             if [ "$actual_user" != "$before_user" ]; then
                 usr_list[counter]=$i
@@ -369,8 +363,8 @@ user_process_usr()
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
         done
-    elif [ "$option_c" = 1 ]; then  # caso en el que se hace uso de la opción -usr con -c
-        for i in $(who | awk '{print $1}'); do  # En este punto se obtiene cada usuario conectado
+    elif [ "$option_c" = 1 ]; then  # Case -usr with -c
+        for i in $(who | awk '{print $1}'); do 
             for j in $(ps -u $i --no-headers | wc -l); do
                 total_process_list[counter]=$j
             done
@@ -378,7 +372,7 @@ user_process_usr()
             let counter=$counter+1
         done
 
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los procesos totales de menor a mayor
+        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
 
         for i in "${total_process_list_sorted[@]}"; do
             actual_number=$i
@@ -411,10 +405,10 @@ user_process_usr()
     fi
 }
 
-user_process_u()
+user_process_u() # Fuction that contents the option -u functioning
 {
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then     # Caso estándar de la opción -u
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))  # ordenación del vector en orden alfabético
+    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -u
+        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))  
         
         for i in "${user_list_sorted[@]}"; do
             echo
@@ -435,14 +429,14 @@ user_process_u()
             echo
             result=0
         done
-    elif [ "$option_count" = 1 ]; then  # caso en el que se pide -u con la opción -count
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))  # ordenación del vector en orden alfabético
+    elif [ "$option_count" = 1 ]; then  # Case -u with -count
+        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))
 
         for i in "${user_list_sorted[@]}"; do
             echo
             echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
             echo        
-            for j in $(ps -u $i --no-headers -o etimes); do       # Con la opción etimes muestra el tiempo en segundos
+            for j in $(ps -u $i --no-headers -o etimes); do 
                 if [ "$j" -ge "$time" ]; then   
                     let result=$result+1
                 fi
@@ -462,8 +456,8 @@ user_process_u()
             echo
             result=0
         done
-    elif [ "$option_inv" = 1 ]; then    # caso en el que se pide -u con la opción -inv
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d -r))  # ordenación del vector en orden alfabético
+    elif [ "$option_inv" = 1 ]; then # Case -u with -inv
+        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d -r))
         
         for i in "${user_list_sorted[@]}"; do
             echo
@@ -484,7 +478,7 @@ user_process_u()
             echo
             result=0
         done
-    elif [ "$option_pid" = 1 ]; then    # caso en el que se pide -u con la opción -pid
+    elif [ "$option_pid" = 1 ]; then # Case -u with -pid
         for i in "${user_list[@]}"; do
             for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
                 max_proccess_pid[counter]=$j
@@ -492,9 +486,9 @@ user_process_u()
             let counter=$counter+1
         done
 
-        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
+        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))
 
-        for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
+        for i in "${max_proccess_pid_sorted[@]}"; do 
                 user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
                 usu_uid=$(id -u $user_name)
                 usu_gid=$(id -g $user_name)
@@ -510,7 +504,7 @@ user_process_u()
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
         done
-    elif [ "$option_c" = 1 ]; then
+    elif [ "$option_c" = 1 ]; then # Case -u with -c
         for i in "${user_list[@]}"; do
             for j in $(ps -u $i --no-headers | wc -l); do
                 total_process_list[counter]=$j
@@ -518,7 +512,7 @@ user_process_u()
             let counter=$counter+1
         done
 
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los procesos totales de menor a mayor
+        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h)) 
 
         for i in "${total_process_list_sorted[@]}"; do
             actual_number=$i
@@ -546,58 +540,58 @@ user_process_u()
     fi
 }
 
-# Programa principal
+# Principal program
 
-if [ "$1" = "" ]; then  # Cuando se ejecuta el script sin ninguna opción
+if [ "$1" = "" ]; then  # Script execution without any option
     time=1
     user_process
-fi  # El condicional se pone antes debido a que si se ponen distintas opciones de ejecución por línea de comando tras lanzarlas todas también entra en este condional
+fi 
 
-while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
+while [ "$1" != "" ]; do # Script execution with options
     case $1 in
         -h | --help )
             usage
             exit 0
         ;;
-        -t )
+        -t ) # Option -t
             shift
-            time=$1
+            time=$1 
 
-            if [ "$time" = "" ]; then # En el caso de que el entero N no haya sido introducido junto con la opción -t
+            if [ "$time" = "" ]; then # Error_exit
                 error_exit
             fi
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do  # The variable $ *, it is a special positional parameter that contains a string that contains all the arguments separated by a separator
                 if [ "$i" = "-count" ]; then
                     option_count=1
                 fi
             done
             
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do   
                 if [ "$i" = "-inv" ]; then
                     option_inv=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-pid" ]; then
                     option_pid=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-c" ]; then
                     option_c=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-usr" ]; then
                     option_usr=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do    
                 if [ "$i" = "-u" ]; then
                     option_u=1
                 fi
@@ -612,36 +606,36 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             fi
             exit 0
         ;;
-        -usr )
+        -usr ) # Option -usr
             if [ "$time" = "" ]; then
                 time=1
             fi
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-count" ]; then
                     option_count=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-inv" ]; then
                     option_inv=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-pid" ]; then
                     option_pid=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do    
                 if [ "$i" = "-c" ]; then
                     option_c=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-t" ]; then
                     option_t=1
                     time=-1
@@ -658,30 +652,30 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             user_process_usr
             exit 0
         ;;
-        -u )
+        -u ) # Option -u
             if [ "$time" = "" ]; then
                 time=1
             fi
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-count" ]; then
                     option_count=1
                 fi
             done
 
-             for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+             for i in $*; do     
                 if [ "$i" = "-inv" ]; then
                     option_inv=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do     
                 if [ "$i" = "-pid" ]; then
                     option_pid=1
                 fi
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do   
                 if [ "$i" = "-c" ]; then
                     option_c=1
                 fi
@@ -693,7 +687,7 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
                 let counter=$counter+1
             done
 
-            for i in $*; do     # La variable $*, se trata de un parámetro posicional especial que contiene un string que contiene todos los argumentos separados por un separador
+            for i in $*; do 
                 if [ "$i" = "-t" ]; then
                     option_t=1
                     time=-1
@@ -718,4 +712,4 @@ while [ "$1" != "" ]; do # Cuando se ejecuta el script con alguna opción
             exit 1
     esac
 done
-exit 0  # Salida de manera correcta del programa
+exit 0  # Correct exit of the script
