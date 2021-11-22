@@ -15,6 +15,7 @@ Tercer parte del código del script userProc.sh :
 **Páginas útiles para la progrmación del script**
 - Página dónde se comprueba si una variable es un número: https://uniwebsidad.com/foro/pregunta/262/como-se-puede-comprobar-en-un-script-de-bash-si-el-contenido-de-una-variable-es-un-numero/
 - Paǵina de ordenando un array: https://licodeli.blogspot.com/2017/08/ordenando-un-array.html
+- Transformación del tiempo a segundos: https://stackoverflow.com/questions/2181712/simple-way-to-convert-hhmmss-hoursminutesseconds-split-seconds-to-seconds
 
 **PDF con el funcionamiento del programa**
 https://drive.google.com/file/d/1GqdkM2ZOD40VMqKhE0lHuDYvnpj7Puyg/view?usp=sharing

@@ -10,6 +10,7 @@
 
 PROGNAME=$(basename $0) # Variable that specifies the name of the program
 time=
+transformation=
 is_a_number='^[0-9]+$'  # Regular expression that determines positive integers
 result=0
 user_name=
@@ -98,10 +99,11 @@ user_process() # Fuction that contents the option -t functioning
             fi
         done 
     elif [ "$option_count" = 1 ]; then  # Case -t with -count
-        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do 
+        for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do 
             actual_user=$i
-            for j in $(ps -u $i --no-headers -o etimes); do # With the etimes option it shows the time in seconds
-                if [ "$j" -ge "$time" ]; then   
+            for j in $(ps -u $i --no-headers -o time); do # With the etimes option it shows the time in seconds
+                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')  # Transformation of the time in format 00:00:00 to seconds
+                if [ "$transformation" -ge "$time" ]; then   
                     let result=$result+1
                 fi
             done
@@ -264,8 +266,9 @@ user_process_usr() # Fuction that contents the option -usr functioning
                 echo
                 echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
             fi
-            for j in $(ps -u $i --no-headers -o etimes); do      
-                if [ "$j" -ge "$time" ]; then   
+            for j in $(ps -u $i --no-headers -o time); do
+                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')    
+                if [ "$transformation" -ge "$time" ]; then   
                     let result=$result+1
                 fi
             done
@@ -436,8 +439,9 @@ user_process_u() # Fuction that contents the option -u functioning
             echo
             echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
             echo        
-            for j in $(ps -u $i --no-headers -o etimes); do 
-                if [ "$j" -ge "$time" ]; then   
+            for j in $(ps -u $i --no-headers -o time); do 
+                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+                if [ "$transformation" -ge "$time" ]; then   
                     let result=$result+1
                 fi
             done
