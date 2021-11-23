@@ -43,6 +43,7 @@ counter=0
 auxiliary=0
 actual_number=
 before_number=0
+snitch=0
 
 # Text style
 
@@ -74,41 +75,111 @@ error_exit() # Fuction that print a error during the execution of the script
 
 user_information()
 {
-    if [ "$option_count" != 1 ]; then
-        usu_uid=$(id -u $1)
-        usu_gid=$(id -g $1)
-        usu_max_time=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-        usu_max_pid=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-        echo
-        echo "$TEXT_BOLD Usuario: $1 $TEXT_RESET"
-        echo "UID del usuario: $usu_uid"
-        echo "GID del usuario: $usu_gid"
-        echo "Número total de procesos del usuario: $2"
-        echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-        echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-        echo
-    else 
-        usu_uid=$(id -u $1)
-        usu_gid=$(id -g $1)
-        usu_max_time=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-        usu_max_pid=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-        echo
-        echo "$TEXT_BOLD Usuario: $1 $TEXT_RESET"
-        echo "UID del usuario: $usu_uid"
-        echo "GID del usuario: $usu_gid"
-        echo "Número total de procesos mayores que el tiempo $time segundo[s]: $2"
-        echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-        echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-        echo
+    if [ "$snitch" != 1 ]; then
+        printf "%-s NAME\t"
+        printf "%-s UID\t"
+        printf "%-s GID\t"
+        printf "%-s NUM_TOTAL\t"
+        printf "%-s PID_MAX\t"
+        printf "%-s PID_MAX_TIME"
+        printf "\n"
+        snitch=1
     fi
+    usu_uid=$(id -u $1)
+    usu_gid=$(id -g $1)
+    usu_max_time=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+    usu_max_pid=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+    printf "%-s \t" $1
+    printf "%-d \t" $usu_uid
+    printf "%-d \t" $usu_gid
+    printf "%-d \t" $2
+    printf "%-d \t" $usu_max_pid
+    printf "%-s \t" $usu_max_time
+    printf "\n"
+}
+
+option_count_fuction()
+{
+    actual_user=$1
+    for i in $(ps -u $1 --no-headers -o time); do # With the etimes option it shows the time in seconds
+        transformation=$(echo "$i" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')  # Transformation of the time in format 00:00:00 to seconds
+        if [ "$transformation" -ge "$time" ]; then   
+            let result=$result+1
+        fi
+    done
+    if [ "$before_user" != "$actual_user" ]; then
+        user_information $1 $result
+        before_user=$actual_user
+        result=0
+    elif [ "$before_user" = "$actual_user" ]; then
+        before_user=$actual_user
+        result=0
+    fi
+}
+
+option_inv_fuction()
+{
+    actual_user=$1
+    result=$(ps -u $1 --no-headers | wc -l)
+    if [ "$before_user" != "$actual_user" ]; then
+        user_information $1 $result
+        before_user=$actual_user
+        result=0
+    elif [ "$before_user" = "$actual_user" ]; then
+        before_user=$actual_user
+        result=0
+    fi
+}
+
+option_pid_fuction()
+{               
+    max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h)) # Vector ordering form smallest to largest
+    for i in "${max_proccess_pid_sorted[@]}"; do 
+        user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
+        result=$(ps -u $user_name --no-headers | wc -l)
+        user_information $user_name $result
+    done  
+}
+
+option_c_fuction()
+{
+    total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h)) 
+    for i in "${total_process_list_sorted[@]}"; do
+        actual_number=$i
+        for j in "${user_list[@]}"; do
+            auxiliary=$(ps -u $j --no-headers | wc -l)
+            if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
+                user_information $j $auxiliary
+            elif [ "$actual_number" = "$before_number" ]; then
+                before_number=$actual_number
+            fi
+        done
+        before_number=$actual_number
+    done
 }
 
 user_process() # Fuction that contents the option -t functioning
 {
-    for k in "${option_list[@]}"; do
-        
+    if [ "${option_list[@]}" = 0 ]; then # Standar option without any paramether
         echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los usuarios es: $time $TEXT_RESET"
+        echo
+        echo "$TEXT_BOLD Opción estándar sin ningún parámetro $TEXT_RESET"
+        echo
+        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do # With the $ (command) statement, you can use command within a for loop
+            actual_user=$i
+            result=$(ps -u $i --no-headers | wc -l)
+            if [ "$before_user" != "$actual_user" ]; then
+                user_information $i $result # Function call with parameters
+                before_user=$actual_user
+                result=0
+            elif [ "$before_user" = "$actual_user" ]; then
+                before_user=$actual_user
+                result=0
+            fi
+        done 
+    fi
 
+    for k in "${option_list[@]}"; do
         if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ] && [ "$k" = "-t" ]; then # Standar option of -t
             echo
             echo "$TEXT_BOLD Opción estándar -t $TEXT_RESET"
@@ -130,38 +201,15 @@ user_process() # Fuction that contents the option -t functioning
             echo "$TEXT_BOLD Opción -t con -count $TEXT_RESET"
             echo
             for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do 
-                actual_user=$i
-                for j in $(ps -u $i --no-headers -o time); do # With the etimes option it shows the time in seconds
-                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')  # Transformation of the time in format 00:00:00 to seconds
-                    if [ "$transformation" -ge "$time" ]; then   
-                        let result=$result+1
-                    fi
-                done
-                if [ "$before_user" != "$actual_user" ]; then
-                    user_information $i $result
-                    before_user=$actual_user
-                    result=0
-                elif [ "$before_user" = "$actual_user" ]; then
-                    before_user=$actual_user
-                    result=0
-                fi
-            done 
+                option_count_fuction $i
+            done
         elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -t with -inv
             echo
             echo "$TEXT_BOLD Opción -t con -inv $TEXT_RESET"
             echo
             for i in $(ps -A --no-headers -o user --sort=-user | awk '{print $1}'); do 
-                actual_user=$i
-                result=$(ps -u $i --no-headers | wc -l)
-                if [ "$before_user" != "$actual_user" ]; then
-                    user_information $i $result
-                    before_user=$actual_user
-                    result=0
-                elif [ "$before_user" = "$actual_user" ]; then
-                    before_user=$actual_user
-                    result=0
-                fi
-            done 
+                option_inv_fuction $i
+            done
         elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -t with -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
             echo
             echo "$TEXT_BOLD Opción -t con -pid $TEXT_RESET"
@@ -169,16 +217,10 @@ user_process() # Fuction that contents the option -t functioning
             for i in $(ps -A --no-headers -o user --sort=+user | uniq); do
                 for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
                     max_proccess_pid[counter]=$j
+                    let counter=$counter+1
                 done
-                let counter=$counter+1
             done
-        
-            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h)) # Vector ordering form smallest to largest
-        
-            for i in "${max_proccess_pid_sorted[@]}"; do 
-                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
-                user_information $user_name $result
-            done        
+            option_pid_fuction   
         elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then # Case -t with -c
             echo
             echo "$TEXT_BOLD Opción -t con -c $TEXT_RESET"
@@ -190,21 +232,7 @@ user_process() # Fuction that contents the option -t functioning
                 user_list[counter]=$i
                 let counter=$counter+1 
             done
-
-            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
-        
-            for i in "${total_process_list_sorted[@]}"; do
-                actual_number=$i
-                for j in "${user_list[@]}"; do
-                    auxiliary=$(ps -u $j --no-headers | wc -l)
-                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
-                        user_information $j $auxiliary
-                    elif [ "$actual_number" = "$before_number" ]; then
-                        before_number=$actual_number
-                    fi
-                done
-                before_number=$actual_number
-            done
+            option_c_fuction
         fi
     done
 }
@@ -252,25 +280,7 @@ user_process_usr() # Fuction that contents the option -usr functioning
             usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))
 
             for i in "${usr_list_sorted[@]}"; do
-                actual_user=$i
-                if [ "$before_user" != "$actual_user" ]; then
-                    echo
-                    echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
-                fi
-                for j in $(ps -u $i --no-headers -o time); do
-                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')    
-                    if [ "$transformation" -ge "$time" ]; then   
-                        let result=$result+1
-                    fi
-                done
-                if [ "$before_user" != "$actual_user" ]; then
-                    user_information $i $result
-                    before_user=$actual_user
-                    result=0
-                elif [ "$before_user" = "$actual_user" ]; then  
-                    before_user=$actual_user
-                    result=0
-                fi
+                option_count_fuction $i
             done
         elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -usr with -inv
             echo 
@@ -284,20 +294,7 @@ user_process_usr() # Fuction that contents the option -usr functioning
             usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vectoc in reverse mode
 
             for i in "${usr_list_sorted[@]}"; do
-                actual_user=$i
-                if [ "$before_user" != "$actual_user" ]; then
-                    echo
-                    echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
-                fi
-                result=$(ps -u $i --no-headers | wc -l)
-                if [ "$before_user" != "$actual_user" ]; then
-                    user_information $i $result
-                    before_user=$actual_user
-                    result=0
-                elif [ "$before_user" = "$actual_user" ]; then  # 
-                    before_user=$actual_user
-                    result=0
-                fi
+                option_inv_fuction $i
             done
         elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -usr with -pid
             echo 
@@ -313,23 +310,14 @@ user_process_usr() # Fuction that contents the option -usr functioning
                     before_user=$actual_user
                 fi
             done
-        
             counter=0
-
             for i in "${usr_list[@]}"; do
                 for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
                     max_proccess_pid[counter]=$j
                 done
                 let counter=$counter+1
             done
-
-            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
-
-            for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
-                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
-                result=$(ps -u $user_name --no-headers | wc -l)
-                user_information $user_name $result
-            done
+            option_pid_fuction
         elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then  # Case -usr with -c
             echo 
             echo "$TEXT_BOLD Opción -usr con -c $TEXT_RESET"
@@ -341,26 +329,7 @@ user_process_usr() # Fuction that contents the option -usr functioning
                 usr_list[counter]=$i
                 let counter=$counter+1
             done
-
-            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
-
-            for i in "${total_process_list_sorted[@]}"; do
-                actual_number=$i
-                for j in "${usr_list[@]}"; do
-                    actual_user=$j
-                    auxiliary=$(ps -u $j --no-headers | wc -l)
-                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ] && [ "$actual_user" != "$before_user" ]; then
-                        user_information $j $auxiliary
-                        before_user=$actual_user
-                    elif [ "$actual_number" = "$before_number" ]; then
-                        before_number=$actual_number
-                    fi
-                    if [ "$actual_user" = "$before_user" ]; then
-                        before_user=$actual_user
-                    fi
-                done
-                before_number=$actual_number
-            done
+            option_c_fuction
         fi
     done
 }
@@ -386,34 +355,21 @@ user_process_u() # Fuction that contents the option -u functioning
             echo 
             echo "$TEXT_BOLD Opción -u con -count $TEXT_RESET"
             echo
+
             user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))
 
             for i in "${user_list_sorted[@]}"; do
-                echo
-                echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
-                echo        
-                for j in $(ps -u $i --no-headers -o time); do 
-                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-                    if [ "$transformation" -ge "$time" ]; then   
-                        let result=$result+1
-                    fi
-                done
-                user_information $i $result
-                result=0
+                option_count_fuction $i
             done
         elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -u with -inv
             echo 
             echo "$TEXT_BOLD Opción -u con -inv $TEXT_RESET"
             echo
+            
             user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d -r))
         
             for i in "${user_list_sorted[@]}"; do
-                echo
-                echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
-                echo        
-                result=$(ps -u $i --no-headers | wc -l)
-                user_information $i $result
-                result=0
+                option_inv_fuction $i
             done
         elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -u with -pid
             echo 
@@ -425,15 +381,7 @@ user_process_u() # Fuction that contents the option -u functioning
                 done
                 let counter=$counter+1
             done
-
-            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))
-
-            for i in "${max_proccess_pid_sorted[@]}"; do 
-                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
-                result=$(ps -u $user_name --no-headers | wc -l)
-                user_information $user_name $result
-                    
-            done
+            option_pid_fuction
         elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then # Case -u with -c
             echo 
             echo "$TEXT_BOLD Opción -u con -c $TEXT_RESET"
@@ -444,21 +392,7 @@ user_process_u() # Fuction that contents the option -u functioning
                 done
                 let counter=$counter+1
             done
-
-            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h)) 
-
-            for i in "${total_process_list_sorted[@]}"; do
-                actual_number=$i
-                for j in "${user_list[@]}"; do
-                    auxiliary=$(ps -u $j --no-headers | wc -l)
-                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
-                        user_information $j $auxiliary
-                    elif [ "$actual_number" = "$before_number" ]; then
-                        before_number=$actual_number
-                    fi
-                done
-                before_number=$actual_number
-            done
+            option_c_fuction
         fi
     done
 }
@@ -467,6 +401,7 @@ user_process_u() # Fuction that contents the option -u functioning
 
 if [ "$1" = "" ]; then  # Script execution without any option
     time=1
+    option_list[0]=0
     user_process
 fi 
 
@@ -477,7 +412,7 @@ while [ "$1" != "" ]; do # Script execution with options
             exit 0
         ;;
         -t ) # Option -t
-            for i in $*; do    
+            for i in $*; do # The variable $ *, it is a special positional parameter that contains a string that contains all the arguments separated by a separator   
                 if [ "$i" = "-t" ]; then
                     option_t=1
                     option_list[iterator]=$i
@@ -501,7 +436,7 @@ while [ "$1" != "" ]; do # Script execution with options
                 fi
             done
 
-            for i in $*; do  # The variable $ *, it is a special positional parameter that contains a string that contains all the arguments separated by a separator
+            for i in $*; do  
                 if [ "$i" = "-count" ]; then
                     option_count=1
                     option_list[iterator]=$i
@@ -531,10 +466,6 @@ while [ "$1" != "" ]; do # Script execution with options
                     option_list[iterator]=$i
                     let iterator=$iterator+1
                 fi
-            done
-
-            for i in "${option_list[@]}"; do
-                echo "$i"
             done
 
             shift
