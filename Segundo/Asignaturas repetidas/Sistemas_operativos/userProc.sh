@@ -18,25 +18,27 @@ usu_uid=
 usu_gid=
 usu_max_time=
 usu_max_pid=
-option_t=
-option_usr=
-option_u=
-option_count=
-option_inv=
-option_pid=
-option_c=
+option_t=0
+option_usr=0
+option_u=0
+option_count=0
+option_inv=0
+option_pid=0
+option_c=0
 process_value=
 comparation_c=0
 before_user=a
 actual_user=
 user_list=()    # Array declaration
 user_list_sorted=()
+option_list=()
 total_process_list=()
 total_process_list_sorted=()
 usr_list=()
 usr_list_sorted=()
 max_proccess_pid=() 
 max_proccess_pid_sorted=()
+iterator=0
 counter=0
 auxiliary=0
 actual_number=
@@ -70,98 +72,127 @@ error_exit() # Fuction that print a error during the execution of the script
     exit 1
 }
 
+user_information()
+{
+    usu_uid=$(id -u $i)
+    usu_gid=$(id -g $i)
+    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+    echo
+    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+    echo "UID del usuario: $usu_uid"
+    echo "GID del usuario: $usu_gid"
+    echo "Número total de procesos del usuario: $result"
+    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+    echo
+}
+
 user_process() # Fuction that contents the option -t functioning
 {
-    echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los usuarios es: $time $TEXT_RESET"
+    for k in "${option_list[@]}"; do
+        
+        echo "$TEXT_GREEN El valor del número entero sobre el cual se quieren listar los usuarios es: $time $TEXT_RESET"
 
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -t
-        for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do # With the $ (command) statement, you can use command within a for loop
-            actual_user=$i
-            result=$(ps -u $i --no-headers | wc -l)
-            if [ "$before_user" != "$actual_user" ]; then
-                usu_uid=$(id -u $i)
-                usu_gid=$(id -g $i)
-                usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                echo
-                echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-                echo "UID del usuario: $usu_uid"
-                echo "GID del usuario: $usu_gid"
-                echo "Número total de procesos del usuario: $result"
-                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                echo
-                before_user=$actual_user
-                result=0
-            elif [ "$before_user" = "$actual_user" ]; then
-                before_user=$actual_user
-                result=0
-            fi
-        done 
-    elif [ "$option_count" = 1 ]; then  # Case -t with -count
-        for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do 
-            actual_user=$i
-            for j in $(ps -u $i --no-headers -o time); do # With the etimes option it shows the time in seconds
-                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')  # Transformation of the time in format 00:00:00 to seconds
-                if [ "$transformation" -ge "$time" ]; then   
-                    let result=$result+1
+        if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ] && [ "$k" = "-t" ]; then # Standar option of -t
+            echo
+            echo "$TEXT_BOLD Opción estándar -t $TEXT_RESET"
+            echo
+            for i in $(ps -A --no-headers -o user --sort=+user | awk '{print $1}'); do # With the $ (command) statement, you can use command within a for loop
+                actual_user=$i
+                result=$(ps -u $i --no-headers | wc -l)
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total de procesos del usuario: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then
+                    before_user=$actual_user
+                    result=0
                 fi
+            done 
+        elif [ "$option_count" = 1 ] && [ "$k" = "-count" ]; then  # Case -t with -count
+            echo 
+            echo "$TEXT_BOLD Opción -t con -count $TEXT_RESET"
+            for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do 
+                actual_user=$i
+                for j in $(ps -u $i --no-headers -o time); do # With the etimes option it shows the time in seconds
+                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')  # Transformation of the time in format 00:00:00 to seconds
+                    if [ "$transformation" -ge "$time" ]; then   
+                        let result=$result+1
+                    fi
+                done
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total del procesos mayores que $time segundo[s]: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then
+                    before_user=$actual_user
+                    result=0
+                fi
+            done 
+        elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -t with -inv
+            echo
+            echo "$TEXT_BOLD Opción -t con -inv $TEXT_RESET"
+            echo
+            for i in $(ps -A --no-headers -o user --sort=-user | awk '{print $1}'); do 
+                actual_user=$i
+                result=$(ps -u $i --no-headers | wc -l)
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total de procesos del usuario: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then
+                    before_user=$actual_user
+                    result=0
+                fi
+            done 
+        elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -t with -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
+            echo
+            echo "$TEXT_BOLD Opción -t con -pid $TEXT_RESET"
+            echo
+            for i in $(ps -A --no-headers -o user --sort=+user | uniq); do
+                for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
+                    max_proccess_pid[counter]=$j
+                done
+                let counter=$counter+1
             done
-            if [ "$before_user" != "$actual_user" ]; then
-                usu_uid=$(id -u $i)
-                usu_gid=$(id -g $i)
-                usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                echo
-                echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-                echo "UID del usuario: $usu_uid"
-                echo "GID del usuario: $usu_gid"
-                echo "Número total del procesos mayores que $time segundo[s]: $result"
-                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                echo
-                before_user=$actual_user
-                result=0
-            elif [ "$before_user" = "$actual_user" ]; then
-                before_user=$actual_user
-                result=0
-            fi
-        done 
-    elif [ "$option_inv" = 1 ]; then # Case -t with -inv
-        for i in $(ps -A --no-headers -o user --sort=-user | awk '{print $1}'); do 
-            actual_user=$i
-            result=$(ps -u $i --no-headers | wc -l)
-            if [ "$before_user" != "$actual_user" ]; then
-                usu_uid=$(id -u $i)
-                usu_gid=$(id -g $i)
-                usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                echo
-                echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-                echo "UID del usuario: $usu_uid"
-                echo "GID del usuario: $usu_gid"
-                echo "Número total de procesos del usuario: $result"
-                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                echo
-                before_user=$actual_user
-                result=0
-            elif [ "$before_user" = "$actual_user" ]; then
-                before_user=$actual_user
-                result=0
-            fi
-        done 
-    elif [ "$option_pid" = 1 ]; then # Case -t with -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
-        for i in $(ps -A --no-headers -o user --sort=+user | uniq); do
-            for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
-                max_proccess_pid[counter]=$j
-            done
-            let counter=$counter+1
-        done
         
-        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h)) # Vector ordering form smallest to largest
+            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h)) # Vector ordering form smallest to largest
         
-        for i in "${max_proccess_pid_sorted[@]}"; do 
+            for i in "${max_proccess_pid_sorted[@]}"; do 
                 user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
                 usu_uid=$(id -u $user_name)
                 usu_gid=$(id -g $user_name)
@@ -176,62 +207,255 @@ user_process() # Fuction that contents the option -t functioning
                 echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
-        done        
-    elif [ "$option_c" = 1 ]; then # Case -t with -c
-        for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do
-            for j in $(ps -u $i --no-headers | wc -l); do
-                total_process_list[counter]=$j
+            done        
+        elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then # Case -t with -c
+            echo
+            echo "$TEXT_BOLD Opción -t con -c $TEXT_RESET"
+            echo
+            for i in $(ps -A --no-headers -o user --sort=+user | uniq | awk '{print $1}'); do
+                for j in $(ps -u $i --no-headers | wc -l); do
+                    total_process_list[counter]=$j
+                done
+                user_list[counter]=$i
+                let counter=$counter+1 
             done
-            user_list[counter]=$i
-            let counter=$counter+1 
-        done
 
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
+            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
         
-        for i in "${total_process_list_sorted[@]}"; do
-            actual_number=$i
-            for j in "${user_list[@]}"; do
-                auxiliary=$(ps -u $j --no-headers | wc -l)
-                if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
-                    usu_uid=$(id -u $j)
-                    usu_gid=$(id -g $j)
-                    usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                    usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                    echo
-                    echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
-                    echo "UID del usuario: $usu_uid"
-                    echo "GID del usuario: $usu_gid"
-                    echo "Número total de procesos del usuario: $auxiliary"
-                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                    echo
-                elif [ "$actual_number" = "$before_number" ]; then
-                    before_number=$actual_number
-                fi
+            for i in "${total_process_list_sorted[@]}"; do
+                actual_number=$i
+                for j in "${user_list[@]}"; do
+                    auxiliary=$(ps -u $j --no-headers | wc -l)
+                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
+                        usu_uid=$(id -u $j)
+                        usu_gid=$(id -g $j)
+                        usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                        usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                        echo
+                        echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
+                        echo "UID del usuario: $usu_uid"
+                        echo "GID del usuario: $usu_gid"
+                        echo "Número total de procesos del usuario: $auxiliary"
+                        echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                        echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                        echo
+                    elif [ "$actual_number" = "$before_number" ]; then
+                        before_number=$actual_number
+                    fi
+                done
+                before_number=$actual_number
             done
-            before_number=$actual_number
-        done
-    fi
+        fi
+    done
 }
 
 user_process_usr() # Fuction that contents the option -usr functioning
 {
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -usr
-        for i in $(who | awk '{print $1}'); do 
-            usr_list[counter]=$i
-            let counter=$counter+1
-        done
+    for k in "${option_list[@]}"; do
+        if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -usr
+            for i in $(who | awk '{print $1}'); do 
+                usr_list[counter]=$i
+                let counter=$counter+1
+            done
 
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d)) # User ordering
+            usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d)) # User ordering
 
-        for i in "${usr_list_sorted[@]}"; do
-            actual_user=$i
-            if [ "$before_user" != "$actual_user" ]; then
+            for i in "${usr_list_sorted[@]}"; do
+                actual_user=$i
+                if [ "$before_user" != "$actual_user" ]; then
+                    echo
+                    echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
+                fi
+                result=$(ps -u $i --no-headers | wc -l)
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total del procesos del usuario: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then  # 
+                    before_user=$actual_user
+                    result=0
+                fi
+            done
+
+        elif [ "$option_count" = 1 ] && [ "$k" = "-count" ]; then  # Case -usr with -count
+            for i in $(who | awk '{print $1}'); do
+                usr_list[counter]=$i
+                let counter=$counter+1
+            done
+
+            usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))
+
+            for i in "${usr_list_sorted[@]}"; do
+                actual_user=$i
+                if [ "$before_user" != "$actual_user" ]; then
+                    echo
+                    echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
+                fi
+                for j in $(ps -u $i --no-headers -o time); do
+                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')    
+                    if [ "$transformation" -ge "$time" ]; then   
+                        let result=$result+1
+                    fi
+                done
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total del procesos mayores que $time segundo[s]: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then  
+                    before_user=$actual_user
+                    result=0
+                fi
+            done
+        elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -usr with -inv
+            for i in $(who | awk '{print $1}'); do
+                usr_list[counter]=$i
+                let counter=$counter+1
+            done
+        
+            usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vectoc in reverse mode
+
+            for i in "${usr_list_sorted[@]}"; do
+                actual_user=$i
+                if [ "$before_user" != "$actual_user" ]; then
+                    echo
+                    echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
+                fi
+                result=$(ps -u $i --no-headers | wc -l)
+                if [ "$before_user" != "$actual_user" ]; then
+                    usu_uid=$(id -u $i)
+                    usu_gid=$(id -g $i)
+                    usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                    echo
+                    echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
+                    echo "UID del usuario: $usu_uid"
+                    echo "GID del usuario: $usu_gid"
+                    echo "Número total del procesos del usuario: $result"
+                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                    echo
+                    before_user=$actual_user
+                    result=0
+                elif [ "$before_user" = "$actual_user" ]; then  # 
+                    before_user=$actual_user
+                    result=0
+                fi
+            done
+        elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -usr with -pid
+            for i in $(who | awk '{print $1}'); do 
+                actual_user=$i
+                if [ "$actual_user" != "$before_user" ]; then
+                    usr_list[counter]=$i
+                    let counter=$counter+1
+                    before_user=$actual_user
+                elif [ "$actual_user" = "$before_user" ]; then
+                    before_user=$actual_user
+                fi
+            done
+        
+            counter=0
+
+            for i in "${usr_list[@]}"; do
+                for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
+                    max_proccess_pid[counter]=$j
+                done
+                let counter=$counter+1
+            done
+
+            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
+
+            for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
+                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
+                usu_uid=$(id -u $user_name)
+                usu_gid=$(id -g $user_name)
+                result=$(ps -u $user_name --no-headers | wc -l)
+                usu_max_time=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                usu_max_pid=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $1}')
                 echo
-                echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
-            fi
-            result=$(ps -u $i --no-headers | wc -l)
-            if [ "$before_user" != "$actual_user" ]; then
+                echo "$TEXT_BOLD Usuario: $user_name $TEXT_RESET"
+                echo "UID del usuario: $usu_uid"
+                echo "GID del usuario: $usu_gid"
+                echo "Número total de procesos del usuario: $result"
+                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                echo
+            done
+        elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then  # Case -usr with -c
+            for i in $(who | awk '{print $1}'); do 
+                for j in $(ps -u $i --no-headers | wc -l); do
+                    total_process_list[counter]=$j
+                done
+                usr_list[counter]=$i
+                let counter=$counter+1
+            done
+
+            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
+
+            for i in "${total_process_list_sorted[@]}"; do
+                actual_number=$i
+                for j in "${usr_list[@]}"; do
+                    actual_user=$j
+                    auxiliary=$(ps -u $j --no-headers | wc -l)
+                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ] && [ "$actual_user" != "$before_user" ]; then
+                        usu_uid=$(id -u $j)
+                        usu_gid=$(id -g $j)
+                        usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                        usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                        echo
+                        echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
+                        echo "UID del usuario: $usu_uid"
+                        echo "GID del usuario: $usu_gid"
+                        echo "Número total de procesos del usuario: $auxiliary"
+                        echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                        echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                        echo
+                        before_user=$actual_user
+                    elif [ "$actual_number" = "$before_number" ]; then
+                        before_number=$actual_number
+                    fi
+                    if [ "$actual_user" = "$before_user" ]; then
+                        before_user=$actual_user
+                    fi
+                done
+                before_number=$actual_number
+            done
+        fi
+    done
+}
+
+user_process_u() # Fuction that contents the option -u functioning
+{
+    for k in "${option_list[@]}"; do
+        if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ] && [ "$k" = "-u" ]; then # Standar option of -u
+            user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))  
+        
+            for i in "${user_list_sorted[@]}"; do
+                echo
+                echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
+                echo        
+                result=$(ps -u $i --no-headers | wc -l)
                 usu_uid=$(id -u $i)
                 usu_gid=$(id -g $i)
                 usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
@@ -244,35 +468,22 @@ user_process_usr() # Fuction that contents the option -usr functioning
                 echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
-                before_user=$actual_user
                 result=0
-            elif [ "$before_user" = "$actual_user" ]; then  # 
-                before_user=$actual_user
-                result=0
-            fi
-        done
-
-    elif [ "$option_count" = 1 ]; then  # Case -usr with -count
-        for i in $(who | awk '{print $1}'); do
-            usr_list[counter]=$i
-            let counter=$counter+1
-        done
-
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d))
-
-        for i in "${usr_list_sorted[@]}"; do
-            actual_user=$i
-             if [ "$before_user" != "$actual_user" ]; then
-                echo
-                echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
-            fi
-            for j in $(ps -u $i --no-headers -o time); do
-                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')    
-                if [ "$transformation" -ge "$time" ]; then   
-                    let result=$result+1
-                fi
             done
-            if [ "$before_user" != "$actual_user" ]; then
+        elif [ "$option_count" = 1 ] && [ "$k" = "-count" ]; then  # Case -u with -count
+            user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))
+
+            for i in "${user_list_sorted[@]}"; do
+                echo
+                echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
+                echo        
+                for j in $(ps -u $i --no-headers -o time); do 
+                    transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+                    if [ "$transformation" -ge "$time" ]; then   
+                        let result=$result+1
+                    fi
+                done
+
                 usu_uid=$(id -u $i)
                 usu_gid=$(id -g $i)
                 usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
@@ -285,29 +496,16 @@ user_process_usr() # Fuction that contents the option -usr functioning
                 echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
-                before_user=$actual_user
                 result=0
-            elif [ "$before_user" = "$actual_user" ]; then  
-                before_user=$actual_user
-                result=0
-            fi
-        done
-    elif [ "$option_inv" = 1 ]; then # Case -usr with -inv
-        for i in $(who | awk '{print $1}'); do
-            usr_list[counter]=$i
-            let counter=$counter+1
-        done
+            done
+        elif [ "$option_inv" = 1 ] && [ "$k" = "-inv" ]; then # Case -u with -inv
+            user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d -r))
         
-        usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vectoc in reverse mode
-
-        for i in "${usr_list_sorted[@]}"; do
-            actual_user=$i
-            if [ "$before_user" != "$actual_user" ]; then
+            for i in "${user_list_sorted[@]}"; do
                 echo
-                echo "$TEXT_BOLD El usuario al que se le van a listar los procesos es: $i $TEXT_RESET"
-            fi
-            result=$(ps -u $i --no-headers | wc -l)
-            if [ "$before_user" != "$actual_user" ]; then
+                echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
+                echo        
+                result=$(ps -u $i --no-headers | wc -l)
                 usu_uid=$(id -u $i)
                 usu_gid=$(id -g $i)
                 usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
@@ -320,228 +518,69 @@ user_process_usr() # Fuction that contents the option -usr functioning
                 echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                 echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                 echo
-                before_user=$actual_user
                 result=0
-            elif [ "$before_user" = "$actual_user" ]; then  # 
-                before_user=$actual_user
-                result=0
-            fi
-        done
-    elif [ "$option_pid" = 1 ]; then # Case -usr with -pid
-        for i in $(who | awk '{print $1}'); do 
-            actual_user=$i
-            if [ "$actual_user" != "$before_user" ]; then
-                usr_list[counter]=$i
+            done
+        elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -u with -pid
+            for i in "${user_list[@]}"; do
+                for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
+                    max_proccess_pid[counter]=$j
+                done
                 let counter=$counter+1
-                before_user=$actual_user
-            elif [ "$actual_user" = "$before_user" ]; then
-                before_user=$actual_user
-            fi
-        done
-        
-        counter=0
-
-        for i in "${usr_list[@]}"; do
-            for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
-                max_proccess_pid[counter]=$j
             done
-            let counter=$counter+1
-        done
 
-        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))  # ordenación del vector de los pid de menor a mayor
+            max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))
 
-        for i in "${max_proccess_pid_sorted[@]}"; do    # Lista de usuarios ordenada por el pid del proceso con más tiempo consumido
-                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
-                usu_uid=$(id -u $user_name)
-                usu_gid=$(id -g $user_name)
-                result=$(ps -u $user_name --no-headers | wc -l)
-                usu_max_time=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                usu_max_pid=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                echo
-                echo "$TEXT_BOLD Usuario: $user_name $TEXT_RESET"
-                echo "UID del usuario: $usu_uid"
-                echo "GID del usuario: $usu_gid"
-                echo "Número total de procesos del usuario: $result"
-                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                echo
-        done
-    elif [ "$option_c" = 1 ]; then  # Case -usr with -c
-        for i in $(who | awk '{print $1}'); do 
-            for j in $(ps -u $i --no-headers | wc -l); do
-                total_process_list[counter]=$j
-            done
-            usr_list[counter]=$i
-            let counter=$counter+1
-        done
-
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h))
-
-        for i in "${total_process_list_sorted[@]}"; do
-            actual_number=$i
-            for j in "${usr_list[@]}"; do
-                actual_user=$j
-                auxiliary=$(ps -u $j --no-headers | wc -l)
-                if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ] && [ "$actual_user" != "$before_user" ]; then
-                    usu_uid=$(id -u $j)
-                    usu_gid=$(id -g $j)
-                    usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                    usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+            for i in "${max_proccess_pid_sorted[@]}"; do 
+                    user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
+                    usu_uid=$(id -u $user_name)
+                    usu_gid=$(id -g $user_name)
+                    result=$(ps -u $user_name --no-headers | wc -l)
+                    usu_max_time=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                    usu_max_pid=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $1}')
                     echo
-                    echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
+                    echo "$TEXT_BOLD Usuario: $user_name $TEXT_RESET"
                     echo "UID del usuario: $usu_uid"
                     echo "GID del usuario: $usu_gid"
-                    echo "Número total de procesos del usuario: $auxiliary"
+                    echo "Número total de procesos del usuario: $result"
                     echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
                     echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
                     echo
-                    before_user=$actual_user
-                elif [ "$actual_number" = "$before_number" ]; then
-                    before_number=$actual_number
-                fi
-                if [ "$actual_user" = "$before_user" ]; then
-                    before_user=$actual_user
-                fi
             done
-            before_number=$actual_number
-        done
-    fi
-}
-
-user_process_u() # Fuction that contents the option -u functioning
-{
-    if [ "$option_count" != 1 ] && [ "$option_inv" != 1 ] && [ "$option_pid" != 1 ] && [ "$option_c" != 1 ]; then # Standar option of -u
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))  
-        
-        for i in "${user_list_sorted[@]}"; do
-            echo
-            echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
-            echo        
-            result=$(ps -u $i --no-headers | wc -l)
-            usu_uid=$(id -u $i)
-            usu_gid=$(id -g $i)
-            usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-            usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-            echo
-            echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-            echo "UID del usuario: $usu_uid"
-            echo "GID del usuario: $usu_gid"
-            echo "Número total del procesos del usuario: $result"
-            echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-            echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-            echo
-            result=0
-        done
-    elif [ "$option_count" = 1 ]; then  # Case -u with -count
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d))
-
-        for i in "${user_list_sorted[@]}"; do
-            echo
-            echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
-            echo        
-            for j in $(ps -u $i --no-headers -o time); do 
-                transformation=$(echo "$j" | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-                if [ "$transformation" -ge "$time" ]; then   
-                    let result=$result+1
-                fi
+        elif [ "$option_c" = 1 ] && [ "$k" = "-c" ]; then # Case -u with -c
+            for i in "${user_list[@]}"; do
+                for j in $(ps -u $i --no-headers | wc -l); do
+                    total_process_list[counter]=$j
+                done
+                let counter=$counter+1
             done
 
-            usu_uid=$(id -u $i)
-            usu_gid=$(id -g $i)
-            usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-            usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-            echo
-            echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-            echo "UID del usuario: $usu_uid"
-            echo "GID del usuario: $usu_gid"
-            echo "Número total del procesos mayores que $time segundo[s]: $result"
-            echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-            echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-            echo
-            result=0
-        done
-    elif [ "$option_inv" = 1 ]; then # Case -u with -inv
-        user_list_sorted=($(for i in "${user_list[@]}"; do echo $i; done | sort -d -r))
-        
-        for i in "${user_list_sorted[@]}"; do
-            echo
-            echo "$TEXT_BOLD La lista de procesos para el usuario: $i $TEXT_RESET"
-            echo        
-            result=$(ps -u $i --no-headers | wc -l)
-            usu_uid=$(id -u $i)
-            usu_gid=$(id -g $i)
-            usu_max_time=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-            usu_max_pid=$(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-            echo
-            echo "$TEXT_BOLD Usuario: $i $TEXT_RESET"
-            echo "UID del usuario: $usu_uid"
-            echo "GID del usuario: $usu_gid"
-            echo "Número total del procesos del usuario: $result"
-            echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-            echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-            echo
-            result=0
-        done
-    elif [ "$option_pid" = 1 ]; then # Case -u with -pid
-        for i in "${user_list[@]}"; do
-            for j in $(ps -u $i --no-headers --sort=time | tail -n 1 | awk '{print $1}'); do
-                max_proccess_pid[counter]=$j
+            total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h)) 
+
+            for i in "${total_process_list_sorted[@]}"; do
+                actual_number=$i
+                for j in "${user_list[@]}"; do
+                    auxiliary=$(ps -u $j --no-headers | wc -l)
+                    if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
+                        usu_uid=$(id -u $j)
+                        usu_gid=$(id -g $j)
+                        usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
+                        usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
+                        echo
+                        echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
+                        echo "UID del usuario: $usu_uid"
+                        echo "GID del usuario: $usu_gid"
+                        echo "Número total de procesos del usuario: $auxiliary"
+                        echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
+                        echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
+                        echo
+                    elif [ "$actual_number" = "$before_number" ]; then
+                        before_number=$actual_number
+                    fi
+                done
+                before_number=$actual_number
             done
-            let counter=$counter+1
-        done
-
-        max_proccess_pid_sorted=($(for i in "${max_proccess_pid[@]}"; do echo $i; done | sort -h))
-
-        for i in "${max_proccess_pid_sorted[@]}"; do 
-                user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
-                usu_uid=$(id -u $user_name)
-                usu_gid=$(id -g $user_name)
-                result=$(ps -u $user_name --no-headers | wc -l)
-                usu_max_time=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                usu_max_pid=$(ps -u $user_name --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                echo
-                echo "$TEXT_BOLD Usuario: $user_name $TEXT_RESET"
-                echo "UID del usuario: $usu_uid"
-                echo "GID del usuario: $usu_gid"
-                echo "Número total de procesos del usuario: $result"
-                echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                echo
-        done
-    elif [ "$option_c" = 1 ]; then # Case -u with -c
-        for i in "${user_list[@]}"; do
-            for j in $(ps -u $i --no-headers | wc -l); do
-                total_process_list[counter]=$j
-            done
-            let counter=$counter+1
-        done
-
-        total_process_list_sorted=($(for i in "${total_process_list[@]}"; do echo $i; done | sort -h)) 
-
-        for i in "${total_process_list_sorted[@]}"; do
-            actual_number=$i
-            for j in "${user_list[@]}"; do
-                auxiliary=$(ps -u $j --no-headers | wc -l)
-                if [ "$i" = "$auxiliary" ] && [ "$actual_number" != "$before_number" ]; then
-                    usu_uid=$(id -u $j)
-                    usu_gid=$(id -g $j)
-                    usu_max_time=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $3}')
-                    usu_max_pid=$(ps -u $j --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-                    echo
-                    echo "$TEXT_BOLD Usuario: $j $TEXT_RESET"
-                    echo "UID del usuario: $usu_uid"
-                    echo "GID del usuario: $usu_gid"
-                    echo "Número total de procesos del usuario: $auxiliary"
-                    echo "Pid del proceso con mayor tiempo consumido: $usu_max_pid"
-                    echo "Tiempo del proceso con mayor tiempo consumido: $usu_max_time"
-                    echo
-                elif [ "$actual_number" = "$before_number" ]; then
-                    before_number=$actual_number
-                fi
-            done
-            before_number=$actual_number
-        done
-    fi
+        fi
+    done
 }
 
 # Principal program
@@ -558,50 +597,74 @@ while [ "$1" != "" ]; do # Script execution with options
             exit 0
         ;;
         -t ) # Option -t
-            shift
-            time=$1 
-
-            if [ "$time" = "" ]; then # Error_exit
-                error_exit
-            fi
-
-            for i in $*; do  # The variable $ *, it is a special positional parameter that contains a string that contains all the arguments separated by a separator
-                if [ "$i" = "-count" ]; then
-                    option_count=1
-                fi
-            done
-            
-            for i in $*; do   
-                if [ "$i" = "-inv" ]; then
-                    option_inv=1
-                fi
-            done
-
-            for i in $*; do     
-                if [ "$i" = "-pid" ]; then
-                    option_pid=1
-                fi
-            done
-
-            for i in $*; do     
-                if [ "$i" = "-c" ]; then
-                    option_c=1
+            for i in $*; do    
+                if [ "$i" = "-t" ]; then
+                    option_t=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do     
                 if [ "$i" = "-usr" ]; then
                     option_usr=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do    
                 if [ "$i" = "-u" ]; then
                     option_u=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
-            if [ "$option_usr" != 1 ] & [ "$option_u" != 1 ]; then
+            for i in $*; do  # The variable $ *, it is a special positional parameter that contains a string that contains all the arguments separated by a separator
+                if [ "$i" = "-count" ]; then
+                    option_count=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+            
+            for i in $*; do   
+                if [ "$i" = "-inv" ]; then
+                    option_inv=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
+            for i in $*; do     
+                if [ "$i" = "-pid" ]; then
+                    option_pid=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
+            for i in $*; do     
+                if [ "$i" = "-c" ]; then
+                    option_c=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
+            for i in "${option_list[@]}"; do
+                echo "$i"
+            done
+
+            shift
+            time=$1
+            
+            if [ "$time" = "" ]; then # Error_exit
+                error_exit
+            fi
+
+            if [ "$option_usr" != 1 ] && [ "$option_u" != 1 ]; then
                 user_process
             elif [ "$option_usr" = 1 ]; then
                 user_process_usr
@@ -615,27 +678,51 @@ while [ "$1" != "" ]; do # Script execution with options
                 time=1
             fi
 
+            for i in $*; do    
+                if [ "$i" = "-t" ]; then
+                    option_t=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
+            for i in $*; do     
+                if [ "$i" = "-usr" ]; then
+                    option_usr=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
             for i in $*; do     
                 if [ "$i" = "-count" ]; then
                     option_count=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do     
                 if [ "$i" = "-inv" ]; then
                     option_inv=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do     
                 if [ "$i" = "-pid" ]; then
                     option_pid=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do    
                 if [ "$i" = "-c" ]; then
                     option_c=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
@@ -643,6 +730,8 @@ while [ "$1" != "" ]; do # Script execution with options
                 if [ "$i" = "-t" ]; then
                     option_t=1
                     time=-1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
                 if [[ $i =~ $is_a_number ]]; then
                     time=$i
@@ -661,27 +750,43 @@ while [ "$1" != "" ]; do # Script execution with options
                 time=1
             fi
 
+            for i in $*; do    
+                if [ "$i" = "-u" ]; then
+                    option_u=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
+                fi
+            done
+
             for i in $*; do     
                 if [ "$i" = "-count" ]; then
                     option_count=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
              for i in $*; do     
                 if [ "$i" = "-inv" ]; then
                     option_inv=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do     
                 if [ "$i" = "-pid" ]; then
                     option_pid=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
             for i in $*; do   
                 if [ "$i" = "-c" ]; then
                     option_c=1
+                    option_list[iterator]=$i
+                    let iterator=$iterator+1
                 fi
             done
 
