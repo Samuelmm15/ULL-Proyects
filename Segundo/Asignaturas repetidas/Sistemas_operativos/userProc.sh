@@ -76,12 +76,12 @@ error_exit() # Fuction that print a error during the execution of the script
 user_information()
 {
     if [ "$snitch" != 1 ]; then
-        printf "%-s NAME\t"
-        printf "%-s UID\t"
-        printf "%-s GID\t"
-        printf "%-s NUM_TOTAL\t"
-        printf "%-s PID_MAX\t"
-        printf "%-s PID_MAX_TIME"
+        printf "%10s NAME\t"
+        printf "%10s UID\t"
+        printf "%10s GID\t"
+        printf "%10s NUM_TOTAL\t"
+        printf "%10s PID_MAX\t"
+        printf "%10s PID_MAX_TIME"
         printf "\n"
         snitch=1
     fi
@@ -89,12 +89,12 @@ user_information()
     usu_gid=$(id -g $1)
     usu_max_time=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $3}')
     usu_max_pid=$(ps -u $1 --no-headers --sort=time | tail -n 1 | awk '{print $1}')
-    printf "%-s \t" $1
-    printf "%-d \t" $usu_uid
-    printf "%-d \t" $usu_gid
-    printf "%-d \t" $2
-    printf "%-d \t" $usu_max_pid
-    printf "%-s \t" $usu_max_time
+    printf "%15s \t" $1
+    printf "%6d \t" $usu_uid
+    printf "%14d \t" $usu_gid
+    printf "%15d \t" $2
+    printf "%16d \t" $usu_max_pid
+    printf "%20s \t" $usu_max_time
     printf "\n"
 }
 
