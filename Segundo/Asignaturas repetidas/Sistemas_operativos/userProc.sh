@@ -73,7 +73,7 @@ error_exit() # Fuction that print a error during the execution of the script
     exit 1
 }
 
-user_information()
+user_information() # Fuction that prints the information of all the users
 {
     if [ "$snitch" != 1 ]; then
         printf "%10s NAME\t"
@@ -98,7 +98,7 @@ user_information()
     printf "\n"
 }
 
-option_count_fuction()
+option_count_fuction() # Fuction that contents the option count
 {
     actual_user=$1
     for i in $(ps -u $1 --no-headers -o time); do # With the etimes option it shows the time in seconds
@@ -117,7 +117,7 @@ option_count_fuction()
     fi
 }
 
-option_inv_fuction()
+option_inv_fuction() # Fuction that contents the option inv
 {
     actual_user=$1
     result=$(ps -u $1 --no-headers | wc -l)
@@ -131,7 +131,7 @@ option_inv_fuction()
     fi
 }
 
-option_pid_fuction()
+option_pid_fuction() # Fuction that contents the option pid
 {               
     for i in "${max_proccess_pid_sorted[@]}"; do
         user_name=$(ps --pid $i --no-headers -u | awk '{print $1}')
@@ -148,7 +148,7 @@ option_pid_fuction()
     done  
 }
 
-option_c_fuction()
+option_c_fuction() # Fuction that contents the option c
 {
     for i in "${total_process_list_sorted[@]}"; do
         actual_number=$i
@@ -217,7 +217,7 @@ user_process() # Fuction that contents the option -t functioning
                     option_count_fuction $i
                 done
             fi
-        elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -t with -pid   # TENER CUIDADO CON ESTA OPCIÓN QUE PONE QUE ALGUNOS USUARIOS NO EXISTEN Y LANZA MENSAJE DE ERROR
+        elif [ "$option_pid" = 1 ] && [ "$k" = "-pid" ]; then # Case -t with -pid   
             echo
             echo "$TEXT_BOLD Opción -t con -pid $TEXT_RESET"
             echo
@@ -371,7 +371,7 @@ user_process_usr() # Fuction that contents the option -usr functioning
                     let counter=$counter+1
                 done
         
-                usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vectoc in reverse mode
+                usr_list_sorted=($(for i in "${usr_list[@]}"; do echo $i; done | sort -d -r)) # Ordering the vector in reverse mode
 
                 for i in "${usr_list_sorted[@]}"; do
                     option_inv_fuction $i
