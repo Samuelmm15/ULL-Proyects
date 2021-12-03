@@ -12,6 +12,7 @@
 #include <iostream> /// standar library of the program
 #include <stdio.h>
 #include <string.h> /// library to operate with strings
+#include <array>
 #include <sys/types.h> /// library needed to create sockets
 #include <sys/socket.h> /// library needed to create sockets
 #include <netinet/in.h> /// library needed to create sockets
@@ -19,10 +20,16 @@
 
 #pragma once    /// Setencia que indica al compilador que solo se compile una vez este fichero
 
+struct Message {    /// Estructura necesaria para la generación de mensajes
+    std::array<char,1024> text;
+};
 class Socket {  /// Clase socket necesaria para la creación de un socket
     public:
         Socket(const sockaddr_in& address);
         ~Socket();
+
+        void send_to(const Message& message, const sockaddr_in& address); /// Función necesaria para el envío de mensajes
+        void receive_from(Message& message, sockaddr_in& address);
     private:
         int fd_;
 };
@@ -47,6 +54,11 @@ sockaddr_in make_ip_address(int port, const std::string& ip_address = std::strin
 
 };
 
+Message make_message(std::string in_message) {    /// Función necesaria para la inicialización y creación de un mensaje
+    Message message_initialization{};   /// Inicialización de la estructura a vacío
+    in_message.copy(message_initialization.text.data(), message_initialization.text.size() - 1, 0);
+};
+
 Socket::Socket(const sockaddr_in& address) {
     Socket::fd_ = socket(AF_INET, SOCK_DGRAM, 0);
     if (Socket::fd_ < 0) {
@@ -64,5 +76,26 @@ Socket::Socket(const sockaddr_in& address) {
 };
 
 Socket::~Socket() {
-    // socket.close(Socket::fd_);
-}
+    /// Falta cerrar el socket de alguna manera con la función close()
+};
+
+void Socket::send_to(const Message& message, const sockaddr_in& address) {
+    int result = sendto(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<const sockaddr*>(&address), sizeof(address));
+    if (result < 0) {
+        std::cerr << "Falló sendto: " << strerror(errno) << '\n';
+        // return 6;    Mejorar la salida por error de alguna manera
+    }
+};
+
+void Socket::receive_from(Message& message, sockaddr_in& address) {
+    socklen_t src_len = sizeof(address);
+    int result = recvfrom(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<sockaddr*>(&address), &src_len);
+    if (result < 0) {
+        std::cerr << "Falló rcvfrom: " << strerror(errno) << '\n';
+        // return 8;    mejorar la salida de error
+    }
+
+    /// Mostrar el mensaje recibido en la terminal
+    message.text[1023] = '\0';  /// Necesario para que la salida por pantalla reconozca el final de la cadena de texto
+    std::cout << "El sistema envió el mensaje " << message.text.data() << '\n';
+};
