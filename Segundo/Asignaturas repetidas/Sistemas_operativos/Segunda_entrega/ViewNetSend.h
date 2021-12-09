@@ -1,0 +1,50 @@
+/**
+ * @file ViewNetSend.h
+ * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
+ * @brief File that contents the fuction needed to Send messages into the sockets
+ * @version 0.1
+ * @date 2021-11-30
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
+#include "ViewNet.h"
+
+void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
+    /// PREPARACIÓN DEL SOCKET REMOTO
+    int num_port = 0;
+    std::string ip_num = "";
+    std::string answer = "";
+
+    std::cout << "Quiere introducir los valores para la creación del socket de forma manual(s/n): ";
+    std::cin >> answer;
+
+    for (int i = 0; i < answer.size(); i++) { /// Para convertir la cadena en minúscula en el caso de que haya sido introducida en mayúscula
+        answer[i] = tolower(answer[i]);
+    }
+
+    if (answer == "s") {    /// Incialización y creación del socket
+        std::cout << "Introduzca el número del puerto que quiere asignar al socket (Si pulsa intro se asignará el puerto 0 de manera predeterminada): " << '\n';
+        std::cin >> num_port;
+        std::cout << "Introduzca la dirección ip la cúal quiere asignar al socket (Si pulsa intro se asignará una aleatoria): " << '\n';
+        std::cin >> ip_num;
+    }
+    Socket S(make_ip_address(num_port, ip_num));    /// Inicialización y creación del socket
+
+    /// APERTURA DEL ARCHIVO PRUEBA.TXT
+    std::string file_name = "prueba.txt";
+    File F(file_name);  /// en este punto se realiza la apertura del fichero
+
+    /// NO SE HA ALCANZADO EL FINAL DEL FICHERO
+
+
+    /// LIBERACIÓN DEL ARCHIVO EN EL CASO DE QUE SE LLEGUE AL FINAL DEL ARCHIVO
+    // if (F.read_file() == 0) {
+    //     S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
+    //     F.~File();
+    //     // exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
+    // }
+};
+
+
