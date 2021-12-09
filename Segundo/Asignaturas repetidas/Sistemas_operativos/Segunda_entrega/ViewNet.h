@@ -134,12 +134,12 @@ File::~File() {
     close(File::result_open);
 };
 
-int File::read_file() { /// CORREGIR, ESTO SOLO SIRVE CUANDO SE LLEGA AL FINAL DEL FICHERO
-    int read_byte = -1;
-    void* buff;
-    int buff_size = 1024;
-    while (read_byte != 0) {
-        read_byte = read(File::result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto
-    }
-    return read_byte;
-};
+// int File::read_file() { /// CORREGIR, ESTO SOLO SIRVE CUANDO SE LLEGA AL FINAL DEL FICHERO
+//     int read_byte = -1;
+//     void* buff;
+//     int buff_size = 1024;
+//     while (read_byte != 0) {
+//         read_byte = read(File::result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto
+//     }
+//     return read_byte;
+// };

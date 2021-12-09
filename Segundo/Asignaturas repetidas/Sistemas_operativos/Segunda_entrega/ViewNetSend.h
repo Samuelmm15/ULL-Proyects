@@ -37,7 +37,20 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
     File F(file_name);  /// en este punto se realiza la apertura del fichero
 
     /// NO SE HA ALCANZADO EL FINAL DEL FICHERO
+    /// Lectura del fichero y guardado del contenido en un vector
+    int read_byte = -1; /// Necesario para determinar el momento en el que se produce que se alcanza el final del fichero
+    char* buff;
+    int buff_size = 1024;   /// tamaño del vector del contenido del fichero
+    while (read_byte != 0) {
+        read_byte = read(F.result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto
+    }
 
+    /// Convertir el tipo char to string
+    /// Hacer uso del make ip
+    /// Hacer uso del send to
+
+    /// ENVIO DEL MENSAJE A TRAVÉS DEL SOCKET
+    // S.send_to(, make_ip_address(num_port, ip_num));  Falta conversión de vecto a mensaje
 
     /// LIBERACIÓN DEL ARCHIVO EN EL CASO DE QUE SE LLEGUE AL FINAL DEL ARCHIVO
     // if (F.read_file() == 0) {
