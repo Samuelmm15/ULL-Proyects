@@ -36,7 +36,13 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
     std::string file_name = "prueba.txt";
     File F(file_name);  /// en este punto se realiza la apertura del fichero
 
-    /// NO SE HA ALCANZADO EL FINAL DEL FICHERO
+    /// COMPROBACIÓN DE QUE EL FICHERO NO SE ENCUENTRA VACÍO
+    if (F.end_of_file() == 0) {
+        S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
+        F.~File();
+        /// exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
+    }
+
     /// Lectura del fichero y guardado del contenido en un vector
     int read_byte = -1; /// Necesario para determinar el momento en el que se produce que se alcanza el final del fichero
     char* buff;
@@ -46,18 +52,20 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
     }
 
     /// Convertir el tipo char to string
-    /// Hacer uso del make ip
+    std::string buff_string(buff);  /// Conversión del vector de caracteres a string
+    
+    /// Hacer uso del make message
     /// Hacer uso del send to
-
-    /// ENVIO DEL MENSAJE A TRAVÉS DEL SOCKET
-    // S.send_to(, make_ip_address(num_port, ip_num));  Falta conversión de vecto a mensaje
+    S.send_to(make_message(buff_string),make_ip_address(num_port,ip_num));  /// De esta manera se está realizando el envío del mensaje recogido del fichero de texto
 
     /// LIBERACIÓN DEL ARCHIVO EN EL CASO DE QUE SE LLEGUE AL FINAL DEL ARCHIVO
-    // if (F.read_file() == 0) {
-    //     S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
-    //     F.~File();
-    //     // exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
-    // }
+    if (F.end_of_file() == 0) {
+        S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
+        F.~File();
+        /// exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
+    }
 };
 
-
+int main() {
+    ViewNetSend_fuction();  /// Ejecución de la función
+}

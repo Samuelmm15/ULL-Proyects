@@ -1,10 +1,16 @@
-all: ViewNet
+all: ViewNetSend ViewNetReceive
 
-ViewNet: main_ViewNet.o
-	g++ main_ViewNet.o -o ViewNet
+ViewNetSend: ViewNetSend.o
+	g++ ViewNetSend.o -o ViewNetSend
 
-main_ViewNet: main_ViewNet.o
-	g++ -c main_ViewNet.cc
+ViewNetS: ViewNetSend.o
+	g++ -c ViewNetSend.cc
+
+ViewNetReceive: ViewNetReceive.o
+	g++ ViewNetReceive.o -o ViewNetReceive
+
+ViewNetR: ViewNetReceive.o
+	g++ -c ViewNetReceive.cc
 
 clean:
-	rm -rf *.o main_ViewNet.o
+	rm -rf *.o ViewNetSend.o ViewNetReceive.o
