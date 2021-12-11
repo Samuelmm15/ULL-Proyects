@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h> /// library to operate with strings
 #include <array>
+#include <fstream>  /// library to operate with files
 #include <unistd.h> /// library to use the close fuction
 #include <sys/types.h> /// library needed to create sockets
 #include <sys/socket.h> /// library needed to create sockets
@@ -42,30 +43,22 @@ class File {    /// clase necesaria para gestionar el uso de archivos
     public:
         File(const std::string file_name);
         ~File();
-        int end_of_file();
-        int write_file();
-        int result_open;
+        std::ifstream file_open;
 };
 
 sockaddr_in make_ip_address(int port, const std::string& ip_address = std::string()) {  /// Función necesaria para la creación o el uso de distintas direcciones
+    sockaddr_in local_inicialization{}; /// Inicialización de la estructura a vacío
     if (ip_address.size() == 0) {    /// En el caso en el que no se haya introducido ninguna dirección ip
-        sockaddr_in local_inicialization{}; /// Inicialización de la estructura a vacío
-        local_inicialization.sin_family = AF_INET;
-        local_inicialization.sin_port = htons(port);
-        local_inicialization.sin_addr.s_addr = htonl(INADDR_ANY);
-        return local_inicialization;
+        local_inicialization.sin_addr.s_addr = INADDR_ANY;
     } else {
-        sockaddr_in local_inicialization{}; /// Inicialización de la estructura a vacío
-        local_inicialization.sin_family = AF_INET;
-        local_inicialization.sin_port = htons(port);
-        
         char ip_address_auxiliary[100]; /// Conversión del string en char
         strcpy(ip_address_auxiliary, ip_address.c_str());
-
-        inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr);
-        return local_inicialization;
-        // local_inicialization.sin_addr.s_addr = htonl(ip_address);
+        int v_inet_aton;
+        v_inet_aton = inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr);
+        local_inicialization.sin_addr.s_addr = htonl(v_inet_aton);
     }
+    local_inicialization.sin_family = AF_INET;
+    local_inicialization.sin_port = htons(port);
 
 };
 
@@ -88,6 +81,10 @@ Socket::Socket(const sockaddr_in& address) {
         std::cerr << "Falló bind: " << result << '\n';
         // return 5;   /// Determinar el tipo de error que se quiere usar para este caso
     }
+
+    if (listen(result, 5) < 0) {    /// Comprobación de que un socket desea recibir conexiones
+      std::cout << "Falló el listen" << '\n';
+  }
 
 };
 
@@ -119,25 +116,26 @@ void Socket::receive_from(Message& message, sockaddr_in& address) {
 };
 
 File::File(const std::string file_name) {
-    char file_name_char[100]; /// Conversión del string en char
-    strcpy(file_name_char, file_name.c_str());
-    int open_flag = 0000;
-    File::result_open = open(file_name_char, open_flag);
-
-    if (result_open < 0) {
-        std::cerr << "Falló la apertura del fichero: " << result_open << '\n';
-        /// return 5; Determinar el tipo de error y la salida de este
+    File::file_open.open(file_name); /// Apertura de manera correcta del fichero de texto
+    if (File::file_open.is_open()) {
+        std::cout << "El fichero " << file_name << " ha sido abierto de manera correcta." << '\n';
+    } else {
+        std::cout << "Error en la apertura del fichero " << file_name << '\n';
+        /// return 5; COLOCAR EL ERROR DE MANERA CORRECTA
     }
+
+    // char file_name_char[100]; /// Conversión del string en char
+    // strcpy(file_name_char, file_name.c_str());
+    // int open_flag = 0002;
+    // File::result_open = open(file_name_char, open_flag);
+
+    // if (result_open < 0) {
+    //     std::cerr << "Falló la apertura del fichero: " << result_open << '\n';
+    //     /// return 5; Determinar el tipo de error y la salida de este
+    // }
 };
 
 File::~File() {
-    close(File::result_open);
-};
-
-int File::end_of_file() { /// CORREGIR, ESTO SOLO SIRVE CUANDO SE LLEGA AL FINAL DEL FICHERO
-    int read_byte = -1;
-    void* buff;
-    int buff_size = 1024;
-    read_byte = read(File::result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto   
-    return read_byte; 
+    File::file_open.close();
+    // close(File::result_open);
 };

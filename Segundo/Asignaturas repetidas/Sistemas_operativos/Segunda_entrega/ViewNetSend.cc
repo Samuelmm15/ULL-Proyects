@@ -14,7 +14,7 @@
 void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
     /// PREPARACIÓN DEL SOCKET REMOTO
     int num_port = 0;
-    std::string ip_num = "";
+    std::string ip_remote_num = "127.0.0.1";
     std::string answer = "";
 
     std::cout << "Quiere introducir los valores para la creación del socket de forma manual(s/n): ";
@@ -28,44 +28,51 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
         std::cout << "Introduzca el número del puerto que quiere asignar al socket (Si pulsa intro se asignará el puerto 0 de manera predeterminada): " << '\n';
         std::cin >> num_port;
         std::cout << "Introduzca la dirección ip la cúal quiere asignar al socket (Si pulsa intro se asignará una aleatoria): " << '\n';
-        std::cin >> ip_num;
+        std::cin >> ip_remote_num;
     }
-    Socket S(make_ip_address(num_port, ip_num));    /// Inicialización y creación del socket
+    Socket S(make_ip_address(num_port, ip_remote_num));    /// Inicialización y creación del socket
 
-    /// APERTURA DEL ARCHIVO PRUEBA.TXT
+    /// FALLA LA LECTURA DEL FICHERO
     std::string file_name = "prueba.txt";
-    File F(file_name);  /// en este punto se realiza la apertura del fichero
+    File F(file_name);
 
-    /// COMPROBACIÓN DE QUE EL FICHERO NO SE ENCUENTRA VACÍO
-    if (F.end_of_file() == 0) {
-        S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
-        F.~File();
-        /// exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
+    char file_content[100];
+    while(!F.file_open.eof()) {
+        F.file_open >> file_content;
     }
 
-    /// Lectura del fichero y guardado del contenido en un vector
-    int read_byte = -1; /// Necesario para determinar el momento en el que se produce que se alcanza el final del fichero
-    char* buff;
-    int buff_size = 1024;   /// tamaño del vector del contenido del fichero
-    while (read_byte != 0) {
-        read_byte = read(F.result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto
-    }
-
-    /// Convertir el tipo char to string
-    std::string buff_string(buff);  /// Conversión del vector de caracteres a string
+    std::string buff(file_content);
+    
+    std::cout << buff << '\n';
     
     /// Hacer uso del make message
     /// Hacer uso del send to
-    S.send_to(make_message(buff_string),make_ip_address(num_port,ip_num));  /// De esta manera se está realizando el envío del mensaje recogido del fichero de texto
+    S.send_to(make_message(buff),make_ip_address(num_port,ip_remote_num));  /// De esta manera se está realizando el envío del mensaje recogido del fichero de texto
 
-    /// LIBERACIÓN DEL ARCHIVO EN EL CASO DE QUE SE LLEGUE AL FINAL DEL ARCHIVO
-    if (F.end_of_file() == 0) {
-        S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
-        F.~File();
-        /// exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
-    }
 };
 
 int main() {
     ViewNetSend_fuction();  /// Ejecución de la función
 }
+
+/// APERTURA DEL ARCHIVO PRUEBA.TXT
+    // std::string file_name = "prueba.txt";
+    // File F(file_name);  /// en este punto se realiza la apertura del fichero
+
+    // /// COMPROBACIÓN DE QUE EL FICHERO NO SE ENCUENTRA VACÍO
+    // if (F.end_of_file() == 0) {
+    //     S.~Socket(); /// Liberación de los recursos en el caso de que se llegue al final del archivo
+    //     F.~File();
+    //     /// exit(0); FALTA LA FINALIZACIÓN DEL PROGRAMA
+    // }
+
+    // /// Lectura del fichero y guardado del contenido en un vector
+    // int read_byte = -1; /// Necesario para determinar el momento en el que se produce que se alcanza el final del fichero
+    // char* buff;
+    // int buff_size = 1024;   /// tamaño del vector del contenido del fichero
+    // while (read_byte != 0) {
+    //     read_byte = read(F.result_open, buff, buff_size);   /// manera de leer el contenido del fichero abierto
+    // }
+
+    // /// Convertir el tipo char to string
+    // std::string buff_string(buff);  /// Conversión del vector de caracteres a string
