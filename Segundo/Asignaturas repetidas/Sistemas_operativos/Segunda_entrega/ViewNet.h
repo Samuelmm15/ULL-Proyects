@@ -59,7 +59,7 @@ sockaddr_in make_ip_address(int port, const std::string& ip_address = std::strin
     }
     local_inicialization.sin_family = AF_INET;
     local_inicialization.sin_port = htons(port);
-
+    return local_inicialization;
 };
 
 Message make_message(std::string in_message) {    /// Función necesaria para la inicialización y creación de un mensaje
