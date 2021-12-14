@@ -53,9 +53,8 @@ sockaddr_in make_ip_address(int port, const std::string& ip_address = std::strin
     } else {
         char ip_address_auxiliary[100]; /// Conversión del string en char
         strcpy(ip_address_auxiliary, ip_address.c_str());
-        int v_inet_aton;
-        v_inet_aton = inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr);
-        local_inicialization.sin_addr.s_addr = htonl(v_inet_aton);
+        inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr); /// Supongo que la línea de abajo no funciona de manera correcta
+        // local_inicialization.sin_addr.s_addr = htonl(v_inet_aton);
     }
     local_inicialization.sin_family = AF_INET;
     local_inicialization.sin_port = htons(port);
@@ -82,9 +81,9 @@ Socket::Socket(const sockaddr_in& address) {
         // return 5;   /// Determinar el tipo de error que se quiere usar para este caso
     }
 
-    if (listen(result, 5) < 0) {    /// Comprobación de que un socket desea recibir conexiones
-      std::cout << "Falló el listen" << '\n';
-  }
+    // if (listen(result, 5) < 0) {    /// Comprobación de que un socket desea recibir conexiones
+    //   std::cout << "Falló el listen" << '\n';
+    // }
 
 };
 

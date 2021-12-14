@@ -32,9 +32,13 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
     }
     sockaddr_in remote_address = make_ip_address(num_port, ip_remote_num);  /// declaración del socket remoto
     Socket S(remote_address);    /// Inicialización y creación del socket
-    /// FALLA LA LECTURA DEL FICHERO
     std::string file_name = "prueba.txt";
     File F(file_name);
+
+    if (F.file_open.eof()) {    /// liberación de recursos en el caso del que fichero esté vacío
+        S.~Socket();    /// Cierre del socket
+        F.~File();  /// Cierre del fichero
+    }
 
     char file_content[100];
     while(!F.file_open.eof()) {
@@ -43,13 +47,13 @@ void ViewNetSend_fuction() {    /// Función necesaria para realizar el diagrama
 
     std::string buff(file_content);
     
-    std::cout << buff << '\n';
+    // std::cout << buff << '\n';  COMPROBACIÓN DE QUE LA LECTURA DEL FICHERO SE HA REALIZADO DE MANERA CORRECTA
     
     /// Hacer uso del make message
     Message message = make_message(buff);
     /// Hacer uso del send to
     S.send_to(message, remote_address);  /// De esta manera se está realizando el envío del mensaje recogido del fichero de texto
-
+    
 };
 
 int main() {
