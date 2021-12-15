@@ -11,20 +11,23 @@
 
 #include "ViewNet.h"
 
-void ViewNetReceive_fuction() { /// Función necesaria para la realización del diagrama
-    /// CREACIÓN DEL SOCKET LOCAL Y ASIGNACIÓN DE LA DIRECCIÓN BIND()
+/**
+ * @brief Fuction that recieve the message of the remote socket
+ * 
+ */
+void ViewNetReceive_fuction() { 
     int num_port = 6001 ;
     std::string ip_num_local = "127.0.0.1";
-    sockaddr_in local_ip_address = make_ip_address(num_port, ip_num_local);
-    Socket S(local_ip_address);    /// creación del socket local
+    sockaddr_in local_ip_address = make_ip_address(num_port, ip_num_local); /// Making the local ip address
+    Socket S(local_ip_address);    /// Local socket creation
 
     std::string r_message = "";
-    Message free_message = make_message(r_message);
+    Message free_message = make_message(r_message); /// Generating a empty socket
     sockaddr_in remote_ip = make_ip_address(6000, ip_num_local);
-    S.receive_from(free_message, remote_ip); /// recepción del mensaje pasado a través del socket
+    S.receive_from(free_message, remote_ip); /// Recieve the message and writing it in the screen
 
 };
 
 int main() {
-    ViewNetReceive_fuction(); /// ejecución de la función
+    ViewNetReceive_fuction();
 }

@@ -22,47 +22,102 @@
 #include <sys/types.h>  /// librarys neccesaries to open files
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <cerrno>   /// library neccesarie to errno
+#include <cstring>  /// library neccesarue to std::sterror()
 
-#pragma once    /// Setencia que indica al compilador que solo se compile una vez este fichero
+#pragma once 
 
-struct Message {    /// Estructura necesaria para la generación de mensajes
+/**
+ * @brief Struct that generates messages 
+ * 
+ */
+struct Message {
     std::array<char,1024> text;
 };
-class Socket {  /// Clase socket necesaria para la creación de un socket
+/**
+ * @brief Class use to generate sockets
+ * 
+ */
+class Socket { 
     public:
+        /**
+         * @brief Construct a new Socket object
+         * 
+         * @param address 
+         */
         Socket(const sockaddr_in& address);
+        /**
+         * @brief Destroy the Socket object
+         * 
+         */
         ~Socket();
-
-        void send_to(const Message& message, const sockaddr_in& address); /// Función necesaria para el envío de mensajes
+        /**
+         * @brief Fuction that send messages into the socket
+         * 
+         * @param message 
+         * @param address 
+         */
+        void send_to(const Message& message, const sockaddr_in& address); 
+        /**
+         * @brief Fuction that recieve messages from a remote socket
+         * 
+         * @param message 
+         * @param address 
+         */
         void receive_from(Message& message, sockaddr_in& address);
     private:
         int fd_;
 };
 
-class File {    /// clase necesaria para gestionar el uso de archivos
+/**
+ * @brief Class that open files to get the message
+ * 
+ */
+class File {
     public:
+        /**
+         * @brief Construct a new File object
+         * 
+         * @param file_name 
+         */
         File(const std::string file_name);
+        /**
+         * @brief Destroy the File object
+         * 
+         */
         ~File();
         std::ifstream file_open;
 };
 
-sockaddr_in make_ip_address(int port, const std::string& ip_address = std::string()) {  /// Función necesaria para la creación o el uso de distintas direcciones
-    sockaddr_in local_inicialization{}; /// Inicialización de la estructura a vacío
-    if (ip_address.size() == 0) {    /// En el caso en el que no se haya introducido ninguna dirección ip
+/**
+ * @brief Fuction that generates differents ip address
+ * 
+ * @param port 
+ * @param ip_address 
+ * @return sockaddr_in 
+ */
+sockaddr_in make_ip_address(int port, const std::string& ip_address = std::string()) {  
+    sockaddr_in local_inicialization{}; /// Empty initialization of the struct
+    if (ip_address.size() == 0) {    /// If the string is empty
         local_inicialization.sin_addr.s_addr = INADDR_ANY;
     } else {
-        char ip_address_auxiliary[100]; /// Conversión del string en char
+        char ip_address_auxiliary[100]; /// String to char convertion
         strcpy(ip_address_auxiliary, ip_address.c_str());
-        inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr); /// Supongo que la línea de abajo no funciona de manera correcta
-        // local_inicialization.sin_addr.s_addr = htonl(v_inet_aton);
+        inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr);
     }
     local_inicialization.sin_family = AF_INET;
     local_inicialization.sin_port = htons(port);
     return local_inicialization;
 };
 
-Message make_message(std::string in_message) {    /// Función necesaria para la inicialización y creación de un mensaje
-    Message message_initialization{};   /// Inicialización de la estructura a vacío
+/**
+ * @brief Fuction that generates messages
+ * 
+ * @param in_message 
+ * @return Message 
+ */
+Message make_message(std::string in_message) {    
+    Message message_initialization{}; 
     in_message.copy(message_initialization.text.data(), message_initialization.text.size() - 1, 0);
     return message_initialization;
 };
@@ -71,31 +126,23 @@ Socket::Socket(const sockaddr_in& address) {
     Socket::fd_ = socket(AF_INET, SOCK_DGRAM, 0);
     if (Socket::fd_ < 0) {
         std::cerr << "No se pudo crear el socket: " << strerror(errno) << '\n';
-        // return 3;   /// Determinar el tipo de error que se quiere usar para este caso
     } 
 
     int result = bind(Socket::fd_, reinterpret_cast<const sockaddr*>(&address), sizeof(address));
 
     if (result < 0) {
-        std::cerr << "Falló bind: " << result << '\n';
-        // return 5;   /// Determinar el tipo de error que se quiere usar para este caso
+        std::cerr << "Falló bind: " << result << std::strerror(errno) << '\n';
     }
-
-    // if (listen(result, 5) < 0) {    /// Comprobación de que un socket desea recibir conexiones
-    //   std::cout << "Falló el listen" << '\n';
-    // }
-
 };
 
 Socket::~Socket() {
-    close(Socket::fd_); /// función destructora del socket
+    close(Socket::fd_);
 };
 
 void Socket::send_to(const Message& message, const sockaddr_in& address) {
     int result = sendto(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<const sockaddr*>(&address), sizeof(address));
     if (result < 0) {
         std::cerr << "Falló sendto: " << strerror(errno) << '\n';
-        // return 6;    Mejorar la salida por error de alguna manera
     }
 };
 
@@ -104,37 +151,24 @@ void Socket::receive_from(Message& message, sockaddr_in& address) {
     int result = recvfrom(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<sockaddr*>(&address), &src_len);
     if (result < 0) {
         std::cerr << "Falló rcvfrom: " << strerror(errno) << '\n';
-        // return 8;    mejorar la salida de error
     }
 
     /// Mostrar el mensaje recibido en la terminal
     char* remote_ip = inet_ntoa(address.sin_addr);
     int remote_port = ntohs(address.sin_port);
-    message.text[1023] = '\0';  /// Necesario para que la salida por pantalla reconozca el final de la cadena de texto
+    message.text[1023] = '\0';  /// Necessary to mark the final of a string
     std::cout << "El sistema " << remote_ip << ":" << remote_port << " envió el mensaje '" << message.text.data() << "'\n";
 };
 
 File::File(const std::string file_name) {
-    File::file_open.open(file_name); /// Apertura de manera correcta del fichero de texto
+    File::file_open.open(file_name); /// Open the file
     if (File::file_open.is_open()) {
         std::cout << "El fichero " << file_name << " ha sido abierto de manera correcta." << '\n';
     } else {
         std::cout << "Error en la apertura del fichero " << file_name << '\n';
-        /// return 5; COLOCAR EL ERROR DE MANERA CORRECTA
     }
-
-    // char file_name_char[100]; /// Conversión del string en char
-    // strcpy(file_name_char, file_name.c_str());
-    // int open_flag = 0002;
-    // File::result_open = open(file_name_char, open_flag);
-
-    // if (result_open < 0) {
-    //     std::cerr << "Falló la apertura del fichero: " << result_open << '\n';
-    //     /// return 5; Determinar el tipo de error y la salida de este
-    // }
 };
 
 File::~File() {
     File::file_open.close();
-    // close(File::result_open);
 };
