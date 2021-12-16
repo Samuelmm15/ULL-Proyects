@@ -16,16 +16,19 @@
  * 
  */
 void ViewNetReceive_fuction() { 
-    int num_port = 6001 ;
-    std::string ip_num_local = "127.0.0.1";
-    sockaddr_in local_ip_address = make_ip_address(num_port, ip_num_local); /// Making the local ip address
+    sockaddr_in local_ip_address = make_ip_address(6001, "127.0.0.1"); /// Making the local ip address
     Socket S(local_ip_address);    /// Local socket creation
 
     std::string r_message = "";
     Message free_message = make_message(r_message); /// Generating a empty socket
-    sockaddr_in remote_ip = make_ip_address(6000, ip_num_local);
-    S.receive_from(free_message, remote_ip); /// Recieve the message and writing it in the screen
+    sockaddr_in remote_address{};
+    S.receive_from(free_message, remote_address); /// Recieve the message and writing it in the screen
 
+    /// Writting the message into the screen
+    char* remote_ip = inet_ntoa(remote_address.sin_addr);
+    int remote_port = ntohs(remote_address.sin_port);
+    free_message.text[1023] = '\0';  /// Necessary to mark the final of a string
+    std::cout << "El sistema " << remote_ip << ":" << remote_port << " envió el mensaje '" << free_message.text.data() << "'\n";
 };
 
 int main() {

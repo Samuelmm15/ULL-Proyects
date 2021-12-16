@@ -70,45 +70,13 @@ class Socket {
 };
 
 /**
- * @brief Class that open files to get the message
- * 
- */
-class File {
-    public:
-        /**
-         * @brief Construct a new File object
-         * 
-         * @param file_name 
-         */
-        File(const std::string file_name);
-        /**
-         * @brief Destroy the File object
-         * 
-         */
-        ~File();
-        std::ifstream file_open;
-};
-
-/**
  * @brief Fuction that generates differents ip address
  * 
  * @param port 
  * @param ip_address 
  * @return sockaddr_in 
  */
-sockaddr_in make_ip_address(int port, const std::string& ip_address = std::string()) {  
-    sockaddr_in local_inicialization{}; /// Empty initialization of the struct
-    if (ip_address.size() == 0) {    /// If the string is empty
-        local_inicialization.sin_addr.s_addr = INADDR_ANY;
-    } else {
-        char ip_address_auxiliary[100]; /// String to char convertion
-        strcpy(ip_address_auxiliary, ip_address.c_str());
-        inet_aton(ip_address_auxiliary, &local_inicialization.sin_addr);
-    }
-    local_inicialization.sin_family = AF_INET;
-    local_inicialization.sin_port = htons(port);
-    return local_inicialization;
-};
+sockaddr_in make_ip_address(int port, const std::string& ip_address);
 
 /**
  * @brief Fuction that generates messages
@@ -116,59 +84,4 @@ sockaddr_in make_ip_address(int port, const std::string& ip_address = std::strin
  * @param in_message 
  * @return Message 
  */
-Message make_message(std::string in_message) {    
-    Message message_initialization{}; 
-    in_message.copy(message_initialization.text.data(), message_initialization.text.size() - 1, 0);
-    return message_initialization;
-};
-
-Socket::Socket(const sockaddr_in& address) {
-    Socket::fd_ = socket(AF_INET, SOCK_DGRAM, 0);
-    if (Socket::fd_ < 0) {
-        std::cerr << "No se pudo crear el socket: " << strerror(errno) << '\n';
-    } 
-
-    int result = bind(Socket::fd_, reinterpret_cast<const sockaddr*>(&address), sizeof(address));
-
-    if (result < 0) {
-        std::cerr << "Falló bind: " << result << std::strerror(errno) << '\n';
-    }
-};
-
-Socket::~Socket() {
-    close(Socket::fd_);
-};
-
-void Socket::send_to(const Message& message, const sockaddr_in& address) {
-    int result = sendto(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<const sockaddr*>(&address), sizeof(address));
-    if (result < 0) {
-        std::cerr << "Falló sendto: " << strerror(errno) << '\n';
-    }
-};
-
-void Socket::receive_from(Message& message, sockaddr_in& address) {
-    socklen_t src_len = sizeof(address);
-    int result = recvfrom(Socket::fd_, &message, sizeof(message), 0, reinterpret_cast<sockaddr*>(&address), &src_len);
-    if (result < 0) {
-        std::cerr << "Falló rcvfrom: " << strerror(errno) << '\n';
-    }
-
-    /// Mostrar el mensaje recibido en la terminal
-    char* remote_ip = inet_ntoa(address.sin_addr);
-    int remote_port = ntohs(address.sin_port);
-    message.text[1023] = '\0';  /// Necessary to mark the final of a string
-    std::cout << "El sistema " << remote_ip << ":" << remote_port << " envió el mensaje '" << message.text.data() << "'\n";
-};
-
-File::File(const std::string file_name) {
-    File::file_open.open(file_name); /// Open the file
-    if (File::file_open.is_open()) {
-        std::cout << "El fichero " << file_name << " ha sido abierto de manera correcta." << '\n';
-    } else {
-        std::cout << "Error en la apertura del fichero " << file_name << '\n';
-    }
-};
-
-File::~File() {
-    File::file_open.close();
-};
+Message make_message(std::string in_message);
