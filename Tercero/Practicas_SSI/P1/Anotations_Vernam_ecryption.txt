@@ -1,0 +1,21 @@
+Práctica 1. Implementar el cifrado de Vernam
+
+# Librerías usadas:
+"random" : sirve para poder generar números y valores aleatorios.
+"sys" : librerías necesarias para poder realizar la salida correcta o con error del programa.
+
+# Funciones útiles usadas:
+La función ord() sirve para obtener el código ascii de cualquier caracter de entrada.
+La función chr() sirve para convertir un valor numerico en un caracter ascii.
+La función format() sirve para convertir cualquier entero de entrada en binario puro.
+La función len() sirve para obtener el tamaño de una cadena.
+La función choice() devuelve un elemento aleatorio de una secuencia dada.
+
+# Bibliografía usada:
+https://stackoverflow.com/questions/4387138/pythonascii-character-decimal-representation-conversion
+https://www.lawebdelprogramador.com/foros/Python/1773321-Como-generar-un-numero-binario-aleatorio.html
+https://www.delftstack.com/es/howto/python/convert-string-to-ascii-python/
+https://www.delftstack.com/es/howto/python/python-int-to-binary/
+https://www.educative.io/edpresso/how-to-convert-string-to-binary-in-python
+https://ellibrodepython.com/operadores-bitwise
+https://es.acervolima.com/programa-de-python-para-sumar-dos-numeros-binarios/
