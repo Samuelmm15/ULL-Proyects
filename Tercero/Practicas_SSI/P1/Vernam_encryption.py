@@ -133,7 +133,7 @@ def Vernam_decipher(encrypt_message_binary, random_binary_keys):
     for x in encrypt_message_characters_list:
         encrypt_message_characters += str(x)
     print()
-    print(f"El mensaje final cifrado es {encrypt_message_characters}")
+    print(f"El mensaje final descifrado es {encrypt_message_characters}")
     Program_exit()
 
 def Program_exit():
