@@ -2,7 +2,17 @@
 
 ## Índice
 
-## Pasos previos
+1. [Pasos Previos.](#id1)
+
+2. [Instalación de Visual Studio Code](#id2)
+
+3. [Configuración de Visual Studio para realizar SSH](#id3)
+
+4. [Primer proyecto en TypeScript](#id4)
+
+5. [Live Share Extension Pack](#id5)
+
+## Pasos previos<a name="id1"></a>
 
 En esta segunda práctica de la asignatura `Desarrollo de Sistemas
 informáticos` se ha realizado la instalación y la configuración de [Visual
@@ -17,7 +27,7 @@ entender el funcionamiento de las [GitHub Pages](https://platzi.com/blog/github-
 y de el uso de [Markdown](https://www.genbeta.com/guia-de-inicio/que-es-markdown-para-que-sirve-y-como-usarlo)
 para la creación de estas.
 
-## Instalación de Visual Studio Code
+## Instalación de Visual Studio Code<a name="id2"></a>
 
 En el caso de que no se tenga instalado el editor de código fuente, se ha de
 instalar haciendo uso de alguno de los **dos** métodos para ello, dependiendo
@@ -37,7 +47,7 @@ de estos. Para poder instalar Visual Studio Code, se hace uso del comando:
 smartin@smartin-proyect:~$ sudo apt install code
 ```
 
-## Configuración de Visual Studio Code para conectarse a nuestra máquina remota a través del comando SSH
+## Configuración de Visual Studio Code para conectarse a nuestra máquina remota a través del comando SSH<a name="id3"></a>
 
 Suponiendo que la máquina virtual de la asignatura ha sido creada en la [Práctica 1](https://ull-esit-inf-dsi-2122.github.io/prct01-iaas/)
 se realiza la descarga de la extensión de Visual Studio Code denominada como *Remote - SSH* que permite
@@ -47,7 +57,7 @@ conexión a la máquina virtual mediante la sentencia `ssh iaas-dsi`.
 
 Una vez se realiza la conexión a la máquina virtual de la asignatura, ya se puede realizar el [primer proyecto en TypeScript](link-para-el-primer-proyecto).
 
-## Primer proyecto en TypeScript: "Hola Mundo"
+## Primer proyecto en TypeScript: "Hola Mundo"<a name="id4"></a>
 
 Antes de comenzar con la creación del primer proyecto en [TypeScript](https://es.wikipedia.org/wiki/TypeScript)
 , es necesario realizar la instalación de un paquete denominado [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -135,7 +145,7 @@ Para poder ejecutar el código JavaScript generado a partir del código TypeScri
 Hola Mundo
 ```
 
-## Extesión de Visual Studio Code **Visual Studio Live Share**
+## Extesión de Visual Studio Code **Visual Studio Live Share**<a name="id5"></a>
 
-Para la correcta configuración de Visual Studio Code, se ha de instalar una extensión denominada como [Live Share Extension Pack](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack). 
+Para la correcta configuración de Visual Studio Code, se ha de instalar una extensión denominada como [Live Share Extension Pack](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack).
 Esta extensión permite editar, depurar, chatear, compartir terminal, etc, con los compañeros de trabajo de cualquier proyecto. En este caso, para la prueba de dicha extensión he realizado una sesión con mi compañero @Daniele_Vitale dónde se ha podido probar la apertura de un fichero de código python y su ejecución. También se ha realizado una prueba del chat y de la edición de código en conjunto.
