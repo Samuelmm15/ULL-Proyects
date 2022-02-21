@@ -15,6 +15,8 @@ import sys
 
 # Fuctions declarations
 
+# Tienen que ser transformaciones de 8 bits
+
 # Fuction neccesary to encrypt the message entered by keybord
 def Vernam_encryption(encrypt_message):    
     print()
@@ -28,7 +30,7 @@ def Vernam_encryption(encrypt_message):
     
     binary_character = [] 
     for x in ascii_character_values:
-        binary_character.append(format(x, "b"));  # At this point the program change the ascii code into binary numbers
+        binary_character.append(format(x, "08b"));  # At this point the program change the ascii code into binary numbers, 8 bits length
     
     # print(f"Los caracteres ascii convertidos a binario puro son de la manera: {binary_character}") # Commments to comprobe the correct functioning of the program
     
