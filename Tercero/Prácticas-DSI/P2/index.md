@@ -12,7 +12,7 @@
 
 5. [Live Share Extension Pack](#id5)
 
-## Pasos previos<a name="id1"></a>
+## // Pasos previos<a name="id1"></a>
 
 En esta segunda práctica de la asignatura `Desarrollo de Sistemas
 informáticos` se ha realizado la instalación y la configuración de [Visual
@@ -27,7 +27,7 @@ entender el funcionamiento de las [GitHub Pages](https://platzi.com/blog/github-
 y de el uso de [Markdown](https://www.genbeta.com/guia-de-inicio/que-es-markdown-para-que-sirve-y-como-usarlo)
 para la creación de estas.
 
-## Instalación de Visual Studio Code<a name="id2"></a>
+## // Instalación de Visual Studio Code<a name="id2"></a>
 
 En el caso de que no se tenga instalado el editor de código fuente, se ha de
 instalar haciendo uso de alguno de los **dos** métodos para ello, dependiendo
@@ -47,7 +47,7 @@ de estos. Para poder instalar Visual Studio Code, se hace uso del comando:
 smartin@smartin-proyect:~$ sudo apt install code
 ```
 
-## Configuración de Visual Studio Code para conectarse a nuestra máquina remota a través del comando SSH<a name="id3"></a>
+## // Configuración de Visual Studio Code para conectarse a nuestra máquina remota a través del comando SSH<a name="id3"></a>
 
 Suponiendo que la máquina virtual de la asignatura ha sido creada en la [Práctica 1](https://ull-esit-inf-dsi-2122.github.io/prct01-iaas/)
 se realiza la descarga de la extensión de Visual Studio Code denominada como *Remote - SSH* que permite
@@ -55,9 +55,11 @@ realizar conexiones mediante el protocolo **SSH** a través del editor. Hay que 
 completó la configuración del fichero `~/.ssh/config` de la máquina local usada, únicamente se realiza la
 conexión a la máquina virtual mediante la sentencia `ssh iaas-dsi`.
 
-Una vez se realiza la conexión a la máquina virtual de la asignatura, ya se puede realizar el [primer proyecto en TypeScript](link-para-el-primer-proyecto).
+![Conexión SSH con la máquina virtual](https://user-images.githubusercontent.com/72341631/155019036-ae412962-cd38-49cb-8ed1-aa9c3e345fe6.png)
 
-## Primer proyecto en TypeScript: "Hola Mundo"<a name="id4"></a>
+Una vez se realiza la conexión a la máquina virtual de la asignatura, ya se puede realizar el [primer proyecto en TypeScript](#id4).
+
+## // Primer proyecto en TypeScript: "Hola Mundo"<a name="id4"></a>
 
 Antes de comenzar con la creación del primer proyecto en [TypeScript](https://es.wikipedia.org/wiki/TypeScript)
 , es necesario realizar la instalación de un paquete denominado [ESlint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -71,6 +73,8 @@ se vaya ha hacer uso, es necesaria la instalación del compilador mediante los c
 ```
 [~()]$ npm install --global typescript
 ```
+
+![Instalación de ESLint y compilador de TypeScript](https://user-images.githubusercontent.com/72341631/155019197-5b2c4cf7-8778-46f7-8a26-11e203268867.png)
 
 Con todo esto anterior cumplimentado, se da comienzo al primer proyecto desarrollado en TypeScript. Para ello,
 tras la creación de un directorio en la máquina dónde va a ser almacenado dicho proyecto, se hace uso del
@@ -99,6 +103,8 @@ Wrote to /home/usuario/directorio-ejemplo/package.json:
 }
 ```
 
+![Generación del fichero package.json](https://user-images.githubusercontent.com/72341631/155019327-26446dc9-b8de-4f0b-9d95-897b35450b22.png)
+
 Todo esto anterior genera como resultado un fichero denominado **package.json** que se trata de un archivo de
 definición o manifiesto para el proyecto, en el cual se especifican referencias al proyecto como el autor, la
 versión y sobre todo las dependencias.
@@ -116,6 +122,8 @@ compilador de TypeScript. En este fichero se deben de incluir las líneas:
   }
 }
 ```
+
+![Fichero tsconfig.json](https://user-images.githubusercontent.com/72341631/155019480-c02efc35-dded-47be-b69f-1b5260268e9b.png)
 
 Hay que tener en cuenta que en las opciones especificadas anteriormente, le indican al compilador de TypeScript
 que en primer lugar, el tipo de estándar de JavaScript el cual se quiera que el código sea compatible. A
@@ -138,6 +146,8 @@ Tras esto anterior, se compila el código en TypeScript ejecutando el comando:
 [~/directorio-ejemplo()]$ tsc
 ```
 
+![Compilación del código](https://user-images.githubusercontent.com/72341631/155019575-11ff96c1-e6ef-4d49-9418-50245d78414d.png)
+
 Para poder ejecutar el código JavaScript generado a partir del código TypeScript, se hace uso del comando:
 
 ```
@@ -145,7 +155,22 @@ Para poder ejecutar el código JavaScript generado a partir del código TypeScri
 Hola Mundo
 ```
 
-## Extesión de Visual Studio Code **Visual Studio Live Share**<a name="id5"></a>
+![Ejecución del código](https://user-images.githubusercontent.com/72341631/155019644-5d9c7181-d0b0-494d-a73b-8b5eb55f1e03.png)
+
+## // Extesión de Visual Studio Code **Visual Studio Live Share**<a name="id5"></a>
 
 Para la correcta configuración de Visual Studio Code, se ha de instalar una extensión denominada como [Live Share Extension Pack](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare-pack).
 Esta extensión permite editar, depurar, chatear, compartir terminal, etc, con los compañeros de trabajo de cualquier proyecto. En este caso, para la prueba de dicha extensión he realizado una sesión con mi compañero @Daniele_Vitale dónde se ha podido probar la apertura de un fichero de código python y su ejecución. También se ha realizado una prueba del chat y de la edición de código en conjunto.
+
+Prueba del chat de la sesión:
+![Prueba del chat](https://user-images.githubusercontent.com/72341631/155025571-8ae7df2b-80a8-48d1-b3a5-89159b7bf335.png)
+
+Prueba de edición y ejecución de código:
+![Prueba de edición y ejecución de código](https://user-images.githubusercontent.com/72341631/155025743-dbd596af-7e2a-40c4-b9ec-31bfc8b3f9eb.png)
+
+**En conclusión**, para esta segunda práctica de la asignatura, se ha realizado una configuración del entorno de programación 
+`Visual Studio Code` de manera que permita el desarrollo de proyectos en TypeScript de una manera mucho más cómoda y 
+eficiente. Además, se ha realizado la instalación de una extensión muy útil para realizar proyectos en equipos de trabajo. 
+Finalmente, se ha llevado a cabo el primer proyecto en TypeScript que ha permitido aprender la generación automática de 
+ficheros, como por ejemplo el fichero `package.json`, junto con aquellas opciones básicas que son útiles para el compilador 
+de TypeScript y las extensiones de los distintos ficheros que son usados para la generación de código en este lenguaje.
