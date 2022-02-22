@@ -61,7 +61,6 @@ def Vernam_decipher(encrypt_message_binary, binary_keys):
         encrypt_message_binary_number = bin(int(x,2) ^ int(binary_keys[i],2))
         encrypt_message_binary_list.append(encrypt_message_binary_number[2:])
         i += 1
-    print()
     print(f"La lista de valores binarios del mensaje cifrado es {encrypt_message_binary_list}")
     
     # Binary to ascii convertion, then to characters
@@ -124,7 +123,7 @@ def Manual_key_production(binary_character, binary_character_united):
             i = -1   # Initializating again the values
             string_aux = ""
         i += 1
-        
+    print()   
     print(f"La lista de claves introducida de manera manual es: {manual_key}")
     
     encrypt_message_binary = []
@@ -140,7 +139,7 @@ def Manual_key_production(binary_character, binary_character_united):
     for x in encrypt_message_binary:
         final_encrypt_message += str(x) # At this point the list united to print the encrypt message in binary
     print()
-    print(f"Finalmente el mensaje cifrado convertido a binario es {final_encrypt_message}")
+    print(f"El mensaje cifrado en binario es {final_encrypt_message}")
     
     # List convertion to ascii code, then to characters to print the encrypt message
     encrypt_message_converted = 0   # Binary to decimal convertion
@@ -162,7 +161,7 @@ def Manual_key_production(binary_character, binary_character_united):
     encrypt_message_characters = ""
     for x in encrypt_message_characters_list:
         encrypt_message_characters += str(x)
-    print(f"El mensaje cifrado es {encrypt_message_characters}")
+    print(f"Finalmente, el mensaje cifrado es {encrypt_message_characters}")
     
     Menu(encrypt_message_binary,manual_key)
     
@@ -178,6 +177,7 @@ def Aleatory_key_production(encrypt_message, binary_character):
         random_character_binary_number.append(random_binary_number)
         random_binary_number = ""
         i += 1
+    print()
     print(f"La lista de claves aleatorias por caracter es {random_character_binary_number}")
     
     encrypt_message_binary = []
@@ -193,7 +193,7 @@ def Aleatory_key_production(encrypt_message, binary_character):
     for x in encrypt_message_binary:
         final_encrypt_message += str(x) # At this point the list united to print the encrypt message in binary
     print()
-    print(f"Finalmente el mensaje cifrado convertido a binario es {final_encrypt_message}")
+    print(f"El mensaje cifrado en binario es {final_encrypt_message}")
     
     # List convertion to ascii code, then to characters to print the encrypt message
     encrypt_message_converted = 0   # Binary to decimal convertion
@@ -215,7 +215,7 @@ def Aleatory_key_production(encrypt_message, binary_character):
     encrypt_message_characters = ""
     for x in encrypt_message_characters_list:
         encrypt_message_characters += str(x)
-    print(f"El mensaje cifrado es {encrypt_message_characters}")
+    print(f"Finalmente, el mensaje cifrado es {encrypt_message_characters}")
     
     Menu(encrypt_message_binary,random_character_binary_number)
 
