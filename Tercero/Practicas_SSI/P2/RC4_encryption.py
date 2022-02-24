@@ -30,7 +30,7 @@ def RC4_encryption(key_seed, original_message):
     # Start with the inicialization of the KSA
     S_array = []  # Zero inicialization of the arrays
     K_array = []
-    seed_length = 256    # HAY QUE TENER EN CUENTA QUE EL TAMAÑO DE LA SEMILLA DEPENDE, PUEDE PONERSE QUE SE INTRODUZCA POR TECLADO
+    seed_length = 256    # EL TAMÑO DE LA SEMILLA ES EL NÚMERO DE NÚMEROS QUE SON INTRODUCIDOS POR TECLADO, CUANDO SE ESCRIBE 2,5, ES 2 Y 5, SON DOS NÚMEROS
     i = 0
     while i != 256:
         S_array.append(i)
