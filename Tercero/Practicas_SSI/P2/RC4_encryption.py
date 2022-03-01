@@ -11,17 +11,26 @@
 # Libraries declaration
 
 # Fuction declaration
+
 # Menu neccesary to input the paramethers of the encryption
-from re import S
-
-
 def Menu():
     print("<< Bienvenido al programa de cifrado RC4 >>")
     print()
-    print("Para comenzar introduzca la semilla de clave: ")
-    key_seed = input()
-    print("Introduzca el texto que desea cifrar: ")
-    original_message = input()
+    key_seed = []
+    value = -1
+    while value != 0:
+        value = int(input("Para comenzar introduzca la semilla de clave (introduzca cero para dejar de introducir valores): "))
+        if value != 0:
+            key_seed.append(value)
+    value = -1
+    original_message = []
+    while value != 0:
+        value = int(input("Introduzca el texto que desea cifrar (introduzca cero para dejar de introducir valores): "))
+        if value != 0:
+            original_message.append(value)
+    print()
+    print(f"La clave introducida es {key_seed}")
+    print(f"El mensaje a cifrar es {original_message}")
     
     RC4_encryption(key_seed, original_message)
 
@@ -30,13 +39,19 @@ def RC4_encryption(key_seed, original_message):
     # Start with the inicialization of the KSA
     S_array = []  # Zero inicialization of the arrays
     K_array = []
-    seed_length = 256    # HAY QUE TENER EN CUENTA QUE EL TAMAÑO DE LA SEMILLA DEPENDE, PUEDE PONERSE QUE SE INTRODUZCA POR TECLADO
+    seed_length = len(key_seed)    
     i = 0
+    j = 0
     while i != 256:
         S_array.append(i)
-        K_array.append(i % seed_length)
+        K_array.append(key_seed[j] % seed_length)
         i += 1
+        j+= 1
+        if j == 2:
+            j = 0
+    print()
     print(S_array)  # Comprobation of the inicialization
+    print()
     print(K_array)
     
     j = 0
@@ -64,6 +79,7 @@ def RC4_encryption(key_seed, original_message):
     # Convert S[t] result into a binary number
     binary_S = format(S_array[t], "08b")
     
+    print()
     print(f"El byte 1 de texto cifrado es {S_array[t]}, en binario es {binary_S}")
     
 # Main Fuction
