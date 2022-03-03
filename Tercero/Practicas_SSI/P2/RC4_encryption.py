@@ -64,23 +64,55 @@ def RC4_encryption(key_seed, original_message):
         i += 1
     print()
     print("Tras la inicialización de los arrys se obtiene: ")
+    print()
     print(S_array)
     
     # Start with the second part of the encrypt secuence
-    i = 0
-    j = 0
-    i = (i + 1) % 256
-    j = (j + S_array[i]) % 256
-    auxiliary = S_array[i] # At this point produce the exchange of the list values
-    S_array[i] = S_array[j]
-    S_array[j] = auxiliary
-    t = (S_array[i] + S_array[j]) % 256
+    k = 0
+    byte = 1
     
-    # Convert S[t] result into a binary number
-    binary_S = format(S_array[t], "08b")
+    while (k != len(original_message)):
+        i = 0
+        j = 0
+        i = (i + 1) % 256
+        j = (j + S_array[i]) % 256
+        auxiliary = S_array[i] # At this point produce the exchange of the list values
+        S_array[i] = S_array[j]
+        S_array[j] = auxiliary
+        t = (S_array[i] + S_array[j]) % 256
     
-    print()
-    print(f"El byte 1 de texto cifrado es {S_array[t]}, en binario es {binary_S}")
+        # Convert S[t] result into a binary number
+        binary_S = format(S_array[t], "08b")
+    
+        print()
+        print(f"El byte {byte} de secuencia cifrante es: S[{t}] = {S_array[t]}, en binario es {binary_S}")
+    
+        # Convert original_message into a binary number
+        binary_original_message = format(original_message[k], "08b")
+    
+        print(f"El byte {byte} de texto original es: M[{byte}] = {original_message[k]}, en binario es {binary_original_message}")
+    
+        # Convert the original message into a encrypt message
+        encrypt_message = []
+        i = 0
+        for x in binary_S:
+            encrypt_message_auxiliary = bin(int(x, 2) ^ int(binary_original_message[i], 2))
+            encrypt_message.append(encrypt_message_auxiliary[2:])
+            i += 1
+    
+        final_encrypt_message = "" # The union of the binary encrypt message
+        for x in encrypt_message:
+            final_encrypt_message += str(x)
+            
+        # Binary to decimal convertion
+        decimal_encrypt_convertion = 0;
+        for position, x in enumerate(encrypt_message[::-1]):
+            decimal_encrypt_convertion += int(x) * 2 ** position
+    
+        print(f"El byte {byte} de texto cifrado es C[{byte}] = {decimal_encrypt_convertion} en binario {final_encrypt_message}")
+    
+        k += 1
+        byte += 1
     
 # Main Fuction
 if __name__ == '__main__':
