@@ -44,7 +44,7 @@ def RC4_encryption(key_seed, original_message):
     j = 0
     while i != 256:
         S_array.append(i)
-        K_array.append(key_seed[j] % seed_length)
+        K_array.append(key_seed[j])
         i += 1
         j+= 1
         if j == 2:
