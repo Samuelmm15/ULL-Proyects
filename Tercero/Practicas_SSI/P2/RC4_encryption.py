@@ -70,10 +70,10 @@ def RC4_encryption(key_seed, original_message):
     # Start with the second part of the encrypt secuence
     k = 0
     byte = 1
+    i = 0
+    j = 0
     
     while (k != len(original_message)):
-        i = 0
-        j = 0
         i = (i + 1) % 256
         j = (j + S_array[i]) % 256
         auxiliary = S_array[i] # At this point produce the exchange of the list values
@@ -94,11 +94,11 @@ def RC4_encryption(key_seed, original_message):
     
         # Convert the original message into a encrypt message
         encrypt_message = []
-        i = 0
+        l = 0
         for x in binary_S:
-            encrypt_message_auxiliary = bin(int(x, 2) ^ int(binary_original_message[i], 2))
+            encrypt_message_auxiliary = bin(int(x, 2) ^ int(binary_original_message[l], 2))
             encrypt_message.append(encrypt_message_auxiliary[2:])
-            i += 1
+            l += 1
     
         final_encrypt_message = "" # The union of the binary encrypt message
         for x in encrypt_message:
