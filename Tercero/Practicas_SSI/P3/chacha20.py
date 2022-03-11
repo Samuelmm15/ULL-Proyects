@@ -9,6 +9,8 @@
 """
 
 # Libraries declaration
+from msilib.schema import Binary
+import re
 import secrets
 
 # Function declaration
@@ -44,9 +46,71 @@ def Aleatory_Nonce():
     print(nonce_result) # To comprobe the result
     
     return nonce_result
-
+    
+def ROTL(a_number, b_number):
+    return (((int(a_number)) << (int(b_number))) | ((int(a_number)) >> (32 - (int(b_number)))))
+    
+def QR(a_number, b_number, c_number, d_number):
+    QR_array = []
+    QR_array.append(a_number + b_number)
+    d_number = bin(int(d_number, 2) ^ int(a_number, 2))
+    QR_array.append(d_number[2:])
+    QR_array.append(ROTL(d_number[2:], 16))
+    
+    QR_array.append(c_number + d_number[2:])
+    b_number = bin(int(b_number, 2) ^ int(c_number, 2))
+    QR_array.append(b_number[2:])
+    QR_array.append(ROTL(b_number[2:], 12))
+    
+    QR_array.append(a_number + b_number[2:])
+    d_number = bin(int(d_number, 2) ^ int(a_number, 2))
+    QR_array.append(d_number[2:])
+    QR_array.append(ROTL(d_number[2:], 8))
+    
+    QR_array.append(c_number + d_number[2:])
+    b_number = bin(int(b_number, 2) ^ int(c_number, 2))
+    QR_array.append(b_number[2:])
+    QR_array.append(ROTL(b_number[2:], 7))
+    
+    return QR_array
+    
 def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce):
-    print()
+    ROUNDS = 20 # This is the const of the number of rounds
+    result = [];
+    
+    i = 0
+    binary_key = format(int(hexadecimal_key[i]), "08b")
+    while i < 23:
+        if hexadecimal_key[i] != ':':
+            binary_key = format(int(hexadecimal_key[i]), "08b")
+            result.append(binary_key)
+        
+        i += 1
+
+    print(result) # Necesary to comprobe
+    print
+    
+    i = 0
+    while i < ROUNDS:
+        print(QR(result[0], result[4], result[8], result[12]))
+        print()
+        print(QR(result[1], result[5], result[9], result[13]))
+        print()
+        print(QR(result[2], result[6], result[11], result[15]))
+        print()
+        
+        print(QR(result[0], result[5], result[10], result[15]))
+        print()
+        print(QR(result[1], result[6], result[11], result[12]))
+        print()
+        print(QR(result[2], result[7], result[8], result[13]))
+        print()
+        print(QR(result[3], result[4], result[9], result[14]))
+        print()
+        i += 2
+          
+    # EN ESTE PUNTO FALTA EL ÚLTIMO BUCLE FOR DEL ALGORITMO DE LOS APUNTES DE LA ASIGNATURA
+
 
 # Main Function
 if __name__ == '__main__':
