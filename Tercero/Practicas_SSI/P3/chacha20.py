@@ -11,6 +11,7 @@
 # Libraries declaration
 from itertools import count
 from msilib.schema import Binary
+import numbers
 import re
 import secrets
 
@@ -26,63 +27,150 @@ def Menu():
     Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
     
 def Aleatory_Nonce():
-    number_of_bytes = 12 # This is the 96 bits or 12 bytes
-    random_generator = secrets.token_hex(number_of_bytes) # This fuction generates aleatory tokens
-    # print(random_generator) # To comprobe
+    # number_of_bytes = 12 # This is the 96 bits or 12 bytes
+    # random_generator = secrets.token_hex(number_of_bytes) # This fuction generates aleatory tokens
+    # # print(random_generator) # To comprobe
     
-    i = 0
-    counter = 0
-    nonce_result = ""
-    while i != len(random_generator):
-        if counter == 2:
-            nonce_result = nonce_result + ":"
-            nonce_result = nonce_result + random_generator[i]
-            counter = 0
-        else:
-            nonce_result = nonce_result + random_generator[i]
-        counter += 1
-        i += 1
-
+    # i = 0
+    # counter = 0
+    # nonce_result = ""
+    # while i != len(random_generator):
+    #     if counter == 2:
+    #         nonce_result = nonce_result + ":"
+    #         nonce_result = nonce_result + random_generator[i]
+    #         counter = 0
+    #     else:
+    #         nonce_result = nonce_result + random_generator[i]
+    #     counter += 1
+    #     i += 1
+    nonce_result = '00:00:00:09:00:00:00:4a:00:00:00:00'
     # print()
     # print(nonce_result) # To comprobe the result
     
     return nonce_result
     
 def ROTL(a_number, b_number): # esta mierda no funciona nada bien
-    a_number = bin(int(a_number, 16))[2:]
-    number_b = str(b_number)
-    number_b = bin(int(number_b, 16))[2:]
-    number_substract = str('32')
-    number_substract = bin(int(number_substract, 16))[2:]
-    auxiliary_array = list(range(4))
-    auxiliary_array[0] = a_number
-    auxiliary_array[1] = number_b
-    auxiliary = bin(int(auxiliary_array[0], 2))
-    auxiliary_array[2] = bin(int(auxiliary,2)<<b_number)[2:]
-    auxiliary = bin(int(number_substract, 2) - int(auxiliary_array[1], 2))[2:]
-    auxiliary_array[3] = bin(int(auxiliary_array[0], 2)> 32 - b_number)[2:]
-    auxiliary_array[0] = bin(int(auxiliary_array[2], 2) | int(auxiliary_array[3], 2))[2:]
-    auxiliary = hex(int(auxiliary_array[0], 2))[2:]
-    print(auxiliary)
+    a_number = int(a_number, 16)
+    auxiliary = (((a_number) << (b_number)) | ((a_number) >> (32 - (b_number))))
+    auxiliary = str(auxiliary)
+    auxiliary = hex(int(auxiliary))[2:]
     return auxiliary
     
     
 def QR(a_number, b_number, c_number, d_number, QR_array):
-    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:]
-    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:]
-    QR_array[d_number] = ROTL(QR_array[d_number], 16)
+    i = 0
+    auxiliary_while = ''
+    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[a_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[a_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[d_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[d_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[d_number] = ROTL(QR_array[d_number], 16)[2:].zfill(8)
+    auxiliary = str(QR_array[d_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[d_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
     
-    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:]
-    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:]
-    QR_array[b_number] = ROTL(QR_array[b_number], 12)
+    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[c_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[c_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[b_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[b_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[b_number] = ROTL(QR_array[b_number], 12)[2:].zfill(8)
+    auxiliary = str(QR_array[b_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[b_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
     
-    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:]
-    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:]
-    QR_array[d_number] = ROTL(QR_array[d_number], 8)
+    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[a_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[a_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[d_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[d_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[d_number] = ROTL(QR_array[d_number], 8)[2:].zfill(8)
+    auxiliary = str(QR_array[d_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[d_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
     
-    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:]
-    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:]
-    QR_array[b_number] = ROTL(QR_array[b_number], 7)
+    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[c_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[c_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:].zfill(8)
+    auxiliary = str(QR_array[b_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[b_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
+    QR_array[b_number] = ROTL(QR_array[b_number], 7)[2:].zfill(8)
+    auxiliary = str(QR_array[b_number])
+    while i < 8:
+        auxiliary_while = auxiliary_while + auxiliary[i]
+        i += 1
+    QR_array[b_number] = auxiliary_while
+    i = 0
+    auxiliary = ''
+    auxiliary_while = ''
     
 def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce):
     S_initial = list(range(16))
@@ -133,6 +221,14 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         k += 1
         counter = 0
         
+    # Little Endian convertion # CORREGIR ESTA PARTE
+    # i = 4
+    # while i < 16:
+    #     auxiliary = bytearray.fromhex(S_initial[i])
+    #     auxiliary.reverse()
+    #     S_initial[i] = auxiliary
+    #     i += 1
+    
     print()
     print('ESTADO INICIAL= ')
     print(S_initial) # To comprobe
@@ -169,8 +265,20 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
     print('ESTADO FINAL TRAS LAS 20 INTERACCIONES: ')
     print(S_result)
           
-    # EN ESTE PUNTO FALTA EL ÚLTIMO BUCLE FOR DEL ALGORITMO DE LOS APUNTES DE LA ASIGNATURA
+    i = 0
+    k = 0
+    auxiliary_while = ''
+    while i < 16 :
+        auxiliary = hex(int(S_initial[i], 16) + int(S_result[i], 16))[2:]
+        auxiliary = str(auxiliary)
+        while k < 8:
+            auxiliary_while = auxiliary_while + auxiliary[i]
+            k += 1
+        S_result[i] = auxiliary
+        i += 1
 
+    print('ESTADO DE SALIDA DEL GENERADOR: ')
+    print(S_result)
 
 # Main Function
 if __name__ == '__main__':
