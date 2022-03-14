@@ -11,6 +11,7 @@
 # Libraries declaration
 import re
 import secrets
+# from ctypes import *
 
 # Function declaration
 def Menu():
@@ -220,6 +221,8 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         
     # Little Endian convertion # CORREGIR ESTA PARTE
     # i = 4
+    # a = c_uint32(0x00010203).value
+    # print(a)
     # while i < 16:
     #     auxiliary = bytearray.fromhex(S_initial[i])
     #     auxiliary.reverse()
@@ -282,6 +285,11 @@ if __name__ == '__main__':
     Menu()
 
 
+# IMPORTANTE
+# https://programmerclick.com/article/77661695242/
+
+# Clave a introducir
+# 00:01:02:03:04:05:06:07:08:09:0a:0b:0c:0d:0e:0f:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f
 # Generador de tokens aleatorios de cualquier tipo
 # https://docs.python.org/es/3.10/library/secrets.html#secrets.token_bytes
 # Conversor de hexadecimal a binario
