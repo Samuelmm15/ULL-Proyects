@@ -9,9 +9,6 @@
 """
 
 # Libraries declaration
-import re
-import secrets
-# from ctypes import *
 
 # Function declaration
 def Menu():
@@ -53,6 +50,14 @@ def ROTL(a_number, b_number): # esta mierda no funciona nada bien
     auxiliary = str(auxiliary)
     auxiliary = hex(int(auxiliary))[2:]
     return auxiliary
+    # auxiliary_array = list(range(4))
+    # auxiliary_array[0] = int(a_number, 16)
+    # auxiliary_array[1] = b_number
+    # auxiliary_array[2] = auxiliary_array[0] << auxiliary_array[1]
+    # auxiliary_array[3] = auxiliary_array[0] >> (32 - auxiliary_array[1])
+    # auxiliary_array[0] = auxiliary_array[2] | auxiliary_array[3]
+    # auxiliary_array[0] = hex(int(auxiliary_array[0]))[2:]
+    # return auxiliary_array[0]
     
     
 def QR(a_number, b_number, c_number, d_number, QR_array):
@@ -219,15 +224,14 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         k += 1
         counter = 0
         
-    # Little Endian convertion # CORREGIR ESTA PARTE
-    # i = 4
-    # a = c_uint32(0x00010203).value
-    # print(a)
-    # while i < 16:
-    #     auxiliary = bytearray.fromhex(S_initial[i])
-    #     auxiliary.reverse()
-    #     S_initial[i] = auxiliary
-    #     i += 1
+    # Little Endian convertion
+    i = 4
+    while i < 16:
+        auxiliary = bytearray.fromhex(S_initial[i])
+        auxiliary.reverse()
+        auxiliary = ''.join(format(x, '02x') for x in auxiliary)
+        S_initial[i] = auxiliary
+        i += 1
     
     print()
     print('ESTADO INICIAL= ')
@@ -267,13 +271,17 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
           
     i = 0
     k = 0
+    l = 0
     auxiliary_while = ''
     while i < 16 :
         auxiliary = hex(int(S_initial[i], 16) + int(S_result[i], 16))[2:]
         auxiliary = str(auxiliary)
-        while k < 8:
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            k += 1
+        while l < 8:
+            auxiliary_while = auxiliary_while + auxiliary[l]
+            l += 1
+        auxiliary = auxiliary_while
+        l = 0
+        auxiliary_while = ''
         S_result[i] = auxiliary
         i += 1
 
