@@ -9,7 +9,6 @@
 """
 
 # Libraries declaration
-from msilib.schema import Binary
 import re
 import secrets
 
