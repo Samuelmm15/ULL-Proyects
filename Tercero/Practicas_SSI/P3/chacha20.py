@@ -11,6 +11,9 @@
 # Libraries declaration
 
 # Function declaration
+from itertools import count
+
+
 def Menu():
     print("<< Bienvenido al programa de cifrado Chacha20 >>")
     print()
@@ -235,7 +238,15 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
     
     print()
     print('ESTADO INICIAL= ')
-    print(S_initial)
+    counter = 0 
+    for line in S_initial:
+        print(line, end=" ") # Neccesary to modificate the end, and prints, the matrix at the correct form
+        counter += 1
+        if counter == 4:
+            print()
+            counter = 0
+        
+    
     
     ROUNDS = 20 # This is the const of the number of rounds
     S_result = [];
@@ -266,8 +277,15 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         QR(3, 4, 9, 14, S_result); # diagonal 4
         i += 2
     
+    print()
     print('ESTADO FINAL TRAS LAS 20 INTERACCIONES: ')
-    print(S_result)
+    counter = 0 
+    for line in S_result:
+        print(line, end=" ") # Neccesary to modificate the end, and prints, the matrix at the correct form
+        counter += 1
+        if counter == 4:
+            print()
+            counter = 0
           
     i = 0
     k = 0
@@ -285,8 +303,15 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         S_result[i] = auxiliary
         i += 1
 
+    print()
     print('ESTADO DE SALIDA DEL GENERADOR: ')
-    print(S_result)
+    counter = 0 
+    for line in S_result:
+        print(line, end=" ") # Neccesary to modificate the end, and prints, the matrix at the correct form
+        counter += 1
+        if counter == 4:
+            print()
+            counter = 0
 
 # Main Function
 if __name__ == '__main__':
@@ -304,3 +329,5 @@ if __name__ == '__main__':
 # https://www.delftstack.com/es/howto/python/python-hex-to-int/
 # Binary numbers
 # https://www.techiedelight.com/how-to-convert-an-integer-to-a-binary-string-in-python/#:~:text=format()%20function,the%20string%20presentation%20type%20b%20.
+# Imprimir sin un salto de línea
+# https://www.freecodecamp.org/espanol/news/salto-de-linea-en-python-como-imprimir-en-python-sin-un-salto-de-linea/
