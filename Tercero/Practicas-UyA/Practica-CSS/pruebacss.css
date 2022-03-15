@@ -1,0 +1,12 @@
+.clase1 {
+  color : blue;
+  font-family: Arial;
+}
+p.clase2 {
+  color: red;
+}  
+p .clase2 {
+  color: green;
+}
+
+  
