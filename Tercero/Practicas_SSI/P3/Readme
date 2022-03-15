@@ -1,0 +1,13 @@
+Los enlaces más importantes, y los más útiles para ciertas funcionalidades del programa, se encuentran a continuación:
+
+Generador de tokens aleatorios de cualquier tipo:
+https://docs.python.org/es/3.10/library/secrets.html#secrets.token_bytes
+
+Conversor de hexadecimal a binario:
+https://www.delftstack.com/es/howto/python/python-hex-to-int/
+
+Binary numbers:
+https://www.techiedelight.com/how-to-convert-an-integer-to-a-binary-string-in-python/#:~:text=format()%20function,the%20string%20presentation%20type%20b%20.
+
+Imprimir sin un salto de línea:
+https://www.freecodecamp.org/espanol/news/salto-de-linea-en-python-como-imprimir-en-python-sin-un-salto-de-linea/

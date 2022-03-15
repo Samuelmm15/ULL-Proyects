@@ -42,10 +42,9 @@ def Aleatory_Nonce():
     nonce_result = '00:00:00:09:00:00:00:4a:00:00:00:00'
     # print()
     # print(nonce_result) # To comprobe the result
-    
     return nonce_result
     
-def ROTL(a_number, b_number): # esta mierda no funciona nada bien
+def ROTL(a_number, b_number):
     a_number = int(a_number, 16)
     auxiliary = (((a_number) << (b_number)) | ((a_number) >> (32 - (b_number))))
     auxiliary = str(auxiliary)
@@ -91,7 +90,6 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
             counter += 1
             l += 1
         S_initial[k] = aux_string
-        # print(S_initial[k]) # To comprobe
         aux_string = ''
         k += 1
         counter = 0
@@ -136,31 +134,24 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
         if counter == 4:
             print()
             counter = 0
-        
-    
     
     ROUNDS = 20 # This is the const of the number of rounds
     S_result = [];
     
-    # Binary transformation
+    # List Copy
     i = 0
     while i < 16:
-        # auxiliary_S = bin(int(S_initial[i], 16))[2:].zfill(32) # with the 16, the hexadecimal number is converted into decimal, and the, the decimal number into binary
-        S_result.append(S_initial[i]) # with zfill, the binary number is refill with zeros
+        S_result.append(S_initial[i])
         i += 1
-
-    # print()
-    # print(S_result) # Necesary to comprobe
-    # print
     
     # Interactions to transform
     i = 0
     while i < ROUNDS:
         # Column Round
-        QR(0, 4, 8, 12, S_result); # columna 0
-        QR(1, 5, 9, 13, S_result); # columna 1
-        QR(2, 6, 10, 14, S_result); # columna 2
-        QR(3, 7, 11, 15, S_result); # columna 3
+        QR(0, 4, 8, 12, S_result); # column 0
+        QR(1, 5, 9, 13, S_result); # column 1
+        QR(2, 6, 10, 14, S_result); # column 2
+        QR(3, 7, 11, 15, S_result); # column 3
         # Diagonal Round 
         QR(0, 5, 10, 15, S_result); # diagonal 1
         QR(1, 6, 11, 12, S_result); # diagonal 2
@@ -208,17 +199,5 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
 if __name__ == '__main__':
     Menu()
 
-
-# IMPORTANTE
-# https://programmerclick.com/article/77661695242/
-
-# Clave a introducir
+# Key to introduce:
 # 00:01:02:03:04:05:06:07:08:09:0a:0b:0c:0d:0e:0f:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f
-# Generador de tokens aleatorios de cualquier tipo
-# https://docs.python.org/es/3.10/library/secrets.html#secrets.token_bytes
-# Conversor de hexadecimal a binario
-# https://www.delftstack.com/es/howto/python/python-hex-to-int/
-# Binary numbers
-# https://www.techiedelight.com/how-to-convert-an-integer-to-a-binary-string-in-python/#:~:text=format()%20function,the%20string%20presentation%20type%20b%20.
-# Imprimir sin un salto de línea
-# https://www.freecodecamp.org/espanol/news/salto-de-linea-en-python-como-imprimir-en-python-sin-un-salto-de-linea/
