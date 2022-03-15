@@ -11,10 +11,6 @@
 # Libraries declaration
 
 # Function declaration
-from itertools import count
-
-# def asint32(i):
-#     return i & 0xFFFFFFFF
 
 def Menu():
     print("<< Bienvenido al programa de cifrado Chacha20 >>")
@@ -53,7 +49,7 @@ def ROTL(a_number, b_number): # esta mierda no funciona nada bien
     a_number = int(a_number, 16)
     auxiliary = (((a_number) << (b_number)) | ((a_number) >> (32 - (b_number))))
     auxiliary = str(auxiliary)
-    auxiliary = hex(int(auxiliary))[2:]
+    auxiliary = hex(int(hex(int(auxiliary)),16) & 0xFFFFFFFF)[2:]
     return auxiliary
     # auxiliary_array = list(range(4))
     # auxiliary_array[0] = int(a_number, 16)
@@ -66,147 +62,140 @@ def ROTL(a_number, b_number): # esta mierda no funciona nada bien
     
     
 def QR(a_number, b_number, c_number, d_number, QR_array):
-        # rotate = lambda v, c_number: asint32((asint32(v << c_number)) | (asint32(v >> (32 - c_number))))
-        # QR_array[a_number] = asint32(QR_array[a_number] + QR_array[b_number])
-        # QR_array[d_number] = asint32(rotate(QR_array[d_number] ^ QR_array[a_number], 16))
-        # QR_array[c_number] = asint32(QR_array[c_number] + QR_array[d_number])
-        # QR_array[b_number] = asint32(rotate(QR_array[b_number] ^ QR_array[c_number], 12))
-        # QR_array[a_number] = asint32(QR_array[a_number] + QR_array[b_number])
-        # QR_array[d_number] = asint32(rotate(QR_array[d_number] ^ QR_array[a_number], 8))
-        # QR_array[c_number] = asint32(QR_array[c_number] + QR_array[d_number])
-        # QR_array[b_number] = asint32(rotate(QR_array[b_number] ^ QR_array[c_number], 7))
-    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[a_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[a_number] = auxiliary_while
-    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[d_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[d_number] = auxiliary_while
-    QR_array[d_number] = ROTL(QR_array[d_number], 16)[2:].zfill(8)
-    auxiliary = str(QR_array[d_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[d_number] = auxiliary_while
-    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[c_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[c_number] = auxiliary_while
-    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[b_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[b_number] = auxiliary_while
-    QR_array[b_number] = ROTL(QR_array[b_number], 12)[2:].zfill(8)
-    auxiliary = str(QR_array[b_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[b_number] = auxiliary_while
-    QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[a_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[a_number] = auxiliary_while
-    QR_array[d_number] = hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[d_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[d_number] = auxiliary_while
-    QR_array[d_number] = ROTL(QR_array[d_number], 8)[2:].zfill(8)
-    auxiliary = str(QR_array[d_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[d_number] = auxiliary_while
-    QR_array[c_number] = hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[c_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[c_number] = auxiliary_while
-    QR_array[b_number] = hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16))[2:].zfill(8)
-    auxiliary = str(QR_array[b_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[b_number] = auxiliary_while
-    QR_array[b_number] = ROTL(QR_array[b_number], 7)[2:].zfill(8)
-    auxiliary = str(QR_array[b_number])
-    auxiliary_while = ''
-    i = len(auxiliary) - 1
-    counter = 0
-    while i >= 0:
-        if (counter < 8):
-            auxiliary_while = auxiliary_while + auxiliary[i]
-            counter += 1
-        i -= 1
-    QR_array[b_number] = auxiliary_while
+    QR_array[a_number] = hex(int(hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[a_number]) # Está mal, lo imprime de manera inversa
+    # print(auxiliary)
+    # auxiliary_while = ''
+    # # i = len(auxiliary) - 1
+    # # counter = 0
+    # # while i >= 0:
+    # #     if (counter < 8):
+    # #         auxiliary_while = auxiliary_while + auxiliary[i]
+    # #         counter += 1
+    # #     i -= 1
+    # QR_array[a_number] = auxiliary_while
+    # print(auxiliary_while)
+    QR_array[d_number] = hex(int(hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[d_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[d_number] = auxiliary_while
+    QR_array[d_number] = hex(int(ROTL(QR_array[d_number], 16), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[d_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[d_number] = auxiliary_while
+    QR_array[c_number] = hex(int(hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[c_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[c_number] = auxiliary_while
+    QR_array[b_number] = hex(int(hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[b_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[b_number] = auxiliary_while
+    QR_array[b_number] = hex(int(ROTL(QR_array[b_number], 12), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[b_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[b_number] = auxiliary_while
+    QR_array[a_number] = hex(int(hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[a_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[a_number] = auxiliary_while
+    QR_array[d_number] = hex(int(hex(int(QR_array[d_number], 16) ^ int(QR_array[a_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[d_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[d_number] = auxiliary_while
+    QR_array[d_number] = hex(int(ROTL(QR_array[d_number], 8), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[d_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[d_number] = auxiliary_while
+    QR_array[c_number] = hex(int(hex(int(QR_array[c_number], 16) + int(QR_array[d_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[c_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[c_number] = auxiliary_while
+    QR_array[b_number] = hex(int(hex(int(QR_array[b_number], 16) ^ int(QR_array[c_number], 16)), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[b_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[b_number] = auxiliary_while
+    QR_array[b_number] = hex(int(ROTL(QR_array[b_number], 7), 16) & 0xFFFFFFFF)[2:]
+    # auxiliary = str(QR_array[b_number])
+    # auxiliary_while = ''
+    # i = len(auxiliary) - 1
+    # counter = 0
+    # while i >= 0:
+    #     if (counter < 8):
+    #         auxiliary_while = auxiliary_while + auxiliary[i]
+    #         counter += 1
+    #     i -= 1
+    # QR_array[b_number] = auxiliary_while
     
 def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce):
     S_initial = list(range(16))
