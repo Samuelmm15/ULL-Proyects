@@ -235,7 +235,7 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
     
     print()
     print('ESTADO INICIAL= ')
-    print(S_initial) # To comprobe
+    print(S_initial)
     
     ROUNDS = 20 # This is the const of the number of rounds
     S_result = [];
