@@ -13,6 +13,8 @@
 # Function declaration
 from itertools import count
 
+# def asint32(i):
+#     return i & 0xFFFFFFFF
 
 def Menu():
     print("<< Bienvenido al programa de cifrado Chacha20 >>")
@@ -64,14 +66,34 @@ def ROTL(a_number, b_number): # esta mierda no funciona nada bien
     
     
 def QR(a_number, b_number, c_number, d_number, QR_array):
-    i = 0
+        # rotate = lambda v, c_number: asint32((asint32(v << c_number)) | (asint32(v >> (32 - c_number))))
+        # QR_array[a_number] = asint32(QR_array[a_number] + QR_array[b_number])
+        # QR_array[d_number] = asint32(rotate(QR_array[d_number] ^ QR_array[a_number], 16))
+        # QR_array[c_number] = asint32(QR_array[c_number] + QR_array[d_number])
+        # QR_array[b_number] = asint32(rotate(QR_array[b_number] ^ QR_array[c_number], 12))
+        # QR_array[a_number] = asint32(QR_array[a_number] + QR_array[b_number])
+        # QR_array[d_number] = asint32(rotate(QR_array[d_number] ^ QR_array[a_number], 8))
+        # QR_array[c_number] = asint32(QR_array[c_number] + QR_array[d_number])
+        # QR_array[b_number] = asint32(rotate(QR_array[b_number] ^ QR_array[c_number], 7))
+    i = len(QR_array[a_number])
     auxiliary_while = ''
     QR_array[a_number] = hex(int(QR_array[a_number], 16) + int(QR_array[b_number], 16))[2:].zfill(8)
     auxiliary = str(QR_array[a_number])
-    while i < 8:
-        auxiliary_while = auxiliary_while + auxiliary[i]
-        i += 1
+    i = len(QR_array[a_number])
+    print(auxiliary)
+    # counter = 0
+    # for i in auxiliary:
+    #     if counter < 8:
+    #         auxiliary_while = auxiliary_while + i
+    #         counter += 1
+    counter = 0
+    while i > 0:
+        if (counter < 8) & (i > 0):
+            auxiliary_while = auxiliary_while + auxiliary[i]
+            counter += 1
+        i -= 1
     QR_array[a_number] = auxiliary_while
+    print(auxiliary_while)
     i = 0
     auxiliary = ''
     auxiliary_while = ''
