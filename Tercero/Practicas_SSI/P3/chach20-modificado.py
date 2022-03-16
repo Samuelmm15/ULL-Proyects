@@ -175,8 +175,9 @@ def Chacha20_Encryption(hexadecimal_key, hexadecimal_counter, hexadecimal_nonce)
     l = 0
     auxiliary_while = ''
     while i < 16 :
-        auxiliary = hex(int(S_initial[i], 16) + int(S_result[i], 16))[2:]
+        auxiliary = hex(int(hex(int(S_initial[i], 16) + int(S_result[i], 16)), 16) & 0xFFFFFFFF)[2:]
         auxiliary = str(auxiliary)
+        l = 0
         while l < 8:
             auxiliary_while = auxiliary_while + auxiliary[l]
             l += 1
