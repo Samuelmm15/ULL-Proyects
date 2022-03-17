@@ -11,8 +11,6 @@
 # Library declaration
 
 # Function declaration
-from typing import final
-
 
 def Menu():
     print('<< BIENVENIDO A C/A GPS >>')
