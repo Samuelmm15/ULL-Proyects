@@ -99,7 +99,8 @@ def gps_c_a_table(LFSR1, LFSR2, feedback_LFSR1, feedback_LFSR2, C_A_code):
     print(LFSR1, end='         ')
     print(feedback_LFSR1, end='           ')
     print(LFSR2, end='         ')
-    print(feedback_LFSR2)
+    print(feedback_LFSR2, end='                 ')
+    print(C_A_code)
 
 def gps_c_a_encryption(satellite_ID, exit_long):
     final_taps = []
@@ -118,7 +119,6 @@ def gps_c_a_encryption(satellite_ID, exit_long):
     i = 0
     first_position = 0
     second_position = 0
-    last_position = 9
     LFSR1_operator = 0
     LFSR2_operator = 0
     feedback_LFSR1 = 0
@@ -152,7 +152,7 @@ def gps_c_a_encryption(satellite_ID, exit_long):
         LFSR2 = feedback_LFSR2 + str(LFSR2)
         LFSR2 = bin(int(LFSR2, 2) >> 1)[2:].zfill(10)
         # C/A Code
-        LFSR1_operator = LFSR1[last_position]
+        LFSR1_operator = LFSR1[9]
         LFSR2_operator = feedback_LFSR2
         auxiliary = bin(int(LFSR1_operator, 2) ^ int(LFSR2_operator, 2))[2:]
         C_A_secuence.append(auxiliary)
