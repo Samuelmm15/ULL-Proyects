@@ -157,7 +157,7 @@ def gps_c_a_encryption(satellite_ID, exit_long):
         LFSR2 = bin(int(LFSR2, 2) >> 1)[2:].zfill(10)
         # C/A Code
         LFSR1_operator = LFSR1[9]
-        LFSR2_operator = feedback_LFSR2
+        LFSR2_operator = bin(int(first_position, 2) ^ int(second_position, 2))[2:]
         auxiliary = bin(int(LFSR1_operator, 2) ^ int(LFSR2_operator, 2))[2:]
         C_A_secuence.append(auxiliary)
         gps_c_a_table(LFSR1, LFSR2, feedback_LFSR1, feedback_LFSR2, auxiliary)
