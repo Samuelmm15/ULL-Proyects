@@ -130,7 +130,11 @@ def gps_c_a_encryption(satellite_ID, exit_long):
     print('LFSR2', end='          ')
     print('realimentación', end='   ')
     print('Secuencia C/A PRN1')
-    while i < int(exit_long):
+    feedback_LFSR1 = 0
+    feedback_LFSR2 = 0
+    auxiliary = 1
+    gps_c_a_table(LFSR1, LFSR2, feedback_LFSR1, feedback_LFSR2, auxiliary)
+    while i < (int(exit_long) - 1):
         LFSR1_tap1 = 3
         LFSR1_tap2 = 10
         LFSR2_tap1 = final_taps[0]
