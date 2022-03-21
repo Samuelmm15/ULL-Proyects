@@ -130,8 +130,8 @@ def gps_c_a_encryption(satellite_ID, exit_long):
     print('LFSR2', end='          ')
     print('realimentación', end='   ')
     print('Secuencia C/A PRN1')
-    feedback_LFSR1 = 0
-    feedback_LFSR2 = 0
+    feedback_LFSR1 = '0'
+    feedback_LFSR2 = '0'
     auxiliary = 1
     gps_c_a_table(LFSR1, LFSR2, feedback_LFSR1, feedback_LFSR2, auxiliary)
     while i < (int(exit_long) - 1):
@@ -139,25 +139,21 @@ def gps_c_a_encryption(satellite_ID, exit_long):
         LFSR1_tap2 = 10
         LFSR2_tap1 = final_taps[0]
         LFSR2_tap2 = final_taps[1]
-        # LFSR1 operation
-        first_position = LFSR1[LFSR1_tap1 - 1]
-        second_position = LFSR1[LFSR1_tap2 - 1]
-        feedback_LFSR1 = bin(int(first_position, 2) ^ int(second_position, 2))[2:]
         # scrolling
         LFSR1 = feedback_LFSR1 + str(LFSR1)
         LFSR1 = bin((int(LFSR1, 2) >> 1))[2:].zfill(10)
+        # LFSR1 operation
+        feedback_LFSR1 = bin(int(LFSR1[LFSR1_tap1 - 1], 2) ^ int(LFSR1[LFSR1_tap2 - 1], 2))[2:]
+         # scrolling
+        LFSR2 = feedback_LFSR2 + str(LFSR2)
+        LFSR2 = bin(int(LFSR2, 2) >> 1)[2:].zfill(10)
         # LFSR2 operation
-        first_position = LFSR2[LFSR2_tap1 - 1]
-        second_position = LFSR2[LFSR2_tap2 - 1]
         first_xor = bin(int(LFSR2[9], 2) ^ int(LFSR2[8], 2) ^ int(LFSR2[7], 2) ^ int(LFSR2[5], 2))[2:]
         second_xor = bin(int(LFSR2[1], 2) ^ int(LFSR2[2], 2) ^ int(first_xor, 2))
         feedback_LFSR2 = bin(int(second_xor, 2))[2:]
-        # scrolling
-        LFSR2 = feedback_LFSR2 + str(LFSR2)
-        LFSR2 = bin(int(LFSR2, 2) >> 1)[2:].zfill(10)
         # C/A Code
         LFSR1_operator = LFSR1[9]
-        LFSR2_operator = bin(int(first_position, 2) ^ int(second_position, 2))[2:]
+        LFSR2_operator = bin(int(LFSR2[LFSR2_tap1 - 1], 2) ^ int( LFSR2[LFSR2_tap2 - 1], 2))[2:]
         auxiliary = bin(int(LFSR1_operator, 2) ^ int(LFSR2_operator, 2))[2:]
         C_A_secuence.append(auxiliary)
         gps_c_a_table(LFSR1, LFSR2, feedback_LFSR1, feedback_LFSR2, auxiliary)
