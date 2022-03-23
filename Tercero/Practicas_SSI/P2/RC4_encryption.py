@@ -47,7 +47,7 @@ def RC4_encryption(key_seed, original_message):
         K_array.append(key_seed[j])
         i += 1
         j+= 1
-        if j == 2:
+        if j == len(key_seed):
             j = 0
     print()
     print(S_array)  # Comprobation of the inicialization
@@ -60,7 +60,7 @@ def RC4_encryption(key_seed, original_message):
         j = (j + S_array[i] + K_array[i]) % 256
         auxiliary = S_array[i]  # De esta manera se realiza el intercambio de los valores de las listas
         S_array[i] = S_array[j]
-        S_array[j] = auxiliary
+        S_array[j] = auxiliary   
         i += 1
     print()
     print("Tras la inicialización de los arrys se obtiene: ")
