@@ -100,7 +100,6 @@ def SNOW3G_multiplication(first_byte, second_byte):
         else:
             table = bin(int(table, 2) << 1)[2:].zfill(8)
             Table_print(table)
-        # Table_print(k, table)
         if second_byte[l] == '1':
             result.append(table)
         l -= 1
@@ -184,7 +183,6 @@ def AES_multplication(first_byte, second_byte):
         else:
             table = bin(int(table, 2) << 1)[2:].zfill(8)
             Table_print(table)
-        # Table_print(k, table)
         if second_byte[l] == '1':
             result.append(table)
         l -= 1
