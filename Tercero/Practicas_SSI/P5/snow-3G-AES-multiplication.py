@@ -78,11 +78,13 @@ def SNOW3G_multiplication(first_byte, second_byte):
     table = first_byte
     Table_print(table)
     if second_byte[7] == '1':
-            result.append(table)
+        result.append(table)
     # Scrolling
-    table = bin((int(table, 2) << 1))[2:].zfill(8)
+    table = bin(int(table, 2) << 1)[2:].zfill(8)
+    if len(table) > 8:
+        table = bin(int(table, 2))[3:]
     if second_byte[6] == '1':
-            result.append(table)
+        result.append(table)
     Table_print(table)
     l = 5
     while k < 7:
@@ -161,11 +163,13 @@ def AES_multplication(first_byte, second_byte):
     table = first_byte
     Table_print(table)
     if second_byte[7] == '1':
-            result.append(table)
+        result.append(table)
     # Scrolling
     table = bin((int(table, 2) << 1))[2:].zfill(8)
+    if len(table) > 8:
+        table = bin(int(table, 2))[3:]
     if second_byte[6] == '1':
-            result.append(table)
+        result.append(table)
     Table_print(table)
     l = 5
     while k < 7:
@@ -191,8 +195,11 @@ def AES_multplication(first_byte, second_byte):
     print()
     m = 1
     final_result = result[0]
+    print()
+    print(final_result)
     while m < len(result):
-        final_result = bin(int(final_result, 2) ^ int(result[m], 2))[2:]
+        print(result[m])
+        final_result = bin(int(final_result, 2) ^ int(result[m], 2))[2:].zfill(8)
         m += 1
     print()
     print(f'El resultado final de la multiplicación es: {final_result}')
