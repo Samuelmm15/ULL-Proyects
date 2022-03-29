@@ -165,12 +165,21 @@ def AES_multplication(first_byte, second_byte):
     if second_byte[7] == '1':
         result.append(table)
     # Scrolling
-    table = bin((int(table, 2) << 1))[2:].zfill(8)
-    if len(table) > 8:
-        table = bin(int(table, 2))[3:]
+    if table[0] == '1': # Table iteration
+        table = bin((int(table, 2) << 1))[2:].zfill(8)
+        auxiliary = ''
+        j = 1
+        while j < len(table): # To obtain the first operator
+            auxiliary = auxiliary + table[j]
+            j += 1
+        table = auxiliary
+        auxiliary_result = bin(int(table, 2) ^ int(algorithm_byte, 2))[2:].zfill(8)
+        table = auxiliary_result
+    else:
+        table = bin(int(table, 2) << 1)[2:].zfill(8)
     if second_byte[6] == '1':
         result.append(table)
-    Table_print(table)
+    Table_print(table) # Second iteration
     l = 5
     while k < 7:
         if table[0] == '1': # Table iteration
