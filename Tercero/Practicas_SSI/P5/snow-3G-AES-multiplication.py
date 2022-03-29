@@ -196,9 +196,7 @@ def AES_multplication(first_byte, second_byte):
     m = 1
     final_result = result[0]
     print()
-    print(final_result)
     while m < len(result):
-        print(result[m])
         final_result = bin(int(final_result, 2) ^ int(result[m], 2))[2:].zfill(8)
         m += 1
     print()
