@@ -36,3 +36,16 @@ def addRoundKey(key, text_block):
     print('Los valores separados por pares son: ')
     print(key_matrix)
     print(text_block_matrix)
+    
+    # AddRoundKey Operation
+    i = 0
+    result_auxiliary = 0
+    result_matrix = []
+    while i < len(key_matrix):
+        result_auxiliary = hex(int(key_matrix[i], 16) ^ int(text_block_matrix[i], 16) & 0xFF)[2:].zfill(2)
+        result_matrix.append(result_auxiliary)
+        i += 1
+        
+    print()
+    print('Resultado tras la primera iteracción: ')
+    print(result_matrix)
