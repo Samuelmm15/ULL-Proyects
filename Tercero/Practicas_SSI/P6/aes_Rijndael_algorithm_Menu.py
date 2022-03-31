@@ -9,6 +9,7 @@
 """
 
 from aes_Rijndael_algorithm_addRoundKey import addRoundKey
+from aes_Rijndael_algorithm_ByteSub import ByteSub
 
 def Menu():
     print()
@@ -83,8 +84,8 @@ def Menu():
         i += 1
     
     # This is the initial Round
-    cifer_text_block = addRoundKey(key_matrix, text_block_matrix)
-    
+    cipher_text_block = addRoundKey(key_matrix, text_block_matrix)
+    cipher_text_block = ByteSub(cipher_text_block)
     # This is the standard Round
     i = 0
     while i < 9:
