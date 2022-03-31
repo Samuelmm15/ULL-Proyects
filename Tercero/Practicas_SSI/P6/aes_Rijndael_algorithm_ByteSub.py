@@ -28,18 +28,25 @@ def ByteSub(cipher_text_block):
              ['8c','a1','89','0d','bf','e6','42','68','41','99','2d','0f','b0','54','bb','16']]
     
     # Initialization of the algorith
+    auxiliary_row = []
     cipher_text_block_result = []
     first_position = 0
     second_position = 0
     i = 0
+    j = 0
     counter = 0
     while i < len(cipher_text_block):
-        # Initialization of the values
-        auxiliary = cipher_text_block[i]
-        first_position = int(auxiliary[0], 16) # To convert into decimal numbers
-        second_position = int(auxiliary[1], 16)
-        # The algorithm starts here
-        cipher_text_block_result.append(s_Box[first_position][second_position])
+        while j < len(cipher_text_block[i]):
+            # Initialization of the values
+            auxiliary = cipher_text_block[i][j]
+            first_position = int(auxiliary[0], 16) # To convert into decimal numbers
+            second_position = int(auxiliary[1], 16)
+            # The algorithm starts here
+            auxiliary_row.append(s_Box[first_position][second_position])
+            j += 1
+        cipher_text_block_result.append(auxiliary_row)
+        auxiliary_row = []
+        j = 0
         i += 1
         
     print()
@@ -47,15 +54,12 @@ def ByteSub(cipher_text_block):
     
     i = 0
     j = 0
-    counter = 0
     while i < len(cipher_text_block_result):
-        j = i
-        if counter < 4:
-            while j < len(cipher_text_block_result):
-                print(cipher_text_block_result[j], end=' ')
-                j += 4
-            print()
-        counter += 1
+        while j < len(cipher_text_block_result[i]):
+            print(cipher_text_block_result[i][j], end=' ')
+            j += 1
+        print()
+        j = 0
         i += 1
     
     return cipher_text_block_result
