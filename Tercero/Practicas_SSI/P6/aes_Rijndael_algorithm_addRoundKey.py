@@ -13,27 +13,32 @@
 def addRoundKey(key_matrix, text_block_matrix):
     # AddRoundKey Operation
     i = 0
+    j = 0
+    auxiliary_row = []
     result_auxiliary = 0
     result_matrix = []
     while i < len(key_matrix):
-        result_auxiliary = hex(int(key_matrix[i], 16) ^ int(text_block_matrix[i], 16) & 0xFF)[2:].zfill(2)
-        result_matrix.append(result_auxiliary)
+        while j < len(key_matrix[i]):
+            result_auxiliary = hex(int(key_matrix[i][j], 16) ^ int(text_block_matrix[i][j], 16) & 0xFF)[2:].zfill(2)
+            auxiliary_row.append(result_auxiliary)
+            j += 1
+        result_matrix.append(auxiliary_row)
+        auxiliary_row = []
+        j = 0
         i += 1
         
     print()
     print('Resultado tras la primera iteracción: ')
     
+    print()
     i = 0
     j = 0
-    counter = 0
     while i < len(result_matrix):
-        j = i
-        if counter < 4:
-            while j < len(result_matrix):
-                print(result_matrix[j], end=' ')
-                j += 4
-            print()
-        counter += 1
+        while j < len(result_matrix[i]):
+            print(result_matrix[i][j], end=' ')
+            j += 1
+        print()
+        j = 0
         i += 1
     
     return result_matrix
