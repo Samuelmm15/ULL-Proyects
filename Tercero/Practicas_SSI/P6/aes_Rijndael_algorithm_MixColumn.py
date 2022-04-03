@@ -11,7 +11,7 @@
 # Multiply all the column to a standar matrix
 
 def MixColumn(cipher_text_block):
-    mixColumn_matrix = [['2','3','1','1'],
+    mixColumn_matrix = [['2','3','1','1'],      # ESTA ES LA OPERACIÓN QUE ESTÁ MAL HECHA, ESTO NO SE DEBDE DE HACER ASÍ, MIRAR EL ALGORITMO DE LA PRÁCTICA
                         ['1','2','3','1'],
                         ['1','1','2','3'],
                         ['3','1','1','2']]
