@@ -134,3 +134,4 @@ def Key_extension(key, interation):
         j = 0
         i += 1
     
+    return auxiliary_key
