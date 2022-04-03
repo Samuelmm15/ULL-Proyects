@@ -121,6 +121,7 @@ def Menu():
     cipher_text_block = ShiftRow(cipher_text_block)
     cipher_text_block = MixColumn(cipher_text_block)
     key_matrix_converted = Key_extension(key_matrix_converted, 1)
+    cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
     # This is the standard Round
     i = 0
     while i < 9:

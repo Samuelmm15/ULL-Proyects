@@ -16,10 +16,21 @@ def Key_extension(key, interation):
                    ['0','0','0','0','0','0','0','0','0','0'],
                    ['0','0','0','0','0','0','0','0','0','0']]
     
+    
+    
     first_column = []
     second_column = []
     thirth_column = []
     forth_column = []
+    fifth_column = []
+    
+    # Obtain the forth column
+    i = 0
+    j = 3
+    while i < len(key):
+        fifth_column.append(key[i][j])
+        i += 1
+    
     auxiliary_key = []
     i = 0
     j = len(key) - 1
@@ -98,25 +109,16 @@ def Key_extension(key, interation):
         i += 1
     
     # Forth XOR
-    # Obtain the forth column
-    i = 0
-    j = 3
-    forth_column.clear()
-    while i < len(key):
-        forth_column.append(key[i][j])
-        i += 1
-        
-    
     # The XOR operation
     i = 0
     while i < len(forth_column):
-        forth_column[i] = hex(int(thirth_column[i], 16) ^ int(forth_column[i], 16) & 0xFF)[2:].zfill(2)
+        fifth_column[i] = hex(int(thirth_column[i], 16) ^ int(fifth_column[i], 16) & 0xFF)[2:].zfill(2)
         i += 1
     
     auxiliary_key.append(first_column)
     auxiliary_key.append(second_column)
     auxiliary_key.append(thirth_column)
-    auxiliary_key.append(forth_column)
+    auxiliary_key.append(fifth_column)
     
     print()
     print('Finalmente, la subclave generada es: ')
@@ -131,5 +133,4 @@ def Key_extension(key, interation):
         print()
         j = 0
         i += 1
-    
     

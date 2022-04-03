@@ -28,7 +28,7 @@ def addRoundKey(key_matrix, text_block_matrix):
         i += 1
         
     print()
-    print('Resultado tras la primera iteracción: ')
+    print('Resultado final de addRoundKey: ')
     
     print()
     i = 0
