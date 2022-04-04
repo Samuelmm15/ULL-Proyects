@@ -129,3 +129,5 @@ def MixColumn(cipher_text_block):
         print()
         j = 0
         i += 1
+        
+    return cipher_text_block_result
