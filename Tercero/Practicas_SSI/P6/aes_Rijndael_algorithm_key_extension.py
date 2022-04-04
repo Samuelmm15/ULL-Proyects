@@ -115,9 +115,22 @@ def Key_extension(key, interation):
         fifth_column[i] = hex(int(thirth_column[i], 16) ^ int(fifth_column[i], 16) & 0xFF)[2:].zfill(2)
         i += 1
     
-    auxiliary_key.append(first_column)
-    auxiliary_key.append(second_column)
-    auxiliary_key.append(thirth_column)
-    auxiliary_key.append(fifth_column)
+    auxiliary_key = []
+    auxiliary_row = []
     
+    # To introduce the columns into the matrix
+    i = 0
+    while i < 4:
+        auxiliary_row.append(first_column[i]) # CUIDADO CON LA PRIMERA FILA QUE ESTÁ MAL, PERO EL RESTO NO
+        auxiliary_row.append(second_column[i])
+        auxiliary_row.append(thirth_column[i])
+        auxiliary_row.append(fifth_column[i])
+        auxiliary_key.append(auxiliary_row)
+        auxiliary_row = []
+        i += 1
+        
+    print(auxiliary_key)
+        
     return auxiliary_key
+
+    # Esto está correcto

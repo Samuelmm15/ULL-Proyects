@@ -56,10 +56,7 @@ def Menu():
         auxiliary_string_key = ''
         counter = 0
         i += 2
-    
-    print(text_block_matrix)
-    print(key_matrix)
-    
+        
     # Convert in a real matrix to rotate the rows
     key_matrix_auxiliary = []
     key_matrix_converted = []
@@ -93,10 +90,6 @@ def Menu():
             text_block_auxiliary = []
         counter += 1
         i += 1
-    
-    print()
-    print(key_matrix_converted)
-    print(text_block_converted)
        
     # print()
     # print('Las matrices iniciales son: ')
