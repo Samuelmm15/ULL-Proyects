@@ -56,7 +56,10 @@ def Menu():
         auxiliary_string_key = ''
         counter = 0
         i += 2
-        
+    
+    print(text_block_matrix)
+    print(key_matrix)
+    
     # Convert in a real matrix to rotate the rows
     key_matrix_auxiliary = []
     key_matrix_converted = []
@@ -64,16 +67,15 @@ def Menu():
     j = 0
     counter = 0
     while i < len(key_matrix):
-        j = i
-        while j < len(key_matrix):
-            if (counter < 4):
+        if (counter < 4):
+            j = i
+            while j < len(key_matrix):
                 key_matrix_auxiliary.append(key_matrix[j])
-                counter += 1
-            j += 1
-        key_matrix_converted.append(key_matrix_auxiliary)
-        key_matrix_auxiliary = []
-        counter = 0
-        i += 4
+                j += 4
+            key_matrix_converted.append(key_matrix_auxiliary)
+            key_matrix_auxiliary = []
+        counter += 1
+        i += 1
         
     # Convert in a real matrix to rotate the rows
     text_block_auxiliary = []
@@ -82,16 +84,19 @@ def Menu():
     j = 0
     counter = 0
     while i < len(text_block_matrix):
-        j = i
-        while j < len(text_block_matrix):
-            if (counter < 4):
+        if (counter < 4):
+            j = i
+            while j < len(text_block_matrix):
                 text_block_auxiliary.append(text_block_matrix[j])
-                counter += 1
-            j += 1
-        text_block_converted.append(text_block_auxiliary)
-        text_block_auxiliary = []
-        counter = 0
-        i += 4
+                j += 4
+            text_block_converted.append(text_block_auxiliary)
+            text_block_auxiliary = []
+        counter += 1
+        i += 1
+    
+    print()
+    print(key_matrix_converted)
+    print(text_block_converted)
        
     # print()
     # print('Las matrices iniciales son: ')
