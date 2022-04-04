@@ -117,13 +117,19 @@ def Menu():
     
     # This is the initial Round
     cipher_text_block = addRoundKey(key_matrix_converted, text_block_converted) # This is the first iteration
+    # This is the standard Round
+    i = 1
+    while i < 9:
+        cipher_text_block = ByteSub(cipher_text_block, 0)
+        cipher_text_block = ShiftRow(cipher_text_block)
+        cipher_text_block = MixColumn(cipher_text_block)
+        key_matrix_converted = Key_extension(key_matrix_converted, i)
+        cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
+        i += 1
+    
+    # This is the las Round    
     cipher_text_block = ByteSub(cipher_text_block, 0)
     cipher_text_block = ShiftRow(cipher_text_block)
-    cipher_text_block = MixColumn(cipher_text_block)
-    key_matrix_converted = Key_extension(key_matrix_converted, 1)
+    key_matrix_converted = Key_extension(key_matrix_converted, 9)
     cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
-    # This is the standard Round
-    i = 0
-    while i < 9:
-        # cipher_text_block = ByteSub(cipher_text_block)
-        i += 1
+    

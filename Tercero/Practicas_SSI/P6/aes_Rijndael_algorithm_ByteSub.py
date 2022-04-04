@@ -50,18 +50,18 @@ def ByteSub(cipher_text_block, flag):
             j = 0
             i += 1
         
-        print()
-        print('Resultado tras el intercambio por la caja: ')
+        # print()
+        # print('Resultado tras el intercambio por la caja: ')
     
-        i = 0
-        j = 0
-        while i < len(cipher_text_block_result):
-            while j < len(cipher_text_block_result[i]):
-                print(cipher_text_block_result[i][j], end=' ')
-                j += 1
-            print()
-            j = 0
-            i += 1
+        # i = 0
+        # j = 0
+        # while i < len(cipher_text_block_result):
+        #     while j < len(cipher_text_block_result[i]):
+        #         print(cipher_text_block_result[i][j], end=' ')
+        #         j += 1
+        #     print()
+        #     j = 0
+        #     i += 1
     
         return cipher_text_block_result
     

@@ -40,17 +40,17 @@ def ShiftRow(cipher_text_block):
         j = 0
         i += 1
     
-    # Print
-    print()
-    print('El resultado tras el desplazamiento de las filas es: ')
-    i = 0
-    j = 0
-    while i < len(cipher_text_block):
-        while j < len(cipher_text_block[i]):
-            print(cipher_text_block[i][j], end=' ')
-            j += 1
-        print()
-        j = 0
-        i += 1
+    # # Print
+    # print()
+    # print('El resultado tras el desplazamiento de las filas es: ')
+    # i = 0
+    # j = 0
+    # while i < len(cipher_text_block):
+    #     while j < len(cipher_text_block[i]):
+    #         print(cipher_text_block[i][j], end=' ')
+    #         j += 1
+    #     print()
+    #     j = 0
+    #     i += 1
         
     return cipher_text_block
