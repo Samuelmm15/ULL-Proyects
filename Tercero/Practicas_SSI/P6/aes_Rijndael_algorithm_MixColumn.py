@@ -8,6 +8,8 @@
  @copyright Copyright (c) 2022
 """
 
+# EL MIX COLUMN NO FUNCIONA DE MANERA CORRECTA
+
 # Multiply all the column to a standar matrix
 
 def MixColumn(cipher_text_block):
