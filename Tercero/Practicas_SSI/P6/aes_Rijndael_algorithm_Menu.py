@@ -13,6 +13,7 @@ from aes_Rijndael_algorithm_ByteSub import ByteSub
 from aes_Rijndael_algorithm_ShiftRow import ShiftRow
 from aes_Rijndael_algorithm_MixColumn import MixColumn
 from aes_Rijndael_algorithm_key_extension import Key_extension
+from aes_Rijndael_algorithm_print import Result_Print
 
 def Menu():
     print()
@@ -115,6 +116,9 @@ def Menu():
         j = 0
         i += 1
     
+    print()
+    Result_Print(0, text_block_converted, key_matrix_converted)
+    
     # This is the initial Round
     cipher_text_block = addRoundKey(key_matrix_converted, text_block_converted) # This is the first iteration
     # This is the standard Round
@@ -125,6 +129,7 @@ def Menu():
         cipher_text_block = MixColumn(cipher_text_block)
         key_matrix_converted = Key_extension(key_matrix_converted, i)
         cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
+        Result_Print(i, cipher_text_block, key_matrix_converted)
         i += 1
     
     # This is the las Round    
@@ -132,4 +137,5 @@ def Menu():
     cipher_text_block = ShiftRow(cipher_text_block)
     key_matrix_converted = Key_extension(key_matrix_converted, 9)
     cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
+    Result_Print(10, cipher_text_block, key_matrix_converted)
     

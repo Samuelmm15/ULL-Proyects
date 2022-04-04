@@ -120,18 +120,4 @@ def Key_extension(key, interation):
     auxiliary_key.append(thirth_column)
     auxiliary_key.append(fifth_column)
     
-    print()
-    print('Finalmente, la subclave generada es: ')
-    
-    print()
-    i = 0
-    j = 0
-    while i < len(auxiliary_key):
-        while j < len(auxiliary_key[i]):
-            print(auxiliary_key[i][j], end=' ')
-            j += 1
-        print()
-        j = 0
-        i += 1
-    
     return auxiliary_key
