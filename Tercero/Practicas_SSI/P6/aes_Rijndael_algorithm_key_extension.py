@@ -21,43 +21,39 @@ def Key_extension(key, interation):
     first_column = []
     second_column = []
     thirth_column = []
-    forth_column = []
-    fifth_column = []
-    
-    # Obtain the forth column
+    fourth_column = []
+    last_column = []
+        
+    # Obtain the last column
     i = 0
     j = 3
     while i < len(key):
-        fifth_column.append(key[i][j])
+        last_column.append(key[i][j])
         i += 1
     
-    auxiliary_key = []
+    # RotWord
+    auxiliary_column = []
     i = 0
-    j = len(key) - 1
-    # To exchange the last column
+    j = 3 # len(key) - 1
     while i < len(key):
         if (i == 0) and (j == (len(key) - 1)):
-            auxiliary_value = key[i][j]
-            key[i].remove(auxiliary_value)
+            auxiliary_value = key[i][j] # This is the last word
+            last_column.remove(auxiliary_value)
             i += 1
             while i < len(key):
                 previous_value = key[i][j]
-                key[i-1].append(previous_value)
-                key[i].remove(previous_value)
+                auxiliary_column.append(previous_value)
+                last_column.remove(previous_value)
                 i += 1
             i = 0
         if (i == (len(key) - 1)) and (j == (len(key) - 1)):
-            key[i].append(auxiliary_value)
+            auxiliary_column.append(auxiliary_value)
         i += 1
           
-    # Realize subBytes with the last column
-    i = 0
-    j = len(key) - 1
-    while i < len(key):  # To obtain the last column to realize the subbytes operation
-        forth_column.append(key[i][j])
-        i += 1
+    print(auxiliary_column)
+    last_column = auxiliary_column
         
-    forth_column = ByteSub(forth_column, 1)
+    last_column = ByteSub(last_column, 1)
     
     # The xor operation at all the columns
     i = 0
@@ -77,7 +73,7 @@ def Key_extension(key, interation):
     # XOR operation with the columns, the first XOR
     i = 0
     while i < len(first_column):
-        first_column[i] = hex(int(forth_column[i], 16) ^ int(first_column[i], 16) ^int(n_column_rcon[i], 16) & 0xFF)[2:].zfill(2)
+        first_column[i] = hex(int(last_column[i], 16) ^ int(first_column[i], 16) ^int(n_column_rcon[i], 16) & 0xFF)[2:].zfill(2)
         i += 1
     
     # Second XOR
@@ -109,10 +105,16 @@ def Key_extension(key, interation):
         i += 1
     
     # Forth XOR
+    # Obtain the fourth column
+    i = 0
+    j = 3
+    while i < len(key):
+        fourth_column.append(key[i][j])
+        i += 1
     # The XOR operation
     i = 0
-    while i < len(forth_column):
-        fifth_column[i] = hex(int(thirth_column[i], 16) ^ int(fifth_column[i], 16) & 0xFF)[2:].zfill(2)
+    while i < len(fourth_column):
+        fourth_column[i] = hex(int(thirth_column[i], 16) ^ int(fourth_column[i], 16) & 0xFF)[2:].zfill(2)
         i += 1
     
     auxiliary_key = []
@@ -124,13 +126,15 @@ def Key_extension(key, interation):
         auxiliary_row.append(first_column[i]) # CUIDADO CON LA PRIMERA FILA QUE ESTÁ MAL, PERO EL RESTO NO
         auxiliary_row.append(second_column[i])
         auxiliary_row.append(thirth_column[i])
-        auxiliary_row.append(fifth_column[i])
+        auxiliary_row.append(fourth_column[i])
         auxiliary_key.append(auxiliary_row)
         auxiliary_row = []
         i += 1
         
+    # print(auxiliary_key)
+    
     print(auxiliary_key)
-        
+     
     return auxiliary_key
 
     # Esto está correcto

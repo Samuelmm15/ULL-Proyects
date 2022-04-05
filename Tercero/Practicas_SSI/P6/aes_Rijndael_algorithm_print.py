@@ -14,7 +14,7 @@ def Result_Print(iteration, cipher_text_block, key):
     j = 0
     while i < len(key):
         while j < len(key[i]):
-            auxiliary_key = auxiliary_key + key[i][j]
+            auxiliary_key = auxiliary_key + key[j][i]
             j += 1
         j = 0
         i += 1
@@ -24,7 +24,7 @@ def Result_Print(iteration, cipher_text_block, key):
     j = 0
     while i < len(cipher_text_block):
         while j < len(cipher_text_block[i]):
-            auxiliary_cipher_text_block = auxiliary_cipher_text_block + cipher_text_block[i][j]
+            auxiliary_cipher_text_block = auxiliary_cipher_text_block + cipher_text_block[j][i]
             j += 1
         j = 0
         i += 1

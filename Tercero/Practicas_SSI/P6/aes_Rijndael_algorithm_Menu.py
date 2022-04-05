@@ -91,30 +91,6 @@ def Menu():
         counter += 1
         i += 1
        
-    # print()
-    # print('Las matrices iniciales son: ')
-    
-    # i = 0
-    # j = 0
-    # while i < len(key_matrix_converted):
-    #     while j < len(key_matrix_converted[i]):
-    #         print(key_matrix_converted[i][j], end=' ')
-    #         j += 1
-    #     print()
-    #     j = 0
-    #     i += 1
-    
-    # print()
-    # i = 0
-    # j = 0
-    # while i < len(text_block_converted):
-    #     while j < len(text_block_converted[i]):
-    #         print(text_block_converted[i][j], end=' ')
-    #         j += 1
-    #     print()
-    #     j = 0
-    #     i += 1
-    
     print()
     Result_Print(0, text_block_converted, key_matrix_converted)
     

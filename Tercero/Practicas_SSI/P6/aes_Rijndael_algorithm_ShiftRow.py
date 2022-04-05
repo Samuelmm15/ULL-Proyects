@@ -40,7 +40,7 @@ def ShiftRow(cipher_text_block):
         j = 0
         i += 1
     
-    print(cipher_text_block)
+    # print(cipher_text_block)
     
     # # Print
     # print()
