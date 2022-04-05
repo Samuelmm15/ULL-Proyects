@@ -50,7 +50,6 @@ def Key_extension(key, interation):
             auxiliary_column.append(auxiliary_value)
         i += 1
           
-    print(auxiliary_column)
     last_column = auxiliary_column
         
     last_column = ByteSub(last_column, 1)
@@ -132,8 +131,6 @@ def Key_extension(key, interation):
         i += 1
         
     # print(auxiliary_key)
-    
-    print(auxiliary_key)
      
     return auxiliary_key
 

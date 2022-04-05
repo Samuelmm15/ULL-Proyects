@@ -98,7 +98,7 @@ def Menu():
     cipher_text_block = addRoundKey(key_matrix_converted, text_block_converted) # This is the first iteration
     # This is the standard Round
     i = 1
-    while i < 9:
+    while i <= 9:
         cipher_text_block = ByteSub(cipher_text_block, 0)
         cipher_text_block = ShiftRow(cipher_text_block)
         cipher_text_block = MixColumn(cipher_text_block)
@@ -110,7 +110,20 @@ def Menu():
     # This is the las Round    
     cipher_text_block = ByteSub(cipher_text_block, 0)
     cipher_text_block = ShiftRow(cipher_text_block)
-    key_matrix_converted = Key_extension(key_matrix_converted, 9)
+    key_matrix_converted = Key_extension(key_matrix_converted, 10)
     cipher_text_block = addRoundKey(key_matrix_converted, cipher_text_block)
     Result_Print(10, cipher_text_block, key_matrix_converted)
+    
+    auxiliary_cipher_text_block = ''
+    i = 0
+    j = 0
+    while i < len(cipher_text_block):
+        while j < len(cipher_text_block[i]):
+            auxiliary_cipher_text_block = auxiliary_cipher_text_block + cipher_text_block[j][i]
+            j += 1
+        j = 0
+        i += 1
+    
+    print()
+    print(f'Bloque de texto cifrado: {auxiliary_cipher_text_block}')
     
