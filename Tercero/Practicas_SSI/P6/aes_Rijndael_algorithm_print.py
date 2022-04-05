@@ -29,33 +29,4 @@ def Result_Print(iteration, cipher_text_block, key):
         j = 0
         i += 1
     
-    print(f'R{iteration} (Subclave = {auxiliary_key}) = {auxiliary_cipher_text_block}')    
-    
-    
-# print()
-#     print('Resultado final de addRoundKey: ')
-    
-#     print()
-#     i = 0
-#     j = 0
-#     while i < len(result_matrix):
-#         while j < len(result_matrix[i]):
-#             print(result_matrix[i][j], end=' ')
-#             j += 1
-#         print()
-#         j = 0
-#         i += 1
-
-# print()
-#     print('Finalmente, la subclave generada es: ')
-    
-#     print()
-#     i = 0
-#     j = 0
-#     while i < len(auxiliary_key):
-#         while j < len(auxiliary_key[i]):
-#             print(auxiliary_key[i][j], end=' ')
-#             j += 1
-#         print()
-#         j = 0
-#         i += 1
+    print(f'R{iteration} (Subclave = {auxiliary_key}) = {auxiliary_cipher_text_block}')

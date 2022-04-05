@@ -183,6 +183,5 @@ def MixColumn(cipher_text_block):
         auxiliary_row = []
         i += 1
         
-    # print(final_result)
     return final_result
     

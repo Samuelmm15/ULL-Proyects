@@ -129,9 +129,5 @@ def Key_extension(key, interation):
         auxiliary_key.append(auxiliary_row)
         auxiliary_row = []
         i += 1
-        
-    # print(auxiliary_key)
-     
+             
     return auxiliary_key
-
-    # Esto está correcto

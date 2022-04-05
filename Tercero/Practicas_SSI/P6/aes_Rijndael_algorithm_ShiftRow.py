@@ -8,11 +8,6 @@
  @copyright Copyright (c) 2022
 """
 
-# Primera fila rota 0 bytes
-# Segunda fila rota 1 byte
-# Tercera fila rota 2 bytes
-# Cuarta fila rota 3 bytes
-
 def ShiftRow(cipher_text_block):
     # The algorithm starts here
     i = 0
@@ -39,22 +34,5 @@ def ShiftRow(cipher_text_block):
         counter = 0
         j = 0
         i += 1
-    
-    # print(cipher_text_block)
-    
-    # # Print
-    # print()
-    # print('El resultado tras el desplazamiento de las filas es: ')
-    # i = 0
-    # j = 0
-    # while i < len(cipher_text_block):
-    #     while j < len(cipher_text_block[i]):
-    #         print(cipher_text_block[i][j], end=' ')
-    #         j += 1
-    #     print()
-    #     j = 0
-    #     i += 1
-        
+       
     return cipher_text_block
-
-    # ESTO ESTÁ CORRECTO
