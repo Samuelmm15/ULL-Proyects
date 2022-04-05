@@ -82,8 +82,6 @@ def MixColumn(cipher_text_block):
     second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
     first_column_result.append(hex(int(first_operation,16) ^ int(first_column[1],16) ^ int(first_column[2],16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
     
-    print(first_column_result)
-    
     second_column = []
     second_column_result = []
     # Obtain the second column
@@ -92,6 +90,29 @@ def MixColumn(cipher_text_block):
     while i < len(cipher_text_block):
         second_column.append(cipher_text_block[i][j])
         i += 1
+        
+    first_operation = AES_multplication(first_row[0], second_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(first_row[1], second_column[1])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    second_column_result.append(hex(int(first_operation,16) ^ int(second_operation,16) ^ int(second_column[2],16) ^ int(second_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(second_row[1], second_column[1])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    print(first_operation)
+    second_operation = AES_multplication(second_row[2], second_column[2])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    print(second_operation)
+    second_column_result.append(hex(int(second_column[0],16) ^ int(first_operation,16) ^ int(second_operation,16) ^ int(second_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(thirth_row[2], second_column[2])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(thirth_row[3], second_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    second_column_result.append(hex(int(second_column[0],16) ^ int(second_column[1],16) ^ int(first_operation,16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(fourth_row[0], second_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(fourth_row[3], second_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    second_column_result.append(hex(int(first_operation,16) ^ int(second_column[1],16) ^ int(second_column[2],16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
     
     thirth_column = []
     thirth_column_result = [] 
@@ -101,6 +122,29 @@ def MixColumn(cipher_text_block):
     while i < len(cipher_text_block):
         thirth_column.append(cipher_text_block[i][j])
         i += 1
+        
+    first_operation = AES_multplication(first_row[0], thirth_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(first_row[1], thirth_column[1])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    thirth_column_result.append(hex(int(first_operation,16) ^ int(second_operation,16) ^ int(thirth_column[2],16) ^ int(thirth_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(second_row[1], thirth_column[1])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    print(first_operation)
+    second_operation = AES_multplication(second_row[2], thirth_column[2])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    print(second_operation)
+    thirth_column_result.append(hex(int(thirth_column[0],16) ^ int(first_operation,16) ^ int(second_operation,16) ^ int(thirth_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(thirth_row[2], thirth_column[2])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(thirth_row[3], thirth_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    thirth_column_result.append(hex(int(thirth_column[0],16) ^ int(thirth_column[1],16) ^ int(first_operation,16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(fourth_row[0], thirth_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(fourth_row[3], thirth_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    thirth_column_result.append(hex(int(first_operation,16) ^ int(thirth_column[1],16) ^ int(thirth_column[2],16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
     
     fourth_column = []
     fourth_column_result = []
@@ -110,4 +154,29 @@ def MixColumn(cipher_text_block):
     while i < len(cipher_text_block):
         fourth_column.append(cipher_text_block[i][j])
         i += 1
+    
+    first_operation = AES_multplication(first_row[0], fourth_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(first_row[1], fourth_column[1])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    fourth_column_result.append(hex(int(first_operation,16) ^ int(second_operation,16) ^ int(fourth_column[2],16) ^ int(fourth_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(second_row[1], fourth_column[1])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    print(first_operation)
+    second_operation = AES_multplication(second_row[2], fourth_column[2])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    print(second_operation)
+    fourth_column_result.append(hex(int(fourth_column[0],16) ^ int(first_operation,16) ^ int(second_operation,16) ^ int(fourth_column[3],16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(thirth_row[2], fourth_column[2])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(thirth_row[3], fourth_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    fourth_column_result.append(hex(int(fourth_column[0],16) ^ int(fourth_column[1],16) ^ int(first_operation,16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
+    first_operation = AES_multplication(fourth_row[0], fourth_column[0])
+    first_operation = hex(int(first_operation,2) & 0xFF)[2:].zfill(2)
+    second_operation = AES_multplication(fourth_row[3], fourth_column[3])
+    second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
+    fourth_column_result.append(hex(int(first_operation,16) ^ int(fourth_column[1],16) ^ int(fourth_column[2],16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
+    
+
     

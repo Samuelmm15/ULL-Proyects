@@ -14,7 +14,6 @@ def AES_multplication(first_byte, second_byte):
         result = bin(int(i, 16))[2:].zfill(4)
         result_aux = result_aux + result
     first_byte = result_aux
-    print(first_byte)
     
     result = ''
     result_aux = ''
@@ -22,7 +21,6 @@ def AES_multplication(first_byte, second_byte):
         result = bin(int(i, 16))[2:].zfill(4)
         result_aux = result_aux + result
     second_byte = result_aux
-    print(second_byte)
     
     # # First exit
     # print(f'El primer byte convertido es: {first_byte}')
