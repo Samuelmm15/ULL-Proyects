@@ -178,5 +178,20 @@ def MixColumn(cipher_text_block):
     second_operation = hex(int(second_operation,2) & 0xFF)[2:].zfill(2)
     fourth_column_result.append(hex(int(first_operation,16) ^ int(fourth_column[1],16) ^ int(fourth_column[2],16) ^ int(second_operation,16) & 0xFF)[2:].zfill(2))
     
-
+    final_result = []
+    auxiliary_row = []
+    
+    # To introduce the columns into the matrix
+    i = 0
+    while i < 4:
+        auxiliary_row.append(first_column_result[i]) # CUIDADO CON LA PRIMERA FILA QUE ESTÁ MAL, PERO EL RESTO NO
+        auxiliary_row.append(second_column_result[i])
+        auxiliary_row.append(thirth_column_result[i])
+        auxiliary_row.append(fourth_column_result[i])
+        final_result.append(auxiliary_row)
+        auxiliary_row = []
+        i += 1
+        
+    print(final_result)
+    return final_result
     
