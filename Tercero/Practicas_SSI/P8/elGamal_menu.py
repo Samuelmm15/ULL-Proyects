@@ -29,16 +29,17 @@ def Menu():
     # Calculate the B User public value with x private value
     y_B_value = (pow(int(a_value), int(x_value)) % int(p_value))
     
-    # Caluclate the common key
+    # Caluclate the common A key
     y_a_value = (pow(int(a_value), int(k_value)) % int(p_value))
     
     # Calculate K_value
-    K_value = (pow(int(y_B_value), int(k_value)) % int(p_value))
+    K_value = (pow(int(y_B_value), int(k_value)) % int(p_value)) # It is the same as the y_A K_value
     
     # This is the A user cipher text
     c_value = ElGamal_cipher(p_value, m_value, k_value ,y_B_value)
     M_value = ElGamal_decipher(p_value, x_value, y_a_value, c_value)
     
+    # Calculates the K_inv_Value to print the original value
     K_inv_Value = Extended_Euclides_Algorithm(int(p_value), int(K_value))
     # At the case of the inverse K value is negative
     if (K_inv_Value < 0):

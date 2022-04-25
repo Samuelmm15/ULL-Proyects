@@ -9,6 +9,7 @@
 """
 
 def Extended_Euclides_Algorithm(a, b):
+    # This is the extended euclides algorithm
     if b == 0:
         return 0
  
@@ -22,10 +23,10 @@ def Extended_Euclides_Algorithm(a, b):
         r = a - b * q
         u = auxiliary - q * auxiliary1
         v = result - q * auxiliary2
-        #Update a,b
+        # Update a,b
         a = b
         b = r
-        #Update for next iteration
+        # Update for the next iteration
         auxiliary = auxiliary1
         auxiliary1 = u
         result = auxiliary2

@@ -9,7 +9,11 @@
 """
 
 def ElGamal_cipher(p_value, m_value, k_value, y_B_value):
+    # Calculates the K_value
     K_value = (pow(int(y_B_value), int(k_value)) % int(p_value))
+    
+    # Calculates the result or the cipher
     result = ((int(K_value) * int(m_value)) % int(p_value));
+    
     return result;
     
