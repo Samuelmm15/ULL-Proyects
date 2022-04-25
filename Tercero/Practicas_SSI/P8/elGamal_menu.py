@@ -10,6 +10,7 @@
 
 from elGamal_cipher import ElGamal_cipher
 from elGamal_decipher import ElGamal_decipher
+from elGamal_extended_Euclides import Extended_Euclides_Algorithm
 
 def Menu():
     print()
@@ -38,4 +39,9 @@ def Menu():
     c_value = ElGamal_cipher(p_value, m_value, k_value ,y_B_value)
     M_value = ElGamal_decipher(p_value, x_value, y_a_value, c_value)
     
-    print(f'yA= {y_a_value}, yB= {y_B_value}, K= {K_value}, C= {c_value}, M= {M_value}')
+    K_inv_Value = Extended_Euclides_Algorithm(int(p_value), int(K_value))
+    # At the case of the inverse K value is negative
+    if (K_inv_Value < 0):
+        K_inv_Value = int(K_inv_Value) + int(p_value)
+    
+    print(f'yA= {y_a_value}, yB= {y_B_value}, K= {K_value}, K-1={K_inv_Value} ,C= {c_value}, M= {M_value}')

@@ -8,7 +8,11 @@
  @copyright Copyright (c) 2022
 """
 
+from elGamal_extended_Euclides import Extended_Euclides_Algorithm
+
 def ElGamal_decipher(p_value, x_value, y_a_value, c_value):
     K_value = (pow(int(y_a_value), int(x_value)) % int(p_value))
-    K_inv_value = pow((int(K_value)), -1)
-    print(K_inv_value)
+    # Euclides extended algorithm
+    K_inv_Value = Extended_Euclides_Algorithm(int(p_value), int(K_value))
+    M_value = ((int(K_inv_Value) * int(c_value)) % int(p_value))
+    return M_value
