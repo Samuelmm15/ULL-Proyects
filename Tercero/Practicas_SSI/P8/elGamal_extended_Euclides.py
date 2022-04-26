@@ -19,7 +19,7 @@ def Extended_Euclides_Algorithm(a, b):
     result = 0
  
     while b != 0:
-        q = a//b
+        q = a//b   # Permite obtener el número natural, es decir, cuantas veces multiplicado es el número b para que resulte a
         r = a - b * q
         u = auxiliary - q * auxiliary1
         v = result - q * auxiliary2
