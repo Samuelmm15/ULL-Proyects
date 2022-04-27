@@ -34,8 +34,8 @@ def Menu():
     y_a_value = y_A_B_value(a_value, k_value, p_value)
     
     # This is the A user cipher text
-    c_value = ElGamal_cipher(p_value, m_value, k_value ,y_B_value)
-    M_value = ElGamal_decipher(p_value, x_value, y_a_value, c_value)
+    c_value = ElGamal_cipher(p_value, m_value, k_value ,y_B_value) # Alice
+    M_value = ElGamal_decipher(p_value, x_value, y_a_value, c_value) # Bob
     
     # Calculate K_value to prints
     K_value = (pow(int(y_B_value), int(k_value)) % int(p_value)) # It is the same as the y_A K_value
