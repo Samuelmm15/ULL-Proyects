@@ -8,8 +8,11 @@
 @copyright Copyright (c) 2022
 """
 
+import math
 from RSA_prime_numbers import Prime_Number
 from RSA_extended_Euclides import Extended_Euclides_Algorithm
+from RSA_decimal_Text_convertor import Decimal_Text_Convertor
+from RSA_fast_exponentiation import Fast_Exponentiation
 
 def Menu():
     print('<< WELCOME TO RSA PUBLIC CIPHER>>')
@@ -64,17 +67,55 @@ def Menu():
         print('D value is a prime number')
     else:
         print('D value is not prime number')
+        exit(1) # COMPROBE THIS POINT
         
     # Public information n = p*q  e = inverse d_value module  (n)
     e_value = Extended_Euclides_Algorithm(phi_value, d_value)
     if (e_value < 0):
-        e_value = e_value + d_value
+        e_value = e_value + phi_value
     print()
     print(f'E value is {e_value}')
     n_value = (p_value * q_value)
     print()
     print(f'N value is {n_value}')
     
-    # Calculates the text divition to cipher
-    k_value = ((e_value * d_value) - 1) / phi_value
-    print(k_value)
+    # Calculates the text divition to cipher j-1 = whole part (logb n)
+    j_1_value = math.log(n_value, 26)
+    decimal_part = j_1_value % 1
+    whole_part = j_1_value - decimal_part
+    j_1_value = int(whole_part)
+    print()
+    print(f'Finally, the text divition is {j_1_value} characters')
+    
+    # Converts the text into decimal numbers
+    divided_string = []
+    auxiliary_string = ''
+    i = 0
+    counter = 0
+    original_text = original_text.replace(" ", "") # To delete the blancks
+    while(i != len(original_text)):
+        if (counter < j_1_value):
+            auxiliary_string = auxiliary_string + original_text[i]
+            counter += 1
+        else:
+            counter = 0
+            divided_string.append(auxiliary_string)
+            auxiliary_string = ''
+            auxiliary_string = auxiliary_string + original_text[i]
+            counter += 1
+        i += 1
+    divided_string.append(auxiliary_string)
+    print(divided_string)
+    
+    decimal_block_text = Decimal_Text_Convertor(divided_string, j_1_value)
+    
+    # Cipher the decimal numbers
+    i = 0
+    final_result = []
+    while (i != len(decimal_block_text)):
+        auxiliary_decimal = decimal_block_text[i]
+        auxiliary_decimal = Fast_Exponentiation(auxiliary_decimal, e_value, n_value)
+        final_result.append(auxiliary_decimal)
+        auxiliary_decimal = 0
+        i += 1
+    print(final_result)
