@@ -118,4 +118,5 @@ def Menu():
         final_result.append(auxiliary_decimal)
         auxiliary_decimal = 0
         i += 1
+    print('Decimal text cipher: ')
     print(final_result)

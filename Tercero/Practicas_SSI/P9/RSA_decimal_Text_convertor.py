@@ -31,5 +31,6 @@ def Decimal_Text_Convertor(introduced_text, j_1_value):
         j = j_1_value - 1
         i += 1
     
+    print('Decimal block are: ')
     print(decimal_number_result)
     return decimal_number_result
