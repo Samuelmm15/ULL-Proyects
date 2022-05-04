@@ -30,6 +30,7 @@ def Menu():
     
     # Prime numbers comprobation
     counter_flag = 0
+    print()
     print('<< Comprobe if p and q values are prime numbers >>')
     result = Prime_Number(p_value)
     if (result == True):
@@ -63,11 +64,6 @@ def Menu():
     print()
     print(f'The phi value is {phi_value}')
     result = Prime_Number(d_value)
-    if (result == True):
-        print('D value is a prime number')
-    else:
-        print('D value is not prime number')
-        exit(1) # COMPROBE THIS POINT
         
     # Public information n = p*q  e = inverse d_value module  (n)
     e_value = Extended_Euclides_Algorithm(phi_value, d_value)

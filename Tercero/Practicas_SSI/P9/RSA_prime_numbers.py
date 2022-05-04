@@ -8,6 +8,7 @@
 @copyright Copyright (c) 2022
 """
 
+from operator import truediv
 import random
 from RSA_fast_exponentiation import Fast_Exponentiation
 
@@ -18,15 +19,17 @@ def Prime_Number(p_value):
     finish_flag = False
     prime_flag = False
     result_flag = False
-    if ((p_value % 2 != 0) & (p_value % 3 != 0) & (p_value % 4 != 0) & (p_value % 5 != 0) & (p_value % 11 != 0)):
-        print('Is not divisible')
+    if ((p_value == 2) | (p_value == 3) | (p_value == 5) | (p_value == 7) | (p_value == 11)):
+        return True
+    elif ((p_value % 2 != 0) & (p_value % 3 != 0) & (p_value % 5 != 0) & (p_value % 7 != 0) & (p_value % 11 != 0)):
+        # print('Is not divisible')
         while finish_flag != True:
             a_random_value = random.randint(2, (p_value - 1))
             auxiliary_a = Fast_Exponentiation(a_random_value, ((p_value - 1) / 2), p_value)
             if (auxiliary_a == (1 % p_value)):
                 counter += 1
             elif (auxiliary_a != (-1 % p_value)):
-                print('P value is compoud')
+                # print('P value is compoud')
                 finish_flag = True
             else:
                 # print('P value is prime number')
