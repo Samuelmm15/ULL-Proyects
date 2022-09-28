@@ -10,3 +10,9 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+class Alphabet {  /// Hay que tener en cuenta que se trata de un vector de símbolos.
+  public:
+    Alphabet();
+    ~Alphabet();
+};

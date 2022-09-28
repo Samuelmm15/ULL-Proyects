@@ -10,3 +10,9 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+class Chain {
+  public:
+    Chain();
+    ~Chain();
+};

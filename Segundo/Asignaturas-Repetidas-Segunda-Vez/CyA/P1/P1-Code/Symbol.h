@@ -10,3 +10,11 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+class Symbol {
+  public:
+    Symbol();
+    ~Symbol();
+  private:
+    char symbol;
+};
