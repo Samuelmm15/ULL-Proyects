@@ -10,3 +10,12 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#include <iostream>
+#include Symbol.h
+#include Chain.h
+#include Alphabet.h
+
+int main() {
+  
+}
