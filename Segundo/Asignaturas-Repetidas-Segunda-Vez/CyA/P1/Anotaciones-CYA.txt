@@ -1,0 +1,27 @@
+** TENER EN CUENTA QUE EL INDENTADO DEL CÓDIGO SE DEBE DE 
+HACER CON DOS ESPACIOS Y NO CON TABULADOR**
+
+La cadena vacía se especificará como &.
+
+Toda cadena tiene una determinada longitud.
+
+A partir de una cadena se podrá calcular su inversa.
+
+A partir de una cadena se podrá obtener los prefijos 
+y sufijos de esta. O el conjunto de todas las posibles
+subcadenas.
+
+A partir de un fichero de entrada, se deben de realizar
+unas ciertas comprobaciones sobre los elementos que 
+se encuentran dentro del fichero.
+
+La ejecución del programa tendrá la siguiene ejecución:
+ ./ p01_strings filein.txt fileout.txt opcode
+** Lo último representa un código de actuación dependiendo
+del tipo de operación que se quiera realizar.
+
+Hay que tener en cuenta que los distintos elementos del 
+fichero estarán separados por espacios. Es decir, el 
+alfabeto se encuentra separado por espacios, mientras que
+la propia cadena formada a partir del alfabeto se encuentra
+toda junta en el fichero.
