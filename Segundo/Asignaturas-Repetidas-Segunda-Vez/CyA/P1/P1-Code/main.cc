@@ -12,10 +12,11 @@
  */
 
 #include <iostream>
-#include Symbol.h
-#include Chain.h
-#include Alphabet.h
+#include "Symbol.h"
+#include "Chain.h"
+#include "Alphabet.h"
 
 int main() {
-  
-}
+    std::cout << "Hello World!" << std::endl;
+    return 0;
+};
