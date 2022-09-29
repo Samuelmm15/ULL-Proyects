@@ -20,6 +20,8 @@ class Symbol {
   public:
     Symbol();
     ~Symbol();
+    void setSymbol();
+    std::string getSymbol();
   private:
     std::string symbol;
 };

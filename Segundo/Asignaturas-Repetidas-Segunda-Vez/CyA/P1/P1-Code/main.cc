@@ -15,13 +15,29 @@
 #include <string.h>
 #include <fstream>
 #include <stdlib.h>
+#include <vector>
 #include "Symbol.h"
 #include "Chain.h"
 #include "Alphabet.h"
 
-// int Menu() { /// This is the function that contains the Menu of the program
+int Menu(std::string option) { /// This is the function that contains the Menu of the program
+  if (option == "Longitud") {
 
-// };
+  } else if (option == "Inversa") {
+
+  } else if (option == "Prefijos") {
+
+  } else if (option == "Sufijos") {
+
+  } else if (option == "Subcadenas") {
+
+  } else {
+    std::cout << "ERROR >> Se ha producido un error al introducir la opción de ejecución del programa" << std::endl;
+    std::cout << "Para la correcta ejecución del programa introduzca alguna de las siguientes opciones: " << std::endl;
+    std::cout << "Longitud || Inversa || Prefijos || Sufijos || Subcadenas" << std::endl;
+    std::cout << "Tener en cuenta que la opción debe de ser introducida de la manera anterior" << std::endl;
+  }
+};
 
 int main(int argc, char *argv[]) {
   if (argc == 4) {
@@ -36,19 +52,15 @@ int main(int argc, char *argv[]) {
       exit(1);
     }
     std::string line;
-    std::string file_Content;
+    std::vector<std::string> file_Content; /// En este punto se tiene un vector de strings
     if (input_File.is_open()) {
-      std::cout << "Accede" << std::endl;
-      int i = 0;
-      while (getline(input_File, file_Content, '\n')) { /// SOLUCIONAR LA LECTURA DEL FICHERO
-        i++;
+      while (getline(input_File, line)) {
+        file_Content.push_back(line);
       }
       input_File.close();
     }
-    for (int i = 0; i < file_Content.size(); i++) {
-      std::cout << file_Content[i] << std::endl;
-    }
-    std::cout << file_Content[6] << std::endl;
+    
+    Menu(option); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
