@@ -23,24 +23,34 @@
 #include "Chain.h"
 #include "Chain.cc"
 
-// int Menu(std::string option) { /// This is the function that contains the Menu of the program
-//   if (option == "Longitud") {
+void ChainsLong(std::string outputFileName, Alphabet newAlphabet, Chain newChain) {
+  std::fstream outputFile;
+  outputFile.open(outputFileName, std::ios_base::out);
+  if (!outputFile.is_open()) {
+    std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+  } else {
+    outputFile << newChain.getChain(0).size() << std::endl;
+  }
+};
 
-//   } else if (option == "Inversa") {
+int Menu(std::string option, std::string outputFileName, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
+  if (option == "Longitud") {
+    ChainsLong(outputFileName, newAlphabet, newChain);
+  } else if (option == "Inversa") {
 
-//   } else if (option == "Prefijos") {
+  } else if (option == "Prefijos") {
 
-//   } else if (option == "Sufijos") {
+  } else if (option == "Sufijos") {
 
-//   } else if (option == "Subcadenas") {
+  } else if (option == "Subcadenas") {
 
-//   } else {
-//     std::cout << "ERROR >> Se ha producido un error al introducir la opción de ejecución del programa" << std::endl;
-//     std::cout << "Para la correcta ejecución del programa introduzca alguna de las siguientes opciones: " << std::endl;
-//     std::cout << "Longitud || Inversa || Prefijos || Sufijos || Subcadenas" << std::endl;
-//     std::cout << "Tener en cuenta que la opción debe de ser introducida de la manera anterior" << std::endl;
-//   }
-// };
+  } else {
+    std::cout << "ERROR >> Se ha producido un error al introducir la opción de ejecución del programa" << std::endl;
+    std::cout << "Para la correcta ejecución del programa introduzca alguna de las siguientes opciones: " << std::endl;
+    std::cout << "Longitud || Inversa || Prefijos || Sufijos || Subcadenas" << std::endl;
+    std::cout << "Tener en cuenta que la opción debe de ser introducida de la manera anterior" << std::endl;
+  }
+};
 
 int main(int argc, char *argv[]) {
   if (argc == 4) {
@@ -64,12 +74,12 @@ int main(int argc, char *argv[]) {
     }
 
     Alphabet newAlphabet;
-    newAlphabet.setSymbolToAlphabet(file_Content[0]);
+    newAlphabet.setSymbolToAlphabet(file_Content[1]);
     newAlphabet.printAlphabet();
     Chain newChain;
-    newChain.addChain(file_Content[0], newAlphabet);
+    newChain.addChain(file_Content[1], newAlphabet);
     newChain.getChain(0);
-    // Menu(option); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+    Menu(option, output_File_Name, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {

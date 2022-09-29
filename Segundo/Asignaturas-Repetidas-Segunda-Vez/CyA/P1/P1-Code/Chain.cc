@@ -35,5 +35,6 @@ void Chain::addChain(std::string newChain, Alphabet alphabet) {
 };
 
 std::string Chain::getChain(int position) {
-  std::cout << chain.at(position) << std::endl;
+  // std::cout << chain.at(position) << std::endl;
+  return chain.at(position);
 };
