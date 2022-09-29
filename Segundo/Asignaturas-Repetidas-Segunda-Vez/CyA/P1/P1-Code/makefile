@@ -1,10 +1,10 @@
-all: main_cya
+all: p01_strings
 
-main_cya: main_cya.o 
-	g++ main_cya.o -o main
+p01_strings: p01_strings.o 
+	g++ main.o -o p01_strings
 
-main_cya.o: main_cya.o
+p01_strings.o: p01_strings.o
 	g++ -c main.cc
 
 clean:
-	rm -rf *.o
+	rm -rf *.o p01_strings

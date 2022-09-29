@@ -11,6 +11,10 @@
  * 
  */
 
+#include <iostream>
+
+#pragma once
+
 class Alphabet {  /// Hay que tener en cuenta que se trata de un vector de símbolos.
   public:
     Alphabet();

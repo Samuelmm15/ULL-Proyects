@@ -11,10 +11,15 @@
  * 
  */
 
+#include <iostream>
+#include<string.h>
+
+#pragma once
+
 class Symbol {
   public:
     Symbol();
     ~Symbol();
   private:
-    char symbol;
+    std::string symbol;
 };

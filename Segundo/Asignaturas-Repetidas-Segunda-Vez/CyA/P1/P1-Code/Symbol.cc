@@ -10,3 +10,13 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#include "Symbol.h"
+
+Symbol::Symbol() { /// The constructor of the class.
+
+};
+
+Symbol::~Symbol() { /// The destructor of the class.
+
+};

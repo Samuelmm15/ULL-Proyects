@@ -11,6 +11,10 @@
  * 
  */
 
+#include <iostream>
+
+#pragma once
+
 class Chain {
   public:
     Chain();
