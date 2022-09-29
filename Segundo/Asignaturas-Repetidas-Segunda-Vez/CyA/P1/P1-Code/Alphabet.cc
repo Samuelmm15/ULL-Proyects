@@ -45,3 +45,15 @@ void Alphabet::printAlphabet() {
   }
   std::cout << " }" << std::endl;
 };
+
+bool Alphabet::alphabetComprobation(std::string chain) {
+  bool flag = false;
+  for (int i = 0; i < chain.size(); i++) {
+    for (int j = 0; j < alphabet.size(); j++) {
+      if (chain[i] == alphabet[0][j]) { /// TENER CUIDADO CON ESTO
+        flag = true;
+      }
+    }
+  }
+  return flag;
+};

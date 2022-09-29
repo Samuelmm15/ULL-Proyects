@@ -12,12 +12,16 @@
  */
 
 #include <iostream>
+#include "Alphabet.h"
 
 #pragma once
 
-class Chain {
+class Chain : public Alphabet {
   public:
     Chain();
+    void addChain(std::string newChain);
+    std::string getChain(int position);
+    bool isACorrectChain(std::string chainToComprobe);
   private:
-    std::string chain;
+    std::vector<std::string> chain;
 };

@@ -21,6 +21,7 @@ class Alphabet : public Symbol {  /// Se hereda la clase símbolo para poder com
   public:
     Alphabet();
     void setSymbolToAlphabet(std::string line);
+    bool alphabetComprobation(std::string chain);
     void printAlphabet();
   private:
     std::vector<std::string> alphabet;
