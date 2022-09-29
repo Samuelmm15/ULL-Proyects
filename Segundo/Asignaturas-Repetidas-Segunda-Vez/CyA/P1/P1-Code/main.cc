@@ -23,9 +23,13 @@
 #include "Chain.h"
 #include "Chain.cc"
 
+/// QUEDA PODER HACER TODO CON TODOS LOS ELEMENTOS DEL FICHERO, YA QUE SOLO LO ESTOY 
+/// HACIENDO CON UNA LÍNEA SOLA, PARA ELLO, PONER UN BUCLE FOR Y HACER USO DE LOS DESTRUCTORES
+/// DE LAS CLASES PARA PODER REINICIAR LOS VECTORES
+
 void ChainsLong(std::string outputFileName, Alphabet newAlphabet, Chain newChain) {
   std::fstream outputFile;
-  outputFile.open(outputFileName, std::ios_base::out);
+  outputFile.open(outputFileName, std::ios_base::out); /// SI NO DEJA AÑADIR NUEVAS LÍNEAS AL FICHERO Y SE REINICIA PROBAR A PONER LA VARIABLE DEL FICHERO EN EL MAIN Y PASARLO A LA FUNCIÓN PARA QUE PUEDA AÑADIR NUEVAS LÍNEAS Y NO TENER QUE ABRIR CADA VEZ EL FICHERO
   if (!outputFile.is_open()) {
     std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
   } else {
