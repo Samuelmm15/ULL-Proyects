@@ -19,9 +19,8 @@
 class Chain : public Alphabet {
   public:
     Chain();
-    void addChain(std::string newChain);
+    void addChain(std::string newChain, Alphabet alphabet);
     std::string getChain(int position);
-    bool isACorrectChain(std::string chainToComprobe);
   private:
     std::vector<std::string> chain;
 };

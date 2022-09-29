@@ -68,7 +68,8 @@ int main(int argc, char *argv[]) {
     newAlphabet.setSymbolToAlphabet(first);
     newAlphabet.printAlphabet();
     Chain newChain;
-    newChain.addChain(first);
+    newChain.addChain(first, newAlphabet);
+    newChain.getChain(0);
     // Menu(option); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
   } else {
     std::string option = argv[1];

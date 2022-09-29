@@ -47,13 +47,19 @@ void Alphabet::printAlphabet() {
 };
 
 bool Alphabet::alphabetComprobation(std::string chain) {
-  bool flag = false;
+  bool flag;
+  int counter = 0;
   for (int i = 0; i < chain.size(); i++) {
     for (int j = 0; j < alphabet.size(); j++) {
-      if (chain[i] == alphabet[0][j]) { /// TENER CUIDADO CON ESTO
-        flag = true;
+      std::string auxiliary = alphabet[j];
+      if (chain[i] == auxiliary[0]) {
+        counter++;
       }
     }
   }
-  return flag;
+  if (counter == chain.size()) {
+    return true;
+  } else {
+    return false;
+  }
 };
