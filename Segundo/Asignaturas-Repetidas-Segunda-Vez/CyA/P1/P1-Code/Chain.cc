@@ -16,6 +16,10 @@
 Chain::Chain() {
 };
 
+Chain::~Chain() {
+  chain.clear();
+};
+
 void Chain::addChain(std::string newChain, Alphabet alphabet) {
   std::string auxiliary;
   for (int i = 0; i < newChain.size(); i++) {

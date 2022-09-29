@@ -63,12 +63,11 @@ int main(int argc, char *argv[]) {
       input_File.close();
     }
 
-    std::string first = file_Content[0];
     Alphabet newAlphabet;
-    newAlphabet.setSymbolToAlphabet(first);
+    newAlphabet.setSymbolToAlphabet(file_Content[0]);
     newAlphabet.printAlphabet();
     Chain newChain;
-    newChain.addChain(first, newAlphabet);
+    newChain.addChain(file_Content[0], newAlphabet);
     newChain.getChain(0);
     // Menu(option); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
   } else {

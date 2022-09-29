@@ -19,6 +19,7 @@
 class Chain : public Alphabet {
   public:
     Chain();
+    ~Chain();
     void addChain(std::string newChain, Alphabet alphabet);
     std::string getChain(int position);
   private:

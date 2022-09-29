@@ -20,6 +20,7 @@
 class Alphabet : public Symbol {  /// Se hereda la clase símbolo para poder comprobar si se trata de un símbolo
   public:
     Alphabet();
+    ~Alphabet();
     void setSymbolToAlphabet(std::string line);
     bool alphabetComprobation(std::string chain);
     void printAlphabet();
