@@ -16,12 +16,10 @@
 
 #pragma once
 
-class Symbol {
+class Symbol { /// Esta clase únicamente permite determinar si un elemento se trata de un símbolo o no
   public:
     Symbol();
-    ~Symbol();
-    void setSymbol();
-    std::string getSymbol();
+    bool isASymbol(std::string character);
   private:
     std::string symbol;
 };

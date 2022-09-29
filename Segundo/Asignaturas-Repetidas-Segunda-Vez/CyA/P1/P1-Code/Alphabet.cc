@@ -12,3 +12,16 @@
  */
 
 #include "Alphabet.h"
+
+Alphabet::Alphabet() {
+};
+
+void Alphabet::setSymbolToAlphabet(std::string symbol) {
+  if (isASymbol(symbol) == true) {
+    alphabet.push_back(symbol);
+  }
+};
+
+std::vector<std::string> Alphabet::getAlphabet() {
+  return alphabet;
+};

@@ -12,11 +12,16 @@
  */
 
 #include <iostream>
+#include <vector>
+#include "Symbol.h"
 
 #pragma once
 
-class Alphabet {  /// Hay que tener en cuenta que se trata de un vector de símbolos.
+class Alphabet : public Symbol {  /// Se hereda la clase símbolo para poder comprobar si se trata de un símbolo
   public:
     Alphabet();
-    ~Alphabet();
+    void setSymbolToAlphabet(std::string symbol);
+    std::vector<std::string> getAlphabet();
+  private:
+    std::vector<std::string> alphabet;
 };

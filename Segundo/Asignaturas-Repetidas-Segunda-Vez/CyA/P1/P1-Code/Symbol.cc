@@ -13,16 +13,13 @@
 
 #include "Symbol.h"
 
-Symbol::Symbol() { /// The constructor of the class.
+Symbol::Symbol() {
 };
 
-Symbol::~Symbol() { /// The destructor of the class.
-};
-
-void setSymbol() { /// To set the symbol of a string
-
-};
-
-std::string getSymbol() { /// To obtain the symbol of a string
-
+bool Symbol::isASymbol(std::string character) {
+  if (character.size() == 1) {
+    return true;
+  } else {
+    return false;
+  }
 };

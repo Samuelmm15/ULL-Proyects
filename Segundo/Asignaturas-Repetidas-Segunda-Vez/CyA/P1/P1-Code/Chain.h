@@ -18,5 +18,6 @@
 class Chain {
   public:
     Chain();
-    ~Chain();
+  private:
+    std::string chain;
 };
