@@ -20,8 +20,8 @@
 class Alphabet : public Symbol {  /// Se hereda la clase símbolo para poder comprobar si se trata de un símbolo
   public:
     Alphabet();
-    void setSymbolToAlphabet(std::string symbol);
-    std::vector<std::string> getAlphabet();
+    void setSymbolToAlphabet(std::string line);
+    void printAlphabet();
   private:
     std::vector<std::string> alphabet;
 };

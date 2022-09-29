@@ -11,17 +11,37 @@
  * 
  */
 
+#include "Symbol.h"
 #include "Alphabet.h"
 
 Alphabet::Alphabet() {
 };
 
-void Alphabet::setSymbolToAlphabet(std::string symbol) {
-  if (isASymbol(symbol) == true) {
-    alphabet.push_back(symbol);
+void Alphabet::setSymbolToAlphabet(std::string line) {
+  std::string auxiliary;
+  for (int i = 0; i < line.size(); i++) {
+    if ((line[i] != ' ') && (line[i] != '\n')) {
+      auxiliary.push_back(line[i]);
+    } else {
+      if (line[i] != '\n') {
+        if (isASymbol(auxiliary) == true) {
+          alphabet.push_back(auxiliary);
+        }
+        auxiliary.clear();
+      }
+      auxiliary.clear();
+    }
   }
 };
 
-std::vector<std::string> Alphabet::getAlphabet() {
-  return alphabet;
+void Alphabet::printAlphabet() {
+    std::cout << "{ ";
+  for (int i = 0; i < alphabet.size(); i++) {
+    if (i != (alphabet.size() - 1)) {
+      std::cout << alphabet[i] << " , ";
+    } else {
+      std::cout << alphabet[i];
+    }
+  }
+  std::cout << " }" << std::endl;
 };

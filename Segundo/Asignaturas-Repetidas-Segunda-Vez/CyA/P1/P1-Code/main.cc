@@ -17,8 +17,10 @@
 #include <stdlib.h>
 #include <vector>
 #include "Symbol.h"
-#include "Chain.h"
+#include "Symbol.cc"
 #include "Alphabet.h"
+#include "Alphabet.cc"
+#include "Chain.h"
 
 // int Menu(std::string option) { /// This is the function that contains the Menu of the program
 //   if (option == "Longitud") {
@@ -60,26 +62,10 @@ int main(int argc, char *argv[]) {
       input_File.close();
     }
 
-    // std::cout << file_Content[0][5] << std::endl;
-    std::vector<std::string> alphabet;
-    std::string auxiliary;
-    for (int i = 0; i < file_Content.size(); i++) {
-      for (int j = 0; j < file_Content[i].size(); j++) {
-        if ((file_Content[i][j] != ' ') && (file_Content[i][j] != '\n')) {
-          auxiliary.push_back(file_Content[i][j]);
-        } else {
-          if (file_Content[i][j] != '\n') {
-            alphabet.push_back(auxiliary);
-            auxiliary.clear();
-          }
-          auxiliary.clear();
-        }
-      }
-    }
-
-    for (int i = 0; i < alphabet.size(); i++) {
-      std::cout << alphabet[i] << '\n';
-    }
+    std::string first = file_Content[2];
+    Alphabet newAlphabet;
+    newAlphabet.setSymbolToAlphabet(first);
+    newAlphabet.printAlphabet();
     // Menu(option); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
   } else {
     std::string option = argv[1];
