@@ -25,7 +25,30 @@
 
 int main(int argc, char *argv[]) {
   if (argc == 4) {
-    std::cout << "h" << std::endl;
+    std::string input_File_Name = argv[1]; /// Estas líneas son necesarias para trabajar con cadenas
+    std::string output_File_Name = argv[2];
+    std::string option = argv[3];
+
+    std::ifstream input_File;
+    input_File.open(input_File_Name, std::ios::in);
+    if (input_File.fail()) {
+      std::cout << "ERROR >> Fallo en la apertura del fichero de entrada" << std::endl;
+      exit(1);
+    }
+    std::string line;
+    std::string file_Content;
+    if (input_File.is_open()) {
+      std::cout << "Accede" << std::endl;
+      int i = 0;
+      while (getline(input_File, file_Content, '\n')) { /// SOLUCIONAR LA LECTURA DEL FICHERO
+        i++;
+      }
+      input_File.close();
+    }
+    for (int i = 0; i < file_Content.size(); i++) {
+      std::cout << file_Content[i] << std::endl;
+    }
+    std::cout << file_Content[6] << std::endl;
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
