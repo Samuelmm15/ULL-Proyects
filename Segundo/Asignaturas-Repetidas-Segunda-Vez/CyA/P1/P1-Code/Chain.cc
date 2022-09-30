@@ -27,6 +27,8 @@ void Chain::addChain(std::string newChain, Alphabet alphabet) {
   }
   if (alphabet.alphabetComprobation(auxiliary) == true) {
     chain.push_back(auxiliary);
+  } else if (auxiliary.size() >= 2) {
+    chain.push_back(auxiliary);
   }
 };
 

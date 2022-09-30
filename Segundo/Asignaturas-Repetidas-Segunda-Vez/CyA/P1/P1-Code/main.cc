@@ -16,6 +16,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
+#include <algorithm>
 #include "Symbol.h"
 #include "Symbol.cc" /// Se incluyen los ficheros ".cc" porque el linker da problemas
 #include "Alphabet.h"
@@ -23,23 +24,72 @@
 #include "Chain.h"
 #include "Chain.cc"
 
-void ChainsLong(std::string outputFileName, Alphabet newAlphabet, Chain newChain) {
+void ChainsLong(std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) {
   std::fstream outputFile;
-  outputFile.open(outputFileName, std::ios_base::out); /// SI NO DEJA AÑADIR NUEVAS LÍNEAS AL FICHERO Y SE REINICIA PROBAR A PONER LA VARIABLE DEL FICHERO EN EL MAIN Y PASARLO A LA FUNCIÓN PARA QUE PUEDA AÑADIR NUEVAS LÍNEAS Y NO TENER QUE ABRIR CADA VEZ EL FICHERO
-  if (!outputFile.is_open()) {
-    std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+  if (flag == 0) {
+    outputFile.open(outputFileName, std::ios_base::out);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      outputFile << newChain.getChain(0).size() << std::endl;
+    }
+    outputFile.close();
   } else {
-    outputFile << newChain.getChain(0).size() << std::endl;
+    outputFile.open(outputFileName, std::ios_base::app);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      outputFile << newChain.getChain(0).size() << std::endl;
+    }
+    outputFile.close();
   }
 };
 
-int Menu(std::string option, std::string outputFileName, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
+void InverseChains(std::string outputFileName, int flag, Chain newChain) {
+  std::fstream outputFile;
+  if (flag == 0) {
+    std::string auxiliary;
+    for (int i = newChain.getChain(0).size() - 1; i >= 0; i--) {
+      auxiliary.push_back(newChain.getChain(0).at(i));
+    }
+    outputFile.open(outputFileName, std::ios_base::out);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      outputFile << auxiliary << std::endl;
+    }
+    outputFile.close();
+  } else {
+    std::string auxiliary;
+    for (int i = newChain.getChain(0).size() - 1; i >= 0; i--) {
+      auxiliary.push_back(newChain.getChain(0).at(i));
+    }
+    outputFile.open(outputFileName, std::ios_base::app);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      outputFile << auxiliary << std::endl;
+    }
+    outputFile.close();
+  }
+};
+
+void PrefixesChains(std::string outputFileName, int flag, Chain newChain) {
+  std::fstream outputFile;
+  if (flag == 0) {
+
+  } else {
+
+  }
+};
+
+int Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
   if (option == "Longitud") {
-    ChainsLong(outputFileName, newAlphabet, newChain);
+    ChainsLong(outputFileName, flag, newAlphabet, newChain);
   } else if (option == "Inversa") {
-
+    InverseChains(outputFileName, flag, newChain);
   } else if (option == "Prefijos") {
-
+    PrefixesChains(outputFileName, flag, newChain);
   } else if (option == "Sufijos") {
 
   } else if (option == "Subcadenas") {
@@ -73,6 +123,7 @@ int main(int argc, char *argv[]) {
       input_File.close();
     }
 
+    int flag = 0;
     for (int i = 0; i < file_Content.size(); i++) {
       Alphabet newAlphabet;
       Chain newChain;
@@ -80,7 +131,8 @@ int main(int argc, char *argv[]) {
       newAlphabet.printAlphabet();
       newChain.addChain(file_Content[i], newAlphabet);
       newChain.getChain(0);
-      Menu(option, output_File_Name, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+      Menu(option, output_File_Name, flag, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+      flag = 1;
     }
   } else {
     std::string option = argv[1];
