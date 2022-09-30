@@ -17,10 +17,6 @@
 Alphabet::Alphabet() {
 };
 
-Alphabet::~Alphabet() {
-  alphabet.clear();
-};
-
 void Alphabet::setSymbolToAlphabet(std::string line) {
   std::string auxiliary;
   for (int i = 0; i < line.size(); i++) {

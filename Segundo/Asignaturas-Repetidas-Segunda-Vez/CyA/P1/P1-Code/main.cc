@@ -23,10 +23,6 @@
 #include "Chain.h"
 #include "Chain.cc"
 
-/// QUEDA PODER HACER TODO CON TODOS LOS ELEMENTOS DEL FICHERO, YA QUE SOLO LO ESTOY 
-/// HACIENDO CON UNA LÍNEA SOLA, PARA ELLO, PONER UN BUCLE FOR Y HACER USO DE LOS DESTRUCTORES
-/// DE LAS CLASES PARA PODER REINICIAR LOS VECTORES
-
 void ChainsLong(std::string outputFileName, Alphabet newAlphabet, Chain newChain) {
   std::fstream outputFile;
   outputFile.open(outputFileName, std::ios_base::out); /// SI NO DEJA AÑADIR NUEVAS LÍNEAS AL FICHERO Y SE REINICIA PROBAR A PONER LA VARIABLE DEL FICHERO EN EL MAIN Y PASARLO A LA FUNCIÓN PARA QUE PUEDA AÑADIR NUEVAS LÍNEAS Y NO TENER QUE ABRIR CADA VEZ EL FICHERO
@@ -77,13 +73,15 @@ int main(int argc, char *argv[]) {
       input_File.close();
     }
 
-    Alphabet newAlphabet;
-    newAlphabet.setSymbolToAlphabet(file_Content[1]);
-    newAlphabet.printAlphabet();
-    Chain newChain;
-    newChain.addChain(file_Content[1], newAlphabet);
-    newChain.getChain(0);
-    Menu(option, output_File_Name, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+    for (int i = 0; i < file_Content.size(); i++) {
+      Alphabet newAlphabet;
+      Chain newChain;
+      newAlphabet.setSymbolToAlphabet(file_Content[i]);
+      newAlphabet.printAlphabet();
+      newChain.addChain(file_Content[i], newAlphabet);
+      newChain.getChain(0);
+      Menu(option, output_File_Name, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+    }
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
