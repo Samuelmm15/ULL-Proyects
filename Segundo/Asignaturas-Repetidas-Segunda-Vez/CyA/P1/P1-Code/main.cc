@@ -77,9 +77,55 @@ void InverseChains(std::string outputFileName, int flag, Chain newChain) {
 void PrefixesChains(std::string outputFileName, int flag, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
-
+    outputFile.open(outputFileName, std::ios_base::out);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      int i = 1;
+      int j = 0;
+      std::string auxiliary;
+      outputFile << "& ";
+      outputFile << newChain.getChain(0).at(j) << " ";
+      while (i != newChain.getChain(0).size()) {
+        if (j < i) {
+          auxiliary.push_back(newChain.getChain(0).at(j));
+          j++;
+        } else if (j == i) {
+          auxiliary.push_back(newChain.getChain(0).at(j));
+          outputFile << auxiliary << " ";
+          auxiliary.clear();
+          j = 0;
+          i++;
+        }
+      }
+      outputFile << "\n";
+    }
+    outputFile.close();
   } else {
-
+    outputFile.open(outputFileName, std::ios_base::app);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      int i = 1;
+      int j = 0;
+      std::string auxiliary;
+      outputFile << "& ";
+      outputFile << newChain.getChain(0).at(j) << " ";
+      while (i != newChain.getChain(0).size()) {
+        if (j < i) {
+          auxiliary.push_back(newChain.getChain(0).at(j));
+          j++;
+        } else if (j == i) {
+          auxiliary.push_back(newChain.getChain(0).at(j));
+          outputFile << auxiliary << " ";
+          auxiliary.clear();
+          j = 0;
+          i++;
+        }
+      }
+      outputFile << "\n";
+    }
+    outputFile.close();
   }
 };
 
