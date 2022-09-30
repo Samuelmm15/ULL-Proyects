@@ -24,6 +24,8 @@
 #include "Chain.h"
 #include "Chain.cc"
 
+/// TENER EN CUENTA QUE FALTA TENER EN FALTA LAS CADENAS VACÍAS EN LAS LECTURAS DE FICHEROS &
+
 void ChainsLong(std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -129,6 +131,73 @@ void PrefixesChains(std::string outputFileName, int flag, Chain newChain) {
   }
 };
 
+void SufixesChains(std::string outputFileName, int flag, Chain newChain) {
+  std::fstream outputFile;
+  if (flag == 0) {
+    outputFile.open(outputFileName, std::ios_base::out);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      std::string auxiliary;
+      int i = newChain.getChain(0).size() - 1;
+      int j = 1;
+      int counter = 0;
+      outputFile << "& ";
+      while (j <= newChain.getChain(0).size()) {
+        if (i == newChain.getChain(0).size() - 1 ) {
+          auxiliary.push_back(newChain.getChain(0).at(i));
+          counter++;
+          i--;
+        } else {
+          auxiliary.insert(0, 1, newChain.getChain(0).at(i));
+          i--;
+          counter++;
+        }
+        if (j == counter) {
+          outputFile << auxiliary << " ";
+          auxiliary.clear();
+          i = newChain.getChain(0).size() - 1;
+          j++;
+          counter = 0;
+        }
+      }
+      outputFile << "\n";
+    }
+    outputFile.close();
+  } else {
+    outputFile.open(outputFileName, std::ios_base::app);
+    if (!outputFile.is_open()) {
+      std::cout << "ERROR >>> Fallo en la apertura del fichero" << std::endl;
+    } else {
+      std::string auxiliary;
+      int i = newChain.getChain(0).size() - 1;
+      int j = 1;
+      int counter = 0;
+      outputFile << "& ";
+      while (j <= newChain.getChain(0).size()) {
+        if (i == newChain.getChain(0).size() - 1 ) {
+          auxiliary.push_back(newChain.getChain(0).at(i));
+          counter++;
+          i--;
+        } else {
+          auxiliary.insert(0, 1, newChain.getChain(0).at(i));
+          i--;
+          counter++;
+        }
+        if (j == counter) {
+          outputFile << auxiliary << " ";
+          auxiliary.clear();
+          i = newChain.getChain(0).size() - 1;
+          j++;
+          counter = 0;
+        }
+      }
+      outputFile << "\n";
+    }
+    outputFile.close();
+  }
+};
+
 int Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
   if (option == "Longitud") {
     ChainsLong(outputFileName, flag, newAlphabet, newChain);
@@ -137,7 +206,7 @@ int Menu(std::string option, std::string outputFileName, int flag, Alphabet newA
   } else if (option == "Prefijos") {
     PrefixesChains(outputFileName, flag, newChain);
   } else if (option == "Sufijos") {
-
+    SufixesChains(outputFileName, flag, newChain);
   } else if (option == "Subcadenas") {
 
   } else {
