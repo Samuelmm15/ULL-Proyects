@@ -225,7 +225,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
 
           auxiliaryString.clear();
           i++;
-          if (i == newChain.getChain(0).size() - 1) { /// Se reinician los valores para poder seguir subiendo el tamaño de los distintos grupos
+          if (i == newChain.getChain(0).size()) { /// Se reinician los valores para poder seguir subiendo el tamaño de los distintos grupos
             counterFlag++;
             i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
             j = 0;  
@@ -273,7 +273,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
 
           auxiliaryString.clear();
           i++;
-          if (i == newChain.getChain(0).size() - 1) {
+          if (i == newChain.getChain(0).size()) {
             counterFlag++;
             i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
             j = 0;  
