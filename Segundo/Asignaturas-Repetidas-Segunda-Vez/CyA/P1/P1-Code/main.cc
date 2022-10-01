@@ -198,6 +198,95 @@ void SufixesChains(std::string outputFileName, int flag, Chain newChain) {
   }
 };
 
+void Substrings(std::string outputFileName, int flag, Chain newChain) {
+  std::fstream outputFile;
+  if (flag == 0) {
+    std::cout << "& ";
+    int counterFlag = 0;
+    std::string auxiliaryString;
+    std::vector<std::string> auxiliaryVector;
+    int i = 0;
+    int j = 0; /// Este va a ser el auxiliar de i
+    while (counterFlag <= newChain.getChain(0).size()) {
+      j = i;
+      int auxiliaryLenght = 0;
+      while (auxiliaryLenght <= counterFlag) {
+        if (j < newChain.getChain(0).size()) {
+          auxiliaryString.push_back(newChain.getChain(0).at(j));
+          auxiliaryLenght = auxiliaryString.size();
+        } else {
+          auxiliaryLenght = counterFlag + 1;
+        }
+        j++;
+      }
+      int comprobationFlag = 0;
+      for (int k = 0; k < auxiliaryVector.size(); k++) {
+        if (auxiliaryVector.at(k) == auxiliaryString) {
+          comprobationFlag = 1;
+        }
+      }
+      if (comprobationFlag == 0) {
+        auxiliaryVector.push_back(auxiliaryString);
+      }
+      
+      auxiliaryString.clear();
+      i++;
+      if (i == newChain.getChain(0).size() - 1) {
+        counterFlag++;
+        i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
+        j = 0;
+      }
+    }
+    /// Impresión de todo por pantalla
+    for (int i = 0; i < auxiliaryVector.size(); i++) {
+      std:: cout << auxiliaryVector.at(i) << " ";
+    }
+    std::cout << "\n";
+  } else {
+    std::cout << "& ";
+    int counterFlag = 0;
+    std::string auxiliaryString;
+    std::vector<std::string> auxiliaryVector;
+    int i = 0;
+    int j = 0; /// Este va a ser el auxiliar de i
+    while (counterFlag <= newChain.getChain(0).size()) {
+      j = i;
+      int auxiliaryLenght = 0;
+      while (auxiliaryLenght <= counterFlag) {
+        if (j < newChain.getChain(0).size()) {
+          auxiliaryString.push_back(newChain.getChain(0).at(j));
+          auxiliaryLenght = auxiliaryString.size();
+        } else {
+          auxiliaryLenght = counterFlag + 1;
+        }
+        j++;
+      }
+      int comprobationFlag = 0;
+      for (int k = 0; k < auxiliaryVector.size(); k++) {
+        if (auxiliaryVector.at(k) == auxiliaryString) {
+          comprobationFlag = 1;
+        }
+      }
+      if (comprobationFlag == 0) {
+        auxiliaryVector.push_back(auxiliaryString);
+      }
+      
+      auxiliaryString.clear();
+      i++;
+      if (i == newChain.getChain(0).size() - 1) {
+        counterFlag++;
+        i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
+        j = 0;
+      }
+    }
+    /// Impresión de todo por pantalla
+    for (int i = 0; i < auxiliaryVector.size(); i++) {
+      std:: cout << auxiliaryVector.at(i) << " ";
+    }
+    std::cout << "\n";
+  }
+};
+
 int Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
   if (option == "Longitud") {
     ChainsLong(outputFileName, flag, newAlphabet, newChain);
@@ -208,7 +297,7 @@ int Menu(std::string option, std::string outputFileName, int flag, Alphabet newA
   } else if (option == "Sufijos") {
     SufixesChains(outputFileName, flag, newChain);
   } else if (option == "Subcadenas") {
-
+    Substrings(outputFileName, flag, newChain);
   } else {
     std::cout << "ERROR >> Se ha producido un error al introducir la opción de ejecución del programa" << std::endl;
     std::cout << "Para la correcta ejecución del programa introduzca alguna de las siguientes opciones: " << std::endl;
