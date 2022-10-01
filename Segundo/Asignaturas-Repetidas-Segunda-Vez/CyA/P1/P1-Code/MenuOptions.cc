@@ -200,11 +200,11 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
         std::string auxiliaryString;
         std::vector<std::string> auxiliaryVector;
         int i = 0;
-        int j = 0; /// Este va a ser el auxiliar de i
-        while (counterFlag <= newChain.getChain(0).size()) {
+        int j = 0;
+        while (counterFlag <= newChain.getChain(0).size()) { /// Necesario para poder determinar los tamaños de las distintas subcadenas
           j = i;
           int auxiliaryLenght = 0;
-          while (auxiliaryLenght <= counterFlag) {
+          while (auxiliaryLenght <= counterFlag) { /// Este bucle se encarga de dividir la cadena en subcadenas según el tamaño del grupo que se quiera
             if (j < newChain.getChain(0).size()) {
               auxiliaryString.push_back(newChain.getChain(0).at(j));
               auxiliaryLenght = auxiliaryString.size();
@@ -214,7 +214,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
             j++;
           }
           int comprobationFlag = 0;
-          for (int k = 0; k < auxiliaryVector.size(); k++) {
+          for (int k = 0; k < auxiliaryVector.size(); k++) { /// En este punto se comprueba si en la división por subgrupos alguno se encuentra repetido a alguno anterior
             if (auxiliaryVector.at(k) == auxiliaryString) {
               comprobationFlag = 1;
             }
@@ -225,7 +225,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
 
           auxiliaryString.clear();
           i++;
-          if (i == newChain.getChain(0).size() - 1) {
+          if (i == newChain.getChain(0).size() - 1) { /// Se reinician los valores para poder seguir subiendo el tamaño de los distintos grupos
             counterFlag++;
             i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
             j = 0;  

@@ -48,34 +48,34 @@ void Menu(std::string option, std::string outputFileName, int flag, Alphabet new
 
 int main(int argc, char *argv[]) {
   if (argc == 4) {
-    std::string input_File_Name = argv[1]; /// Estas líneas son necesarias para trabajar con cadenas
-    std::string output_File_Name = argv[2];
+    std::string inputFileName = argv[1]; /// Estas líneas son necesarias para trabajar con cadenas
+    std::string outputFileName = argv[2];
     std::string option = argv[3];
 
-    std::ifstream input_File;
-    input_File.open(input_File_Name, std::ios::in);
-    if (input_File.fail()) {
+    std::ifstream inputFile;
+    inputFile.open(inputFileName, std::ios::in);
+    if (inputFile.fail()) {
       std::cout << "ERROR >> Fallo en la apertura del fichero de entrada" << std::endl;
       exit(1);
     }
     std::string line;
-    std::vector<std::string> file_Content; /// Almacenaje por líneas del fichero
-    if (input_File.is_open()) {
-      while (getline(input_File, line)) {
-        file_Content.push_back(line);
+    std::vector<std::string> fileContent; /// Almacenaje por líneas del fichero
+    if (inputFile.is_open()) {
+      while (getline(inputFile, line)) {
+        fileContent.push_back(line);
       }
-      input_File.close();
+      inputFile.close();
     }
 
     int flag = 0;
-    for (int i = 0; i < file_Content.size(); i++) {
+    for (int i = 0; i < fileContent.size(); i++) {
       Alphabet newAlphabet;
       Chain newChain;
-      newAlphabet.setSymbolToAlphabet(file_Content[i]);
+      newAlphabet.setSymbolToAlphabet(fileContent[i]);
       newAlphabet.printAlphabet();
-      newChain.addChain(file_Content[i], newAlphabet);
+      newChain.addChain(fileContent[i], newAlphabet);
       newChain.getChain(0);
-      Menu(option, output_File_Name, flag, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+      Menu(option, outputFileName, flag, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
       flag = 1;
     }
   } else {
