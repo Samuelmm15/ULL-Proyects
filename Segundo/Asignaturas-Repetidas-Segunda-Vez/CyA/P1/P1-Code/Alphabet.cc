@@ -69,7 +69,7 @@ void Alphabet::printAlphabet() {
       std::cout << alphabet[i];
     }
   }
-  std::cout << " }" << std::endl;
+  std::cout << " } " << " ";
 };
 
 bool Alphabet::alphabetComprobation(std::string chain) {

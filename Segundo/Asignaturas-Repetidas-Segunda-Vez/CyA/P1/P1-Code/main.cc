@@ -87,8 +87,10 @@ int main(int argc, char *argv[]) {
       newAlphabet.setSymbolToAlphabet(fileContent[i]);
       newAlphabet.printAlphabet();
       newChain.addChain(fileContent[i], newAlphabet);
-      newChain.getChain(0);
-      Menu(option, outputFileName, flag, newAlphabet, newChain); /// En este punto dependiendo de la operación solicitada se accede a algún punto de 
+      if (newChain.getChain(0) != "-1") { /// This is a error code to comprobe if the introduced Chain was not correctly introduced
+        std::cout << newChain.getChain(0) << std::endl;
+        Menu(option, outputFileName, flag, newAlphabet, newChain); 
+      }
       flag = 1;
     }
   } else {

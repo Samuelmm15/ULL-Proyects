@@ -35,11 +35,12 @@ void Chain::addChain(std::string newChain, Alphabet alphabet) {
   if (chain.size() == 0) {
     if ((auxiliary.size() >= 2) && (flagComprobation == 0)) {
     chain.push_back(auxiliary);
-  }
+    } else {
+      chain.push_back("-1");
+    }
   }
 };
 
 std::string Chain::getChain(int position) {
-  // std::cout << chain.at(position) << std::endl;
   return chain.at(position);
 };
