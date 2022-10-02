@@ -26,6 +26,8 @@
 #include "MenuOptions.h"
 #include "MenuOptions.cc"
 
+/// TENER EN CUENTA QUE FALLA QUE LA CADENA NO ESTÉ GENERADA A PARTIR DEL ALFABETO DADO
+
 void Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
   MenuOptions Options;
   if (option == "Longitud") {
@@ -43,6 +45,7 @@ void Menu(std::string option, std::string outputFileName, int flag, Alphabet new
     std::cout << "Para la correcta ejecución del programa introduzca alguna de las siguientes opciones: " << std::endl;
     std::cout << "Longitud || Inversa || Prefijos || Sufijos || Subcadenas" << std::endl;
     std::cout << "Tener en cuenta que la opción debe de ser introducida de la manera anterior" << std::endl;
+    exit(1);
   }
 };
 
@@ -55,7 +58,11 @@ int main(int argc, char *argv[]) {
     std::ifstream inputFile;
     inputFile.open(inputFileName, std::ios::in);
     if (inputFile.fail()) {
-      std::cout << "ERROR >> Fallo en la apertura del fichero de entrada" << std::endl;
+      std::cout << "ERROR >> Fallo en la apertura del fichero de entrada." << std::endl;
+      exit(1);
+    }
+    if (sizeof(inputFile) == 0) {
+      std::cout << "ERROR >> El fichero que ha sido introducido para la entrada de datos está vacío." << std::endl;
       exit(1);
     }
     std::string line;
@@ -67,6 +74,12 @@ int main(int argc, char *argv[]) {
       inputFile.close();
     }
 
+    if (fileContent.size() == 0) { /// En el caso de que el fichero esté vacío
+      std::cout << "ERROR >> El fichero que ha sido introducido no contiene nada." << std::endl;
+      exit(1);
+    }
+
+    std::cout << "COMPROBACIÓN DE LOS ALFABETOS DE LAS DISTINTAS CADENAS INTRODUCIDAS A TRAVÉS DEL FICHERO: " << std::endl;
     int flag = 0;
     for (int i = 0; i < fileContent.size(); i++) {
       Alphabet newAlphabet;
