@@ -26,8 +26,6 @@
 #include "MenuOptions.h"
 #include "MenuOptions.cc"
 
-/// TENER EN CUENTA QUE FALLA QUE LA CADENA NO ESTÉ GENERADA A PARTIR DEL ALFABETO DADO
-
 void Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
   MenuOptions Options;
   if (option == "Longitud") {
