@@ -1,7 +1,7 @@
 /**
  * @file Alphabet.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief This is the file that contents the class that represents the alphabet of a language.
+ * @brief This file contents the class that represents the alphabet of a language.
  * @version 0.1
  * @date 2022-09-28
  * @signature Computabilidad y Algoritmia.
@@ -17,7 +17,11 @@
 
 #pragma once
 
-class Alphabet : public Symbol {  /// Se hereda la clase símbolo para poder comprobar si se trata de un símbolo
+/**
+ * @brief This class contains the different alphabets of the introduced file.
+ * 
+ */
+class Alphabet : public Symbol {
   public:
     Alphabet();
     void setSymbolToAlphabet(std::string line);

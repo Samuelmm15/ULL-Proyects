@@ -1,7 +1,7 @@
 /**
  * @file main.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contais the main function of the program.
  * @version 0.1
  * @date 2022-09-28
  * @signature Computabilidad y Algoritmia.
@@ -18,7 +18,7 @@
 #include <vector>
 #include <algorithm>
 #include "Symbol.h"
-#include "Symbol.cc" /// Se incluyen los ficheros ".cc" porque el linker da problemas
+#include "Symbol.cc" /// The .cc files are included because the linker gives problems
 #include "Alphabet.h"
 #include "Alphabet.cc"
 #include "Chain.h"
@@ -26,7 +26,16 @@
 #include "MenuOptions.h"
 #include "MenuOptions.cc"
 
-void Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) { /// This is the function that contains the Menu of the program
+/**
+ * @brief This function brings the Menu of the program, I mean, the different options of the program.
+ * 
+ * @param option is the option to execute the program.
+ * @param outputFileName is the name of the output file.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newAlphabet is the object that contains the alphabets.
+ * @param newChain is the object that contains the chains.
+ */
+void Menu(std::string option, std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) {
   MenuOptions Options;
   if (option == "Longitud") {
     Options.ChainsLong(outputFileName, flag, newAlphabet, newChain);
@@ -47,9 +56,16 @@ void Menu(std::string option, std::string outputFileName, int flag, Alphabet new
   }
 };
 
+/**
+ * @brief This is the main function of the program.
+ * 
+ * @param argc is the size of the line to execute the program.
+ * @param argv is the differents elements of the line to execute the program.
+ * @return int 
+ */
 int main(int argc, char *argv[]) {
   if (argc == 4) {
-    std::string inputFileName = argv[1]; /// Estas líneas son necesarias para trabajar con cadenas
+    std::string inputFileName = argv[1];
     std::string outputFileName = argv[2];
     std::string option = argv[3];
 
@@ -103,4 +119,5 @@ int main(int argc, char *argv[]) {
     }
     exit(1); /// Exit with error code
   }
+  return 0;
 };

@@ -16,7 +16,11 @@
 
 #pragma once
 
-class Symbol { /// Esta clase únicamente permite determinar si un elemento se trata de un símbolo o no
+/**
+ * @brief This class comprobes if a character is a symbol.
+ * 
+ */
+class Symbol {
   public:
     Symbol();
     bool isASymbol(std::string character);

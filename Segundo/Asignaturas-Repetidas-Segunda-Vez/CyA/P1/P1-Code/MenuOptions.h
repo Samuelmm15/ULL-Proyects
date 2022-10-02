@@ -1,7 +1,7 @@
 /**
  * @file MenuOptions.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This is the file that contains the class of the Menu options.
  * @version 0.1
  * @date 2022-09-28
  * @signature Computabilidad y Algoritmia.
@@ -22,6 +22,10 @@
 
 #pragma once
 
+/**
+ * @brief This class contains the differents methods of the differents options of the program.
+ * 
+ */
 class MenuOptions {
   public:
     MenuOptions();

@@ -1,7 +1,7 @@
 /**
  * @file MenuOptions.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the implementation of the differents methods of the different options of the program.
  * @version 0.1
  * @date 2022-09-28
  * @signature Computabilidad y Algoritmia.
@@ -13,9 +13,21 @@
 
 #include "MenuOptions.h"
 
+/**
+ * @brief This is the constructor of the MenuOptions objects.
+ * 
+ */
 MenuOptions::MenuOptions() {
 };
 
+/**
+ * @brief This is the option that brings the size of the different introduced chains at the introduced file.
+ * 
+ * @param outputFileName is the name of the file that is gonna to write the result.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newAlphabet is the object of the chain alphabet.
+ * @param newChain is the object of the chain.
+ */
 void MenuOptions::ChainsLong(std::string outputFileName, int flag, Alphabet newAlphabet, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -37,6 +49,13 @@ void MenuOptions::ChainsLong(std::string outputFileName, int flag, Alphabet newA
   }
 };
 
+/**
+ * @brief This is the option that write the inverse of the introduced chains.
+ * 
+ * @param outputFileName is the name of the file that contains the results.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newChain is the object of the introduced chain.
+ */
 void MenuOptions::InverseChains(std::string outputFileName, int flag, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -66,6 +85,13 @@ void MenuOptions::InverseChains(std::string outputFileName, int flag, Chain newC
   }
 };
 
+/**
+ * @brief This option write the prefixes of the different introduced chains.
+ * 
+ * @param outputFileName is the name of the file that contains the results.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newChain is the object of the introduced chain.
+ */
 void MenuOptions::PrefixesChains(std::string outputFileName, int flag, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -121,6 +147,13 @@ void MenuOptions::PrefixesChains(std::string outputFileName, int flag, Chain new
   }
 };
 
+/**
+ * @brief This option wirte the sufixes of the differents introduced chains.
+ * 
+ * @param outputFileName is the name of the file that is gonna write the result.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newChain is the object of the introduced chains.
+ */
 void MenuOptions::SufixesChains(std::string outputFileName, int flag, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -188,6 +221,13 @@ void MenuOptions::SufixesChains(std::string outputFileName, int flag, Chain newC
   }
 };
 
+/**
+ * @brief This option write the differents substrings of the introduced chains.
+ * 
+ * @param outputFileName is the name of the file that is gonna to write the results.
+ * @param flag is a flag to determinate if the file is gonna be open to write the first time or to write lines below the previous line.
+ * @param newChain is the object of the introduced chains.
+ */
 void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChain) {
   std::fstream outputFile;
   if (flag == 0) {
@@ -201,10 +241,10 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
         std::vector<std::string> auxiliaryVector;
         int i = 0;
         int j = 0;
-        while (counterFlag <= newChain.getChain(0).size()) { /// Necesario para poder determinar los tamaños de las distintas subcadenas
+        while (counterFlag <= newChain.getChain(0).size()) { /// This is neccesary to obtain the different sizes of the differents substrings.
           j = i;
           int auxiliaryLenght = 0;
-          while (auxiliaryLenght <= counterFlag) { /// Este bucle se encarga de dividir la cadena en subcadenas según el tamaño del grupo que se quiera
+          while (auxiliaryLenght <= counterFlag) { /// this loop is responsible for dividing the chain into substrings according to the size of the group you want.
             if (j < newChain.getChain(0).size()) {
               auxiliaryString.push_back(newChain.getChain(0).at(j));
               auxiliaryLenght = auxiliaryString.size();
@@ -214,7 +254,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
             j++;
           }
           int comprobationFlag = 0;
-          for (int k = 0; k < auxiliaryVector.size(); k++) { /// En este punto se comprueba si en la división por subgrupos alguno se encuentra repetido a alguno anterior
+          for (int k = 0; k < auxiliaryVector.size(); k++) { /// This comprobe if a substring is already introduced into the vector.
             if (auxiliaryVector.at(k) == auxiliaryString) {
               comprobationFlag = 1;
             }
@@ -225,14 +265,14 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
 
           auxiliaryString.clear();
           i++;
-          if (i == newChain.getChain(0).size()) { /// Se reinician los valores para poder seguir subiendo el tamaño de los distintos grupos
+          if (i == newChain.getChain(0).size()) { /// At this point the variables are restarted.
             counterFlag++;
-            i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
+            i = 0;
             j = 0;  
           } 
         }
-        /// Impresión de todo por pantalla
-        for (int i = 0; i < auxiliaryVector.size(); i++) {
+        
+        for (int i = 0; i < auxiliaryVector.size(); i++) { /// This prints all into the output file.
           outputFile << auxiliaryVector.at(i) << " ";
         }
         outputFile << "\n";
@@ -248,7 +288,7 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
         std::string auxiliaryString;
         std::vector<std::string> auxiliaryVector;
         int i = 0;
-        int j = 0; /// Este va a ser el auxiliar de i
+        int j = 0;
         while (counterFlag <= newChain.getChain(0).size()) {
           j = i;
           int auxiliaryLenght = 0;
@@ -275,11 +315,11 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Chain newChai
           i++;
           if (i == newChain.getChain(0).size()) {
             counterFlag++;
-            i = 0; /// En el momento en el que el tamaño de las subcadenas aumenta se reinicia desde la primera posición
+            i = 0;
             j = 0;  
           } 
         }
-        /// Impresión de todo por pantalla
+
         for (int i = 0; i < auxiliaryVector.size(); i++) {
           outputFile << auxiliaryVector.at(i) << " ";
         }

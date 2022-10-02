@@ -1,7 +1,7 @@
 /**
  * @file Alphabet.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the implementation of the different methods of the alphabet class.
  * @version 0.1
  * @date 2022-09-28
  * @signature Computabilidad y Algoritmia.
@@ -11,16 +11,24 @@
  * 
  */
 
-#include "Symbol.h"
 #include "Alphabet.h"
 
+/**
+ * @brief This is the constructor of the different Alphabet objects.
+ * 
+ */
 Alphabet::Alphabet() {
 };
 
+/**
+ * @brief This method sets a symbol into the alphabet of the introduced example.
+ * 
+ * @param line This is the readed line of the introduced file to obtain the alphabet of the differents chains.
+ */
 void Alphabet::setSymbolToAlphabet(std::string line) {
   std::string auxiliary;
   for (int i = 0; i < line.size(); i++) {
-    if ((line[i] != ' ') && (line[i] != '\n')) {
+    if ((line[i] != ' ') && (line[i] != '\n')) { /// When the character is not followed by a space or line break.
       auxiliary.push_back(line[i]);
     } else {
       if (line[i] != '\n') {
@@ -32,7 +40,7 @@ void Alphabet::setSymbolToAlphabet(std::string line) {
       auxiliary.clear();
     }
   }
-  if (alphabet.size() == 0) { /// En el caso de que no se introduzcan los símbolos del alfabeto y se tengan que obtener mediante la cadena de entrada
+  if (alphabet.size() == 0) { /// At the case that the alphabet is not introduced in the file. The alphabet is obtained by the different symbols at the chain.
     for (int i = 0; i < line.size(); i++) {
       if (i == 0) {
         auxiliary.clear();
@@ -44,7 +52,7 @@ void Alphabet::setSymbolToAlphabet(std::string line) {
       } else {
         int comprobationFlag = 0;
         auxiliary.push_back(line[i]);
-        for (int j = 0; j < alphabet.size(); j++) {
+        for (int j = 0; j < alphabet.size(); j++) { /// This is a comprobation if the introduced symbol is already introduced in it.
           if (alphabet.at(j) == auxiliary) {
             comprobationFlag = 1;
           }
@@ -60,6 +68,10 @@ void Alphabet::setSymbolToAlphabet(std::string line) {
   }
 };
 
+/**
+ * @brief This method prints the alphabet into the screen.
+ * 
+ */
 void Alphabet::printAlphabet() {
     std::cout << "{ ";
   for (int i = 0; i < alphabet.size(); i++) {
@@ -72,6 +84,13 @@ void Alphabet::printAlphabet() {
   std::cout << " } " << " ";
 };
 
+/**
+ * @brief This method comprobes if a chain belongs at the alphabet.
+ * 
+ * @param chain is the chain to comprobe.
+ * @return true if the chain was formed by the alphabet.
+ * @return false if the chain was not formed by the alphabet.
+ */
 bool Alphabet::alphabetComprobation(std::string chain) {
   bool flag;
   int counter = 0;

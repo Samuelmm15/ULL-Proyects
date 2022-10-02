@@ -16,6 +16,10 @@
 
 #pragma once
 
+/**
+ * @brief This is the class that represents the chain formed by the alphabets.
+ * 
+ */
 class Chain : public Alphabet {
   public:
     Chain();
