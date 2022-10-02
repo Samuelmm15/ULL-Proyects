@@ -20,6 +20,4 @@ class Symbol { /// Esta clase únicamente permite determinar si un elemento se t
   public:
     Symbol();
     bool isASymbol(std::string character);
-  private:
-    std::string symbol;
 };

@@ -25,10 +25,17 @@ void Chain::addChain(std::string newChain, Alphabet alphabet) {
       auxiliary.clear();
     }
   }
+  int flagComprobation = 0;
   if (alphabet.alphabetComprobation(auxiliary) == true) {
     chain.push_back(auxiliary);
-  } else if (auxiliary.size() >= 2) {
+  } else {
+    std::cout << "ERROR >> La cadena " << auxiliary << " no pudo haber sido generada por el alfabeto dado." << std::endl;
+    flagComprobation = 1;
+  }
+  if (chain.size() == 0) {
+    if ((auxiliary.size() >= 2) && (flagComprobation == 0)) {
     chain.push_back(auxiliary);
+  }
   }
 };
 
