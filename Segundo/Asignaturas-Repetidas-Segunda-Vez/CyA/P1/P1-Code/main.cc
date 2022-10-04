@@ -18,13 +18,9 @@
 #include <vector>
 #include <algorithm>
 #include "Symbol.h"
-#include "Symbol.cc" /// The .cc files are included because the linker gives problems
 #include "Alphabet.h"
-#include "Alphabet.cc"
 #include "Chain.h"
-#include "Chain.cc"
 #include "MenuOptions.h"
-#include "MenuOptions.cc"
 
 /**
  * @brief This function brings the Menu of the program, I mean, the different options of the program.

@@ -1,10 +1,10 @@
-all: p01_strings
+CC=g++
+CXXFLAGS=-g -std=c++14
 
-p01_strings: p01_strings.o 
-	g++ main.o -o p01_strings
+OBJS = Symbol.o Alphabet.o Chain.o MenuOptions.o main.o
 
-p01_strings.o: p01_strings.o
-	g++ -c main.cc
+all: ${OBJS}
+	$(CC) $(CXXFLAGS) -o p01_strings ${OBJS}
 
-clean:
+clean: 
 	rm -rf *.o p01_strings
