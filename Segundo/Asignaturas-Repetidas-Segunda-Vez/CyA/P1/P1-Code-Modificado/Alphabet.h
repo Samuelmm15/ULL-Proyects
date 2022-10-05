@@ -1,0 +1,33 @@
+/**
+ * @file Alphabet.h
+ * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
+ * @brief This file contents the class that represents the alphabet of a language.
+ * @version 0.1
+ * @date 2022-09-28
+ * @signature Computabilidad y Algoritmia.
+ * @course 2022-2023.
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+#include <iostream>
+#include <vector>
+#include "Symbol.h"
+
+#pragma once
+
+/**
+ * @brief This class contains the different alphabets of the introduced file.
+ * 
+ */
+class Alphabet : public Symbol {
+  public:
+    Alphabet();
+    void setSymbolToAlphabet(std::string line);
+    bool alphabetComprobation(std::string chain);
+    void printAlphabet();
+    std::vector<std::string> getAlphabet();
+  private:
+    std::vector<std::string> alphabet;
+};

@@ -1,0 +1,5 @@
+{ a , b } abbab & a ab abb abba abbab 
+{ 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 } 6793836 & 6 67 679 6793 67938 679383 6793836 
+{ h , o , l , a } hola & h ho hol hola 
+{ a , b , c , d } abbccd & a ab abb abbc abbcc abbccd 
+{ e , s , t , r , n , o , c , l , i , d , m , a } esternocleidomastoideo & e es est este ester estern esterno esternoc esternocl esternocle esternoclei esternocleid esternocleido esternocleidom esternocleidoma esternocleidomas esternocleidomast esternocleidomasto esternocleidomastoi esternocleidomastoid esternocleidomastoide esternocleidomastoideo 
