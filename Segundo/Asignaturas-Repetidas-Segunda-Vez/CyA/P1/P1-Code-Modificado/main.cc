@@ -104,6 +104,10 @@ int main(int argc, char *argv[]) {
       flag = 1;
     }
   } else {
+    if (argc = 1) {
+      std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
+      exit(1);
+    }
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
       std::cout << "AYUDA >>" << std::endl;
