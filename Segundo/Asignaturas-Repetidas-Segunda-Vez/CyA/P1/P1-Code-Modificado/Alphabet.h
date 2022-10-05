@@ -28,6 +28,7 @@ class Alphabet : public Symbol {
     bool alphabetComprobation(std::string chain);
     void printAlphabet();
     std::vector<std::string> getAlphabet();
+    std::string chainComprobation(std::string chain);
   private:
     std::vector<std::string> alphabet;
 };

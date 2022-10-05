@@ -45,6 +45,13 @@ void MenuOptions::ChainsLong(std::string outputFileName, int flag, Alphabet newA
         }
       }
       outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
+      outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       outputFile << newChain.getChain(0).size() << std::endl;
     }
@@ -63,6 +70,13 @@ void MenuOptions::ChainsLong(std::string outputFileName, int flag, Alphabet newA
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       outputFile << newChain.getChain(0).size() << std::endl;
@@ -99,6 +113,13 @@ void MenuOptions::InverseChains(std::string outputFileName, int flag, Alphabet n
         }
       }
       outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
+      outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       outputFile << auxiliary << std::endl;
     }
@@ -121,6 +142,13 @@ void MenuOptions::InverseChains(std::string outputFileName, int flag, Alphabet n
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       outputFile << auxiliary << std::endl;
@@ -152,6 +180,13 @@ void MenuOptions::PrefixesChains(std::string outputFileName, int flag, Alphabet 
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       int i = 1;
@@ -188,6 +223,13 @@ void MenuOptions::PrefixesChains(std::string outputFileName, int flag, Alphabet 
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       int i = 1;
@@ -237,6 +279,13 @@ void MenuOptions::SufixesChains(std::string outputFileName, int flag, Alphabet n
         }
       }
       outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
+      outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       std::string auxiliary;
       int i = newChain.getChain(0).size() - 1;
@@ -278,6 +327,13 @@ void MenuOptions::SufixesChains(std::string outputFileName, int flag, Alphabet n
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
       std::string auxiliary;
@@ -332,6 +388,13 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Alphabet newA
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
         outputFile << "& ";
@@ -391,6 +454,13 @@ void MenuOptions::Substrings(std::string outputFileName, int flag, Alphabet newA
           outputFile << alphabetAuxiliary[i];
         }
       }
+      outputFile << " }" << " ";
+      std::string auxiliaryChainComprobation = newAlphabet.chainComprobation(newChain.getChain(0));
+      outputFile << "{ ";
+      for (int i = 0; i < auxiliaryChainComprobation.size() - 1; i++) {
+        outputFile << auxiliaryChainComprobation[i] << " , ";
+      }
+      outputFile << auxiliaryChainComprobation[auxiliaryChainComprobation.size() - 1];
       outputFile << " }" << " ";
       outputFile << newChain.getChain(0) << " ";
         outputFile << "& ";

@@ -112,3 +112,28 @@ bool Alphabet::alphabetComprobation(std::string chain) {
 std::vector<std::string> Alphabet::getAlphabet() {
   return alphabet;
 };
+
+std::string Alphabet::chainComprobation(std::string chain) {
+  std::string chainResult;
+  for (int i = 0; i < chain.size(); i++) {
+    for (int j = 0; j < alphabet.size(); j++) {
+      std::string auxiliary = alphabet[j];
+      if (chain[i] == auxiliary[0]) {
+        if (chainResult.size() == 0) {
+          chainResult.push_back(chain[i]);
+        } else {
+          int counter = 0;
+          for (int k = 0; k < chainResult.size(); k++) {
+            if (chain[i] == chainResult[k]) {
+              counter = 1;
+            }
+          }
+          if (counter == 0) {
+            chainResult.push_back(chain[i]);
+          }
+        }
+      }
+    }
+  }
+  return chainResult;
+}
