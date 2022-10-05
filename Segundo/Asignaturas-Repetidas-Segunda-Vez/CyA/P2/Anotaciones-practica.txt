@@ -1,0 +1,33 @@
+Hacer uso de la stl set (BUSCA QUE ES Y PARA QUE SIRVE)
+
+Hacer uso del programa de la práctica anterior.
+
+Un lenguaje se trata de un conjunto de cadenas (chains).
+
+El lenguaje vacío se va a denotar por {}.
+
+Los lenguajes para esta práctica serán finitos. De manera general este tipo de lenguajes:
+
+L = {w1, w2, w3, w4, w5}
+
+Los lenguajes serán especificados en los ficheros de entrada. Los resultados se alamacenarán en ficheros de salida.
+
+Los parámetros para ejecutar el programa serán pasados por línea de comandos.
+
+En los ficheros de entrada se encuentra la definición de los ficheros con los que realizar.
+
+El formato de los ficheros será primero el alfabeto del lenguaje y después el conjunto de cadenas que pertenecen
+al lenguaje, de manera general: {a b c} { a abc cab bbcc }. En vez de usar comas se hace uso de espacios entre los
+distintos símbolos y cadenas.
+
+La cadena vacía es &. Pero para indicar que el lenguaje está formado por la cadena vacía, se hace uso de {}.
+
+Independientemente de la operación que se realice, se obtendrá siempre un único lenguaje resultante.
+
+Se pueden usar dos ficheros de entrada para la realización de las operaciones de concatenación, unión, intersección 
+y la diferencia.
+
+Para operaciones como la inversa o la potencia, se hace uso de los lenguajes del primer fichero de entrada.
+
+Para la operación de potencia, se puede solicitar el valor de n de la potencia por teclado o directamente por línea
+de comandos.
