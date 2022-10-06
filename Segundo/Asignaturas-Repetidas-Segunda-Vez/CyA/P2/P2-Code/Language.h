@@ -12,6 +12,7 @@
  */
 
 #include <iostream>
+#include <set>
 
 #include "Chain.h"
 
@@ -25,5 +26,5 @@ class Language : public Chain {
     void languageInverse();
     void languagePotency();
   private:
-    std::vector<Chain> chainVector; /// Vector de objetos de tipo chain, que contiene todas las cadenas
+    std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };

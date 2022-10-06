@@ -20,6 +20,7 @@
 #include "Alphabet.h"
 #include "Chain.h"
 #include "Language.h"
+#include "FileOperations.h"
 
 /**
  * @brief This is the main function of the program.
@@ -34,29 +35,12 @@ int main(int argc, char *argv[]) {
     std::string outputFileName = argv[2];
     std::string option = argv[3];
 
-    std::ifstream inputFile;
-    inputFile.open(inputFileName, std::ios::in);
-    if (inputFile.fail()) {
-      std::cout << "ERROR >> Fallo en la apertura del fichero de entrada." << std::endl;
-      exit(1);
-    }
-    if (sizeof(inputFile) == 0) {
-      std::cout << "ERROR >> El fichero que ha sido introducido para la entrada de datos está vacío." << std::endl;
-      exit(1);
-    }
-    std::string line;
-    std::vector<std::string> fileContent; /// Almacenaje por líneas del fichero
-    if (inputFile.is_open()) {
-      while (getline(inputFile, line)) {
-        fileContent.push_back(line);
-      }
-      inputFile.close();
-    }
-
-    if (fileContent.size() == 0) { /// En el caso de que el fichero esté vacío
-      std::cout << "ERROR >> El fichero que ha sido introducido no contiene nada." << std::endl;
-      exit(1);
-    }
+    /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
+    FileOperations readOperation(inputFileName);
+    std::vector<std::string> fileContent = readOperation.ReadFile();
+    
+    /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
+    std::cout << fileContent.at(0) << std::endl;
 
     // std::cout << "COMPROBACIÓN DE LOS ALFABETOS DE LAS DISTINTAS CADENAS INTRODUCIDAS A TRAVÉS DEL FICHERO: " << std::endl;
     // int flag = 0;
