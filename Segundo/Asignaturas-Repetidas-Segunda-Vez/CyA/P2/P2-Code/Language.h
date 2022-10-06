@@ -18,6 +18,9 @@
 
 class Language : public Chain {
   public:
+    bool operator<(const Chain& a, const Chain& b) {
+      return a.getChain() < b.getChain();
+    }
     Language(std::vector<Chain> groupChains);
     void LanguageConcatenation();
     void LanguageUnion();
@@ -26,7 +29,6 @@ class Language : public Chain {
     void LanguageInverse();
     void LanguagePotency();
     void LanguagePrint();
-    bool operator<(Chain p);
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };

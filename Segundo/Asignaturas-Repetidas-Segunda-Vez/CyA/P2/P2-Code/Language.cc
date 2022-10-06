@@ -13,10 +13,6 @@
 
 #include "Language.h"
 
-bool Language::operator<(Chain p) {
-  return true;
-}
-
 Language::Language(std::vector<Chain> groupChains) {
   std::set<Chain> setLanguage;
   setLanguage.insert(groupChains[0]);
