@@ -21,6 +21,8 @@ class FileOperations {
     FileOperations(std::string fileName);
     std::vector<std::string> ReadFile();
     void WriteFile();
+    std::vector<std::string> AlphabetDivision(std::string line); /// se devuelve un vector, ya que se trata de un vector de caracteres y no una cadena
+    std::string ChainDivision(std::vector<std::string> fileContent);
   private:
     std::string inputFileName;
 };

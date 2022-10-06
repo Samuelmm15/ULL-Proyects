@@ -41,3 +41,25 @@ std::vector<std::string> FileOperations::ReadFile() {
 
 void FileOperations::WriteFile() {
 };
+
+std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
+  std::vector<std::string> result;
+  bool comprobationFlag = false;
+  for (int i = 0; i < line.size(); i++) {
+    if ((line[i] != ' ') && (line[i] != '{') && (line[i] != '\n')) {
+      if (line[i] == '}') {
+        comprobationFlag = true;
+      } else {
+        if (comprobationFlag == false) {
+          std::string auxiliary;
+          auxiliary.push_back(line[i]);
+          result.push_back(auxiliary);
+        }
+      }
+    }
+  }
+  return result;
+};
+
+std::string FileOperations::ChainDivision(std::vector<std::string> fileContent) {
+};

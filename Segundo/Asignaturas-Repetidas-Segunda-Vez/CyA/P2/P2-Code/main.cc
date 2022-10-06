@@ -36,11 +36,18 @@ int main(int argc, char *argv[]) {
     std::string option = argv[3];
 
     /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
-    FileOperations readOperation(inputFileName);
-    std::vector<std::string> fileContent = readOperation.ReadFile();
+    FileOperations fileOperation(inputFileName);
+    std::vector<std::string> fileContent = fileOperation.ReadFile();
     
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
-    std::cout << fileContent.at(0) << std::endl;
+    std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[0]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
+    for (int i = 0; i < dividedAlphabet.size(); i++) {
+      std::cout << dividedAlphabet[i] << " ";
+    }
+    std::cout << "\n";
+    Alphabet newAlphabet();
+    
+
 
     // std::cout << "COMPROBACIÓN DE LOS ALFABETOS DE LAS DISTINTAS CADENAS INTRODUCIDAS A TRAVÉS DEL FICHERO: " << std::endl;
     // int flag = 0;
