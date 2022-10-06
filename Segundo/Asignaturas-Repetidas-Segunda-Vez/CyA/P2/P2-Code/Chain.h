@@ -23,8 +23,9 @@
 class Chain : public Alphabet {
   public:
     Chain();
+    ~Chain();
     void addChain(std::string newChain, Alphabet alphabet);
-    std::string getChain(int position);
+    std::string getChain();
   private:
-    std::vector<std::string> chain;
+    std::string chain;
 };

@@ -20,6 +20,10 @@
 Chain::Chain() {
 };
 
+Chain::~Chain() { /// To destroy de content
+  chain.clear();
+}
+
 /**
  * @brief This method adds the different introduced chains by the file into a vector of chains.
  * 
@@ -27,28 +31,19 @@ Chain::Chain() {
  * @param alphabet is the alphabet of the introduced chain.
  */
 void Chain::addChain(std::string newChain, Alphabet alphabet) {
-  std::string auxiliary;
-  for (int i = 0; i < newChain.size(); i++) {
-    if (newChain[i] != ' ') {
-      auxiliary.push_back(newChain[i]);
-    } else {
-      auxiliary.clear();
-    }
-  }
-  int flagComprobation = 0;
-  if (alphabet.alphabetComprobation(auxiliary) == true) {
-    chain.push_back(auxiliary);
-  } else {
-    std::cout << "ERROR >> La cadena " << auxiliary << " no pudo haber sido generada por el alfabeto dado." << std::endl;
-    flagComprobation = 1;
-  }
-  if (chain.size() == 0) {
-    if ((auxiliary.size() >= 2) && (flagComprobation == 0)) {
-    chain.push_back(auxiliary);
-    } else {
-      chain.push_back("-1"); /// This is a flag to express that the string does not belong to the alphabet given.
-    }
-  }
+  chain = newChain;
+  // int flagComprobation = 0;
+  // if (alphabet.alphabetComprobation(newChain) == true) {
+  //   chain = newChain;
+  // } else {
+  //   std::cout << "ERROR >> La cadena " << newChain << " no pudo haber sido generada por el alfabeto dado." << std::endl;
+  //   flagComprobation = 1;
+  // }
+  // if (chain.size() == 0) {
+  //   if ((newChain.size() >= 2) && (flagComprobation == 0)) {
+  //     chain = newChain;
+  //   }
+  // }
 };
 
 /**
@@ -57,6 +52,6 @@ void Chain::addChain(std::string newChain, Alphabet alphabet) {
  * @param position is the position of the differents chain introduced.
  * @return std::string is the string that is gonna to use.
  */
-std::string Chain::getChain(int position) {
-  return chain.at(position);
+std::string Chain::getChain() {
+  return chain;
 };

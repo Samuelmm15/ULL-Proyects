@@ -42,10 +42,26 @@ int main(int argc, char *argv[]) {
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
       std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
+      std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
+
       Alphabet newAlphabet;
       newAlphabet.setSymbolsToAlphabet(dividedAlphabet); /// Obtención de alfabetos funciona de manera correcta
       newAlphabet.printAlphabet();
-      std::cout << "\n";
+      Chain newChain;
+      std::vector<Chain> chainsGroup;
+      // std::cout << dividedChains.size() << std::endl;
+      // for (int j = 0; j < dividedChains.size(); j++) {
+      //   std::cout << dividedChains[j] << " ";
+      // }
+      for (int j = 0; j < dividedChains.size(); j++) {
+        newChain.addChain(dividedChains[j], newAlphabet);
+        chainsGroup.push_back(newChain);
+        newChain.~Chain();
+      }
+      for (int k = 0; k < chainsGroup.size(); k++) { /// En este punto se tienen las cadenas de los distintos lenguajes del fichero
+        std::cout << chainsGroup[k].getChain() << " ";
+      }
+      std::cout << std::endl;
     }
 
   } else {

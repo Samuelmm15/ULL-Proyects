@@ -61,5 +61,29 @@ std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
   return result;
 };
 
-std::string FileOperations::ChainDivision(std::string line) {
+std::vector<std::string> FileOperations::ChainDivision(std::string line) {
+  std::vector<std::string> result;
+  std::string auxiliary;
+  bool comprobationFlag = false;
+  for (int i = 0; i < line.size(); i++) {
+    if ((line[i] != '\n') && (line[i] != '{')) {
+      if (line[i] == '}') {
+        comprobationFlag = true;
+      }
+      if (comprobationFlag == true) {
+        if ((line[i] != '}') && (line[i] != ' ')) {
+          auxiliary.push_back(line[i]);
+        } 
+      }
+      if (line[i] == ' ') {
+        if (auxiliary.size() != 0) {
+          if (auxiliary != "}") {
+            result.push_back(auxiliary);
+          }
+          auxiliary.clear();
+        }
+      }
+    }
+  }
+  return result;
 };
