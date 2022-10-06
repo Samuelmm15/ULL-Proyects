@@ -40,35 +40,20 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> fileContent = fileOperation.ReadFile();
     
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
-    std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[0]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
-    for (int i = 0; i < dividedAlphabet.size(); i++) {
-      std::cout << dividedAlphabet[i] << " ";
+    for (int i = 0; i < fileContent.size(); i++) {
+      std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
+      Alphabet newAlphabet;
+      newAlphabet.setSymbolsToAlphabet(dividedAlphabet); /// Obtención de alfabetos funciona de manera correcta
+      newAlphabet.printAlphabet();
+      std::cout << "\n";
     }
-    std::cout << "\n";
-    Alphabet newAlphabet();
-    
 
-
-    // std::cout << "COMPROBACIÓN DE LOS ALFABETOS DE LAS DISTINTAS CADENAS INTRODUCIDAS A TRAVÉS DEL FICHERO: " << std::endl;
-    // int flag = 0;
-    // for (int i = 0; i < fileContent.size(); i++) {
-    //   Alphabet newAlphabet;
-    //   Chain newChain;
-    //   newAlphabet.setSymbolToAlphabet(fileContent[i]);
-    //   newAlphabet.printAlphabet();
-    //   newChain.addChain(fileContent[i], newAlphabet);
-    //   if (newChain.getChain(0) != "-1") { /// This is a error code to comprobe if the introduced Chain was not correctly introduced
-    //     std::cout << newChain.getChain(0) << std::endl;
-    //     Menu(option, outputFileName, flag, newAlphabet, newChain); 
-    //   }
-    //   flag = 1;
-    // }
   } else {
-    if (argc = 1) {
+    std::string option = argv[1];
+    if ((argc = 1) && (option != "--help")) {
       std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
       exit(1);
     }
-    std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
       std::cout << "AYUDA >>" << std::endl;
       std::cout << "./p01_strings filein.txt fileout.txt [option]" << std::endl;

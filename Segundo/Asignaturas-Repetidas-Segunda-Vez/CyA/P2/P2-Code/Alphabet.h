@@ -23,7 +23,7 @@
 class Alphabet {
   public:
     Alphabet();
-    void setSymbolToAlphabet(std::string line);
+    void setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet);
     bool alphabetComprobation(std::string chain);
     void printAlphabet();
     std::vector<std::string> getAlphabet();

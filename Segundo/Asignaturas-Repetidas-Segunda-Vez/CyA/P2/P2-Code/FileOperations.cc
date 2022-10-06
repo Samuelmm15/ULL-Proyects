@@ -61,5 +61,5 @@ std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
   return result;
 };
 
-std::string FileOperations::ChainDivision(std::vector<std::string> fileContent) {
+std::string FileOperations::ChainDivision(std::string line) {
 };

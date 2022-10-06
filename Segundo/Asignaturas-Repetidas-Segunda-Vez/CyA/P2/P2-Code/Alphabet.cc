@@ -25,47 +25,52 @@ Alphabet::Alphabet() {
  * 
  * @param line This is the readed line of the introduced file to obtain the alphabet of the differents chains.
  */
-void Alphabet::setSymbolToAlphabet(std::string line) {
-  std::string auxiliary;
-  for (int i = 0; i < line.size(); i++) {
-    if ((line[i] != ' ') && (line[i] != '\n')) { /// When the character is not followed by a space or line break.
-      auxiliary.push_back(line[i]);
-    } else {
-      if (line[i] != '\n') {
-        if (auxiliary.size() == 1) {
-          alphabet.push_back(auxiliary);
-        }
-        auxiliary.clear();
-      }
-      auxiliary.clear();
+void Alphabet::setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet) {
+  for (int i = 0; i < dividedAlphabet.size(); i++) { /// Introducción de los símbolos en el alfabeto del lenguaje en el caso de que sean de longitud uno
+    if (dividedAlphabet[i].size() == 1) {
+      alphabet.push_back(dividedAlphabet[i]);
     }
   }
-  if (alphabet.size() == 0) { /// At the case that the alphabet is not introduced in the file. The alphabet is obtained by the different symbols at the chain.
-    for (int i = 0; i < line.size(); i++) {
-      if (i == 0) {
-        auxiliary.clear();
-        auxiliary.push_back(line[i]);
-        if (auxiliary.size() == 1) {
-          alphabet.push_back(auxiliary);
-        }
-        auxiliary.clear();
-      } else {
-        int comprobationFlag = 0;
-        auxiliary.push_back(line[i]);
-        for (int j = 0; j < alphabet.size(); j++) { /// This is a comprobation if the introduced symbol is already introduced in it.
-          if (alphabet.at(j) == auxiliary) {
-            comprobationFlag = 1;
-          }
-        }
-        if (comprobationFlag == 0) {
-          if (auxiliary.size() == 1) {
-            alphabet.push_back(auxiliary);
-          }
-        }
-        auxiliary.clear();
-      }
-    }
-  }
+  // std::string auxiliary;
+  // for (int i = 0; i < line.size(); i++) {
+  //   if ((line[i] != ' ') && (line[i] != '\n')) { /// When the character is not followed by a space or line break.
+  //     auxiliary.push_back(line[i]);
+  //   } else {
+  //     if (line[i] != '\n') {
+  //       if (auxiliary.size() == 1) {
+  //         alphabet.push_back(auxiliary);
+  //       }
+  //       auxiliary.clear();
+  //     }
+  //     auxiliary.clear();
+  //   }
+  // }
+  // if (alphabet.size() == 0) { /// At the case that the alphabet is not introduced in the file. The alphabet is obtained by the different symbols at the chain.
+  //   for (int i = 0; i < line.size(); i++) {
+  //     if (i == 0) {
+  //       auxiliary.clear();
+  //       auxiliary.push_back(line[i]);
+  //       if (auxiliary.size() == 1) {
+  //         alphabet.push_back(auxiliary);
+  //       }
+  //       auxiliary.clear();
+  //     } else {
+  //       int comprobationFlag = 0;
+  //       auxiliary.push_back(line[i]);
+  //       for (int j = 0; j < alphabet.size(); j++) { /// This is a comprobation if the introduced symbol is already introduced in it.
+  //         if (alphabet.at(j) == auxiliary) {
+  //           comprobationFlag = 1;
+  //         }
+  //       }
+  //       if (comprobationFlag == 0) {
+  //         if (auxiliary.size() == 1) {
+  //           alphabet.push_back(auxiliary);
+  //         }
+  //       }
+  //       auxiliary.clear();
+  //     }
+  //   }
+  // }
 };
 
 /**
