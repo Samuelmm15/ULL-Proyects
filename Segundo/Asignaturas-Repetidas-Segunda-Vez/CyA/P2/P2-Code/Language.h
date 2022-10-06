@@ -18,13 +18,15 @@
 
 class Language : public Chain {
   public:
-    Language();
-    void languageConcatenation();
-    void languageUnion();
-    void languageInterseccion();
-    void languageSubtract();
-    void languageInverse();
-    void languagePotency();
+    Language(std::vector<Chain> groupChains);
+    void LanguageConcatenation();
+    void LanguageUnion();
+    void LanguageInterseccion();
+    void LanguageSubtract();
+    void LanguageInverse();
+    void LanguagePotency();
+    void LanguagePrint();
+    bool operator<(Chain p);
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };

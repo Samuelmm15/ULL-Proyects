@@ -30,7 +30,7 @@ Chain::~Chain() { /// To destroy de content
  * @param newChain is the chain to introduce into the vector.
  * @param alphabet is the alphabet of the introduced chain.
  */
-void Chain::addChain(std::string newChain, Alphabet alphabet) {
+void Chain::AddChain(std::string newChain, Alphabet alphabet) {
   chain = newChain;
   // int flagComprobation = 0;
   // if (alphabet.alphabetComprobation(newChain) == true) {

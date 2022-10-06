@@ -13,23 +13,45 @@
 
 #include "Language.h"
 
-Language::Language() {
+bool Language::operator<(Chain p) {
+  return true;
+}
+
+Language::Language(std::vector<Chain> groupChains) {
+  std::set<Chain> setLanguage;
+  setLanguage.insert(groupChains[0]);
+//   for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
+//     chainVector.insert(groupChains[i]);
+//   }
+//   chainVector.insert(groupChains[0]);
 };
 
-void Language::languageConcatenation() {
+void Language::LanguageConcatenation() {
 };
 
-void Language::languageUnion() {
+void Language::LanguageUnion() {
 };
 
-void Language::languageInterseccion() {
+void Language::LanguageInterseccion() {
 };
 
-void Language::languageSubtract() {
+void Language::LanguageSubtract() {
 };
 
-void Language::languageInverse() {
+void Language::LanguageInverse() {
 };
 
-void Language::languagePotency() {
+void Language::LanguagePotency() {
+};
+
+void Language::LanguagePrint() {
+//   std::set<Chain>::iterator it;
+//   std::cout << "{ ";
+//   for (it = chainVector.begin(); it != chainVector.end(); it++) {
+//     std::vector<Chain> auxiliary;
+//     // auxiliary.push_back(*it);
+//     // std::cout << auxiliary[0].getChain() << " ";
+//     auxiliary.clear();
+//   }
+//   std::cout << " }" << std::endl;
 };

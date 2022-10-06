@@ -31,53 +31,13 @@ void Alphabet::setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet) {
       alphabet.push_back(dividedAlphabet[i]);
     }
   }
-  // std::string auxiliary;
-  // for (int i = 0; i < line.size(); i++) {
-  //   if ((line[i] != ' ') && (line[i] != '\n')) { /// When the character is not followed by a space or line break.
-  //     auxiliary.push_back(line[i]);
-  //   } else {
-  //     if (line[i] != '\n') {
-  //       if (auxiliary.size() == 1) {
-  //         alphabet.push_back(auxiliary);
-  //       }
-  //       auxiliary.clear();
-  //     }
-  //     auxiliary.clear();
-  //   }
-  // }
-  // if (alphabet.size() == 0) { /// At the case that the alphabet is not introduced in the file. The alphabet is obtained by the different symbols at the chain.
-  //   for (int i = 0; i < line.size(); i++) {
-  //     if (i == 0) {
-  //       auxiliary.clear();
-  //       auxiliary.push_back(line[i]);
-  //       if (auxiliary.size() == 1) {
-  //         alphabet.push_back(auxiliary);
-  //       }
-  //       auxiliary.clear();
-  //     } else {
-  //       int comprobationFlag = 0;
-  //       auxiliary.push_back(line[i]);
-  //       for (int j = 0; j < alphabet.size(); j++) { /// This is a comprobation if the introduced symbol is already introduced in it.
-  //         if (alphabet.at(j) == auxiliary) {
-  //           comprobationFlag = 1;
-  //         }
-  //       }
-  //       if (comprobationFlag == 0) {
-  //         if (auxiliary.size() == 1) {
-  //           alphabet.push_back(auxiliary);
-  //         }
-  //       }
-  //       auxiliary.clear();
-  //     }
-  //   }
-  // }
 };
 
 /**
  * @brief This method prints the alphabet into the screen.
  * 
  */
-void Alphabet::printAlphabet() {
+void Alphabet::PrintAlphabet() {
     std::cout << "{ ";
   for (int i = 0; i < alphabet.size(); i++) {
     if (i != (alphabet.size() - 1)) {
@@ -96,7 +56,7 @@ void Alphabet::printAlphabet() {
  * @return true if the chain was formed by the alphabet.
  * @return false if the chain was not formed by the alphabet.
  */
-bool Alphabet::alphabetComprobation(std::string chain) {
+bool Alphabet::AlphabetComprobation(std::string chain) {
   bool flag;
   int counter = 0;
   for (int i = 0; i < chain.size(); i++) {
@@ -118,7 +78,7 @@ std::vector<std::string> Alphabet::getAlphabet() {
   return alphabet;
 };
 
-std::string Alphabet::chainComprobation(std::string chain) {
+std::string Alphabet::ChainComprobation(std::string chain) {
   std::string chainResult;
   for (int i = 0; i < chain.size(); i++) {
     for (int j = 0; j < alphabet.size(); j++) {

@@ -24,10 +24,10 @@ class Alphabet {
   public:
     Alphabet();
     void setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet);
-    bool alphabetComprobation(std::string chain);
-    void printAlphabet();
+    bool AlphabetComprobation(std::string chain);
+    void PrintAlphabet();
     std::vector<std::string> getAlphabet();
-    std::string chainComprobation(std::string chain);
+    std::string ChainComprobation(std::string chain);
   private:
     std::vector<std::string> alphabet;
 };

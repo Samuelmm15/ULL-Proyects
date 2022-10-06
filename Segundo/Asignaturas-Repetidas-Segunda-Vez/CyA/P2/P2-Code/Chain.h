@@ -24,7 +24,7 @@ class Chain : public Alphabet {
   public:
     Chain();
     ~Chain();
-    void addChain(std::string newChain, Alphabet alphabet);
+    void AddChain(std::string newChain, Alphabet alphabet);
     std::string getChain();
   private:
     std::string chain;

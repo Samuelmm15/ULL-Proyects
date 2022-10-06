@@ -46,15 +46,11 @@ int main(int argc, char *argv[]) {
 
       Alphabet newAlphabet;
       newAlphabet.setSymbolsToAlphabet(dividedAlphabet); /// Obtención de alfabetos funciona de manera correcta
-      newAlphabet.printAlphabet();
+      newAlphabet.PrintAlphabet();
       Chain newChain;
       std::vector<Chain> chainsGroup;
-      // std::cout << dividedChains.size() << std::endl;
-      // for (int j = 0; j < dividedChains.size(); j++) {
-      //   std::cout << dividedChains[j] << " ";
-      // }
       for (int j = 0; j < dividedChains.size(); j++) {
-        newChain.addChain(dividedChains[j], newAlphabet);
+        newChain.AddChain(dividedChains[j], newAlphabet);
         chainsGroup.push_back(newChain);
         newChain.~Chain();
       }
@@ -62,6 +58,10 @@ int main(int argc, char *argv[]) {
         std::cout << chainsGroup[k].getChain() << " ";
       }
       std::cout << std::endl;
+
+      /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
+      Language newLanguage(chainsGroup);
+      newLanguage.LanguagePrint();
     }
 
   } else {
