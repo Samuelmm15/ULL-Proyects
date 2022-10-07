@@ -32,19 +32,19 @@ Chain::~Chain() { /// To destroy de content
  */
 void Chain::AddChain(std::string newChain, Alphabet alphabet) {
   chain = newChain;
-  // int flagComprobation = 0;
-  // if (alphabet.alphabetComprobation(newChain) == true) {
-  //   chain = newChain;
-  // } else {
-  //   std::cout << "ERROR >> La cadena " << newChain << " no pudo haber sido generada por el alfabeto dado." << std::endl;
-  //   flagComprobation = 1;
-  // }
-  // if (chain.size() == 0) {
-  //   if ((newChain.size() >= 2) && (flagComprobation == 0)) {
-  //     chain = newChain;
-  //   }
-  // }
 };
+
+std::string Chain::InverseChain() {
+  std::string result;
+  if (AlphabetComprobation(chain) == true) {
+    std::cout << "ERROR >> La cadena " << chain << " no está formada a partir del alfabeto de dicho lenguaje." << std::endl;
+  } else {
+    for (int i = chain.size() - 1; i >= 0; i--) {
+      result.push_back(chain[i]);
+    }
+  }
+  return result;
+}
 
 /**
  * @brief This method returns the chain of the position given.

@@ -41,6 +41,16 @@ void Language::LanguageSubtract() {
 
 void Language::LanguageInverse(Language languageToOperate) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
+  std::set<Chain>::iterator it;
+  std::vector<Chain> auxiliaryVector;
+  for (it = auxiliary.begin(); it != auxiliary.end(); it++) {
+    auxiliaryVector.push_back(*it);
+  }
+  
+  for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
+    std::cout << auxiliaryVector[i].InverseChain() << " ";
+  }
+  std::cout << std::endl;
 };
 
 void Language::LanguagePotency() {
