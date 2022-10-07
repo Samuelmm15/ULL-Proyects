@@ -13,26 +13,14 @@
 
 #include "Language.h"
 
-bool operator<(const Chain& a, const Chain& b) {
-  return a < b;
+bool operator<(const Chain& a, const Chain& b) { /// COMPROBAR LA SOBRECARGA DE LOS OPERADORES
+  return true; /// Al introducir varios valores, si se hace uso de una comparación generaba errores
 }
 
 Language::Language(std::vector<Chain> groupChains) {
-  // for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
-  //   std::cout << "Antes" << " ";
-  //   chainVector.insert(groupChains[i]);
-  //   std::cout << "Recorre" << " ";
-  // }
-  // int i = 0;
-  // while (i < groupChains.size()) {
-  //   chainVector.insert(groupChains[i]);
-  //   i++;
-  // }
-  chainVector.insert(groupChains[0]);
-  chainVector.insert(groupChains[1]); /// Da error en este punto al introducir varios valores en el set
-  // chainVector.insert(groupChains[1]);
-  // chainVector.insert(groupChains[2]);
-  // chainVector.insert(groupChains[3]);
+  for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
+    chainVector.insert(groupChains[i]);
+  }
 };
 
 void Language::LanguageConcatenation() {
@@ -55,12 +43,17 @@ void Language::LanguagePotency() {
 
 void Language::LanguagePrint() {
   std::set<Chain>::iterator it;
-  std::cout << "{ ";
+  std::vector<Chain> auxiliary;
   for (it = chainVector.begin(); it != chainVector.end(); it++) {
-    std::vector<Chain> auxiliary;
     auxiliary.push_back(*it);
-    std::cout << auxiliary[0].getChain() << " ,";
-    auxiliary.clear();
+  }
+  std::cout << "{ ";
+  for (int i = auxiliary.size() - 1; i >= 0; i--) { /// La impresión se hace de manera inversa, debido a que el set se encuentra introducido de manera inversa
+    if (i != 0) {
+      std::cout << auxiliary[i].getChain() << " , ";
+    } else {
+      std::cout << auxiliary[i].getChain();
+    }
   }
   std::cout << " }" << std::endl;
 };

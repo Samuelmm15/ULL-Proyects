@@ -54,14 +54,10 @@ int main(int argc, char *argv[]) {
         chainsGroup.push_back(newChain);
         newChain.~Chain();
       }
-      for (int k = 0; k < chainsGroup.size(); k++) { /// En este punto se tienen las cadenas de los distintos lenguajes del fichero
-        std::cout << chainsGroup[k].getChain() << " ";
-      }
-      std::cout << std::endl;
 
       /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
       Language newLanguage(chainsGroup);
-      newLanguage.LanguagePrint();
+      newLanguage.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
     }
 
   } else {
