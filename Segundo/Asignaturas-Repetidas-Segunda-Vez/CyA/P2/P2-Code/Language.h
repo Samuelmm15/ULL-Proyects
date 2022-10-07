@@ -15,6 +15,7 @@
 #include <set>
 
 #include "Chain.h"
+#include "FileOperations.h"
 
 class Language : public Chain {
   public:
@@ -25,7 +26,7 @@ class Language : public Chain {
     void LanguageUnion();
     void LanguageInterseccion();
     void LanguageSubtract();
-    void LanguageInverse(Language languageToOperate);
+    void LanguageInverse(Language languageToOperate, FileOperations fileToUse, std::string outputFileName);
     void LanguagePotency();
     void LanguagePrint();
     std::set<Chain> getLanguage();

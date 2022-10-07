@@ -39,7 +39,7 @@ void Language::LanguageInterseccion() {
 void Language::LanguageSubtract() {
 };
 
-void Language::LanguageInverse(Language languageToOperate) {
+void Language::LanguageInverse(Language languageToOperate, FileOperations fileToUse, std::string outputFileName) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
@@ -47,10 +47,11 @@ void Language::LanguageInverse(Language languageToOperate) {
     auxiliaryVector.push_back(*it);
   }
   
-  for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
-    std::cout << auxiliaryVector[i].InverseChain() << " ";
-  }
-  std::cout << std::endl;
+  // for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
+  //   std::cout << auxiliaryVector[i].InverseChain() << " ";
+  // }
+  // std::cout << std::endl;
+  fileToUse.WriteFile(outputFileName, auxiliaryVector);
 };
 
 void Language::LanguagePotency() {

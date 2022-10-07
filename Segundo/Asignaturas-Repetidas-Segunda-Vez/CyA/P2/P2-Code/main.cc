@@ -23,7 +23,7 @@
 #include "FileOperations.h"
 
 
-void Menu(Language language1, Language language2, std::string option) {
+void Menu(Language language1, Language language2, std::string option, FileOperations fileToUse, std::string outputFileName) {
   Language languageResult;
   if ((option == "Concatenacion") || (option == "Concatenación")) {
 
@@ -34,7 +34,7 @@ void Menu(Language language1, Language language2, std::string option) {
   } else if (option == "Diferencia") {
 
   } else if (option == "Inversa") { /// un único lenguaje
-    languageResult.LanguageInverse(language1);
+    languageResult.LanguageInverse(language1, fileToUse, outputFileName);
   } else if (option == "Potencia") { /// un único lenguaje
 
   }
@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
     std::string option = argv[3];
 
     /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
-    FileOperations fileOperation(inputFileName);
-    std::vector<std::string> fileContent = fileOperation.ReadFile();
+    FileOperations fileOperation;
+    std::vector<std::string> fileContent = fileOperation.ReadFile(inputFileName);
     
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
       language1.IntroduceChainsGroup(chainsGroup);
       language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
       Language language2;
-      Menu(language1, language2, option);
+      Menu(language1, language2, option, fileOperation, outputFileName);
     }
 
   } else {
