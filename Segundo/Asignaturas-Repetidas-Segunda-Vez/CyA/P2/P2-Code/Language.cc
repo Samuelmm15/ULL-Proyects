@@ -13,13 +13,26 @@
 
 #include "Language.h"
 
+bool operator<(const Chain& a, const Chain& b) {
+  return a < b;
+}
+
 Language::Language(std::vector<Chain> groupChains) {
-  std::set<Chain> setLanguage;
-  setLanguage.insert(groupChains[0]);
-//   for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
-//     chainVector.insert(groupChains[i]);
-//   }
-//   chainVector.insert(groupChains[0]);
+  // for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
+  //   std::cout << "Antes" << " ";
+  //   chainVector.insert(groupChains[i]);
+  //   std::cout << "Recorre" << " ";
+  // }
+  // int i = 0;
+  // while (i < groupChains.size()) {
+  //   chainVector.insert(groupChains[i]);
+  //   i++;
+  // }
+  chainVector.insert(groupChains[0]);
+  chainVector.insert(groupChains[1]); /// Da error en este punto al introducir varios valores en el set
+  // chainVector.insert(groupChains[1]);
+  // chainVector.insert(groupChains[2]);
+  // chainVector.insert(groupChains[3]);
 };
 
 void Language::LanguageConcatenation() {
@@ -41,13 +54,13 @@ void Language::LanguagePotency() {
 };
 
 void Language::LanguagePrint() {
-//   std::set<Chain>::iterator it;
-//   std::cout << "{ ";
-//   for (it = chainVector.begin(); it != chainVector.end(); it++) {
-//     std::vector<Chain> auxiliary;
-//     // auxiliary.push_back(*it);
-//     // std::cout << auxiliary[0].getChain() << " ";
-//     auxiliary.clear();
-//   }
-//   std::cout << " }" << std::endl;
+  std::set<Chain>::iterator it;
+  std::cout << "{ ";
+  for (it = chainVector.begin(); it != chainVector.end(); it++) {
+    std::vector<Chain> auxiliary;
+    auxiliary.push_back(*it);
+    std::cout << auxiliary[0].getChain() << " ,";
+    auxiliary.clear();
+  }
+  std::cout << " }" << std::endl;
 };
