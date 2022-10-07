@@ -17,11 +17,15 @@ bool operator<(const Chain& a, const Chain& b) { /// COMPROBAR LA SOBRECARGA DE 
   return true; /// Al introducir varios valores, si se hace uso de una comparación generaba errores
 }
 
-Language::Language(std::vector<Chain> groupChains) {
+Language::Language() {
+};
+
+void Language::IntroduceChainsGroup(std::vector<Chain> groupChains) {
   for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
     chainVector.insert(groupChains[i]);
   }
-};
+
+}
 
 void Language::LanguageConcatenation() {
 };
@@ -35,7 +39,8 @@ void Language::LanguageInterseccion() {
 void Language::LanguageSubtract() {
 };
 
-void Language::LanguageInverse() {
+void Language::LanguageInverse(Language languageToOperate) {
+  std::set<Chain> auxiliary = languageToOperate.getLanguage();
 };
 
 void Language::LanguagePotency() {
@@ -56,4 +61,8 @@ void Language::LanguagePrint() {
     }
   }
   std::cout << " }" << std::endl;
+};
+
+std::set<Chain> Language::getLanguage() {
+  return chainVector;
 };

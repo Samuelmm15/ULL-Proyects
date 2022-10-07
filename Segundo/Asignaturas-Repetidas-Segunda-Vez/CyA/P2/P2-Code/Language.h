@@ -18,15 +18,17 @@
 
 class Language : public Chain {
   public:
-    friend bool operator<(const Chain& a, const Chain& b);
-    Language(std::vector<Chain> groupChains);
+    friend bool operator<(const Chain& a, const Chain& b); /// sobrecarga del operador
+    Language();
+    void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation();
     void LanguageUnion();
     void LanguageInterseccion();
     void LanguageSubtract();
-    void LanguageInverse();
+    void LanguageInverse(Language languageToOperate);
     void LanguagePotency();
     void LanguagePrint();
+    std::set<Chain> getLanguage();
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };

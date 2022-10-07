@@ -22,6 +22,24 @@
 #include "Language.h"
 #include "FileOperations.h"
 
+
+void Menu(Language language1, Language language2, std::string option) {
+  Language languageResult;
+  if ((option == "Concatenacion") || (option == "Concatenación")) {
+
+  } else if ((option == "Union") || (option == "Unión")) {
+
+  } else if ((option == "Interseccion" || (option == "Intersección"))) {
+
+  } else if (option == "Diferencia") {
+
+  } else if (option == "Inversa") { /// un único lenguaje
+    languageResult.LanguageInverse(language1);
+  } else if (option == "Potencia") { /// un único lenguaje
+
+  }
+};
+
 /**
  * @brief This is the main function of the program.
  * 
@@ -56,8 +74,11 @@ int main(int argc, char *argv[]) {
       }
 
       /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
-      Language newLanguage(chainsGroup);
-      newLanguage.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
+      Language language1;
+      language1.IntroduceChainsGroup(chainsGroup);
+      language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
+      Language language2;
+      Menu(language1, language2, option);
     }
 
   } else {
