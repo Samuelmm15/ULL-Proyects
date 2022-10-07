@@ -18,9 +18,7 @@
 
 class Language : public Chain {
   public:
-    bool operator<(const Chain& a, const Chain& b) {
-      return a.getChain() < b.getChain();
-    }
+    friend bool operator<(const Chain& a, const Chain& b);
     Language(std::vector<Chain> groupChains);
     void LanguageConcatenation();
     void LanguageUnion();
