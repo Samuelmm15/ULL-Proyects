@@ -39,7 +39,7 @@ void Language::LanguageInterseccion() {
 void Language::LanguageSubtract() {
 };
 
-void Language::LanguageInverse(Language languageToOperate, FileOperations fileToUse, std::string outputFileName) {
+void Language::LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
@@ -47,11 +47,14 @@ void Language::LanguageInverse(Language languageToOperate, FileOperations fileTo
     auxiliaryVector.push_back(*it);
   }
   
-  // for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
-  //   std::cout << auxiliaryVector[i].InverseChain() << " ";
-  // }
-  // std::cout << std::endl;
-  fileToUse.WriteFile(outputFileName, auxiliaryVector);
+  for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
+    Chain auxiliaryObject;
+    Alphabet auxiliaryAlphabet;
+    auxiliaryAlphabet.setAlphabet(auxiliaryVector[i].getAlphabet());
+    auxiliaryObject.AddChain(auxiliaryVector[i].InverseChain(), auxiliaryAlphabet);
+    chainVector.insert(auxiliaryObject); /// Este es el lenguage resultante de la operación inversa
+  }
+  printLanguageToFile(outputFileName, option);
 };
 
 void Language::LanguagePotency() {
@@ -76,4 +79,27 @@ void Language::LanguagePrint() {
 
 std::set<Chain> Language::getLanguage() {
   return chainVector;
+};
+
+void Language::printLanguageToFile(std::string outputFileName, std::string option) {
+  std::fstream outputFile;
+  outputFile.open(outputFileName, std::ios_base::app);
+  if (!outputFile.is_open()) {
+    std::cout << "ERROR >> Fallo en la apertura del fichero" << std::endl;
+  } else {
+    outputFile << "{ ";
+    std::set<Chain>::iterator it;
+    std::vector<Chain> auxiliaryVector;
+    for (it = chainVector.begin(); it != chainVector.end(); it++) {
+      auxiliaryVector.push_back(*it);
+    }
+    for (int i = auxiliaryVector.size() - 1; i >= 0; i--) {
+      if (i != 0) {
+        outputFile << auxiliaryVector[i].getChain() << " , ";
+      } else {
+        outputFile << auxiliaryVector[i].getChain() << " ";
+      }
+    }
+    outputFile << " }" << "\n";
+  }
 };

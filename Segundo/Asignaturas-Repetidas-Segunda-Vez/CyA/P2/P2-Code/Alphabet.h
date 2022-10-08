@@ -26,6 +26,7 @@ class Alphabet {
     void setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet);
     bool AlphabetComprobation(std::string chain);
     void PrintAlphabet();
+    void setAlphabet(std::vector<std::string> alphabetToIntroduce);
     std::vector<std::string> getAlphabet();
     std::string ChainComprobation(std::string chain);
   private:

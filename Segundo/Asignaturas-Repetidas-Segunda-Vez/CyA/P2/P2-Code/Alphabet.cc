@@ -74,6 +74,10 @@ bool Alphabet::AlphabetComprobation(std::string chain) {
   }
 };
 
+void Alphabet::setAlphabet(std::vector<std::string> alphabetToIntroduce) {
+  alphabet = alphabetToIntroduce;
+};
+
 std::vector<std::string> Alphabet::getAlphabet() {
   return alphabet;
 };

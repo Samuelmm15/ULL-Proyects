@@ -34,7 +34,7 @@ void Menu(Language language1, Language language2, std::string option, FileOperat
   } else if (option == "Diferencia") {
 
   } else if (option == "Inversa") { /// un único lenguaje
-    languageResult.LanguageInverse(language1, fileToUse, outputFileName);
+    languageResult.LanguageInverse(language1, option, outputFileName);
   } else if (option == "Potencia") { /// un único lenguaje
 
   }
