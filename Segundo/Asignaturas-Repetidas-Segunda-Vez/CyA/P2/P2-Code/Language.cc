@@ -73,6 +73,7 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
   if (nValue == 0) {
     printLanguageToFile(outputFileName, option);
   } else { /// se pasa del cero porque es la cadena vacía
+    Chain operateWitchChains;
     std::vector<Chain> previousVector;
     std::vector<Chain> actualVector;
     std::vector<Chain> resultVector;
@@ -80,9 +81,24 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
       if (i == 1) {
         for (int j = auxiliaryVector.size() - 1; j >= 0; j++) {
           previousVector.push_back(auxiliaryVector[i]);
+          actualVector.push_back(auxiliaryVector[i]);
         }
       } else { /// Hay que tener en cuenta que la concatenación es L * L-1
-
+        for (int i = 0; i < actualVector.size(); i++) {
+          for (int j = 0; j < previousVector.size(); j++) {
+            Chain auxiliaryChainObject;
+            Alphabet auxiliaryAlphabet;
+            auxiliaryAlphabet.setAlphabet(actualVector[i].getAlphabet());
+            std::string auxiliary;
+            auxiliary = operateWitchChains.ConcatenateChain(actualVector[i].getChain(), previousVector[j].getChain());
+            auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
+            resultVector.push_back(auxiliaryChainObject);
+          }
+        }
+        for (int i = 0; i < resultVector.size(); i++) {
+          chainVector.insert(resultVector[i]);
+        }
+        printLanguageToFile(outputFileName, option);
       }
     }
   }
