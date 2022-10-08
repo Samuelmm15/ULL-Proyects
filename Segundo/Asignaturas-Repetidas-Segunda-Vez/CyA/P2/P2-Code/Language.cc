@@ -77,30 +77,33 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
     std::vector<Chain> previousVector;
     std::vector<Chain> actualVector;
     std::vector<Chain> resultVector;
-    for (int i = 1; i < nValue; i++) { /// se debe de hacer la potencia consigo mismo
-      if (i == 1) {
-        for (int j = auxiliaryVector.size() - 1; j >= 0; j++) {
-          previousVector.push_back(auxiliaryVector[i]);
-          actualVector.push_back(auxiliaryVector[i]);
+    for (int i = 1; i <= nValue; i++) { /// se debe de hacer la potencia consigo mismo
+      if (i == 1) { /// initialization
+        for (int j = auxiliaryVector.size() - 1; j >= 0; j--) {
+          previousVector.push_back(auxiliaryVector[j]);
+          actualVector.push_back(auxiliaryVector[j]);
+        }
+        for (int i = 0; i < actualVector.size(); i++) { /// To print the result
+          chainVector.insert(actualVector[i]);
         }
       } else { /// Hay que tener en cuenta que la concatenación es L * L-1
-        for (int i = 0; i < actualVector.size(); i++) {
-          for (int j = 0; j < previousVector.size(); j++) {
+        for (int k = 0; k < actualVector.size(); k++) {
+          for (int l = 0; l < previousVector.size(); l++) {
             Chain auxiliaryChainObject;
             Alphabet auxiliaryAlphabet;
-            auxiliaryAlphabet.setAlphabet(actualVector[i].getAlphabet());
+            auxiliaryAlphabet.setAlphabet(actualVector[k].getAlphabet());
             std::string auxiliary;
-            auxiliary = operateWitchChains.ConcatenateChain(actualVector[i].getChain(), previousVector[j].getChain());
+            auxiliary = operateWitchChains.ConcatenateChain(actualVector[k].getChain(), previousVector[l].getChain());
             auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
             resultVector.push_back(auxiliaryChainObject);
           }
         }
-        for (int i = 0; i < resultVector.size(); i++) {
+        for (int i = 0; i < resultVector.size(); i++) { /// To print the result
           chainVector.insert(resultVector[i]);
         }
-        printLanguageToFile(outputFileName, option);
       }
     }
+    printLanguageToFile(outputFileName, option);
   }
 };
 

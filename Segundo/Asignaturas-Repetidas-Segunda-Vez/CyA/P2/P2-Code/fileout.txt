@@ -1,6 +1,4 @@
-{ a , cba , bac , ccbb  }
-{ a , aa , aaa  }
-{  }
-{ a , cba , bac , ccbb  }
-{ a , aa , aaa  }
+
+{ a , abc , cab , bbcc  }
+{ a , aa , aaa , aa , aaa , aaaa , aaa , aaaa , aaaaa , aaaa , aaaaa , aaaaaa  }
 {  }
