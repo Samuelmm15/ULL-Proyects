@@ -39,20 +39,6 @@ std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   return fileContent;
 };
 
-void FileOperations::WriteFile(std::string fileOutName, std::vector<Chain> chainsToPrint) {
-  std::fstream outputFile;
-  outputFile.open(fileOutName, std::ios_base::app);
-  if (!outputFile.is_open()) {
-    std::cout << "ERROR >> Fallo en la apertura del fichero" << std::endl;
-  } else {
-    outputFile << "{ ";
-    for (int i = chainsToPrint.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
-      outputFile << chainsToPrint[i].InverseChain() << " ";
-    }
-    outputFile << " }" << "\n";
-  }
-};
-
 std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
   std::vector<std::string> result;
   bool comprobationFlag = false;

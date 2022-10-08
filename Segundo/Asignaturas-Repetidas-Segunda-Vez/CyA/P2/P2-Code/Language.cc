@@ -57,7 +57,35 @@ void Language::LanguageInverse(Language languageToOperate, std::string option, s
   printLanguageToFile(outputFileName, option);
 };
 
-void Language::LanguagePotency() {
+void Language::LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName) {
+  std::set<Chain> auxiliary = languageToOperate.getLanguage();
+  std::set<Chain>::iterator it;
+  std::vector<Chain> auxiliaryVector;
+  for (it = auxiliary.begin(); it != auxiliary.end(); it++) {
+    auxiliaryVector.push_back(*it);
+  }
+
+  /// A partir de este punto se realiza la operación de potencia
+  int nValue;
+  std::cout << "Introduzca el valor 'n' para poder realizar la operación de potencia: ";
+  std::cin >> nValue;
+
+  if (nValue == 0) {
+    printLanguageToFile(outputFileName, option);
+  } else { /// se pasa del cero porque es la cadena vacía
+    std::vector<Chain> previousVector;
+    std::vector<Chain> actualVector;
+    std::vector<Chain> resultVector;
+    for (int i = 1; i < nValue; i++) { /// se debe de hacer la potencia consigo mismo
+      if (i == 1) {
+        for (int j = auxiliaryVector.size() - 1; j >= 0; j++) {
+          previousVector.push_back(auxiliaryVector[i]);
+        }
+      } else {
+        
+      }
+    }
+  }
 };
 
 void Language::LanguagePrint() {
@@ -81,7 +109,7 @@ std::set<Chain> Language::getLanguage() {
   return chainVector;
 };
 
-void Language::printLanguageToFile(std::string outputFileName, std::string option) {
+void Language::printLanguageToFile(std::string outputFileName, std::string option) { /// SOLUCIONAR LA IMPRESIÓN POR FICHERO PARA QUE SE LIMPIE EL CONTENIDO DE LO ANTERIOR
   std::fstream outputFile;
   outputFile.open(outputFileName, std::ios_base::app);
   if (!outputFile.is_open()) {

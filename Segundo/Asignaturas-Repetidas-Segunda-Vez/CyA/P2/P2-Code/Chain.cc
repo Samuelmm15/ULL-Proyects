@@ -46,6 +46,10 @@ std::string Chain::InverseChain() {
   return result;
 }
 
+std::string Chain::ConcatenateChain(std::string firstChain, std::string secondaChain) {
+  
+};
+
 /**
  * @brief This method returns the chain of the position given.
  * 

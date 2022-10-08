@@ -27,7 +27,7 @@ class Language : public Chain {
     void LanguageInterseccion();
     void LanguageSubtract();
     void LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName);
-    void LanguagePotency();
+    void LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName);
     void LanguagePrint();
     std::set<Chain> getLanguage();
     void printLanguageToFile(std::string outputFileName, std::string option);

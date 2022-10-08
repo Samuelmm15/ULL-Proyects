@@ -26,6 +26,7 @@ class Chain : public Alphabet {
     ~Chain();
     void AddChain(std::string newChain, Alphabet alphabet);
     std::string InverseChain();
+    std::string ConcatenateChain(std::string firstCHain, std::string secondChain);
     std::string getChain();
   private:
     std::string chain;

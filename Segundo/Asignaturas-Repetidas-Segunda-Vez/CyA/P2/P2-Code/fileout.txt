@@ -1,3 +1,6 @@
 { a , cba , bac , ccbb  }
 { a , aa , aaa  }
 {  }
+{ a , cba , bac , ccbb  }
+{ a , aa , aaa  }
+{  }
