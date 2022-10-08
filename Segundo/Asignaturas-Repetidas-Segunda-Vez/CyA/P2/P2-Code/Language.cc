@@ -81,8 +81,8 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
         for (int j = auxiliaryVector.size() - 1; j >= 0; j++) {
           previousVector.push_back(auxiliaryVector[i]);
         }
-      } else {
-        
+      } else { /// Hay que tener en cuenta que la concatenación es L * L-1
+
       }
     }
   }
