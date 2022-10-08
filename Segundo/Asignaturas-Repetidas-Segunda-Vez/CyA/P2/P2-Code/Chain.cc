@@ -46,8 +46,11 @@ std::string Chain::InverseChain() {
   return result;
 }
 
-std::string Chain::ConcatenateChain(std::string firstChain, std::string secondaChain) {
-  
+std::string Chain::ConcatenateChain(std::string firstChain, std::string secondChain) {
+  for (int i = 0; i < secondChain.size(); i++) {
+    firstChain.push_back(secondChain[i]);
+  }
+  return firstChain;
 };
 
 /**
