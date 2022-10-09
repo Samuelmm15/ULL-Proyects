@@ -29,3 +29,17 @@ if __name__ == '__main__': # This is the main program
     
     # Se realiza la lectura del fichero que ha sido indicado
     inputFile = open(inputFileName)
+    
+    # Para el grafo se van a tener dos vectores, uno que almacene los costes y otro que contenga la representación de las aristas.
+    verticesNumber = 0
+    edgeCosts = [] # Vector de costes
+    edgeVector = [] # Vector de aristas
+    
+    for line in inputFile:
+        edgeCosts.append(line)
+
+    verticesNumber = edgeCosts[0] # Obtenemos el número de vértices
+    edgeCosts.remove(verticesNumber) # De esta manera se elimina el número de vértices del vector de costes
+    
+    # Obtenemos el vector de aristas
+    
