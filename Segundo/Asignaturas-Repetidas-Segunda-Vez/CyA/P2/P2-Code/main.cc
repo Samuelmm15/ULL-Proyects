@@ -62,6 +62,8 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> fileContent2 = fileOperation2.ReadFile(inputFileName2);
     
     bool printFlag = true;
+    int printCounter = 1;
+    bool errorFlag = false;
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
       std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
@@ -72,9 +74,14 @@ int main(int argc, char *argv[]) {
       Chain newChain;
       std::vector<Chain> chainsGroup;
       for (int j = 0; j < dividedChains.size(); j++) {
-        newChain.AddChain(dividedChains[j], newAlphabet);
-        chainsGroup.push_back(newChain);
-        newChain.~Chain();
+        if (newAlphabet.AlphabetComprobation(dividedChains[j]) == true) {
+          newChain.AddChain(dividedChains[j], newAlphabet);
+          chainsGroup.push_back(newChain);
+          newChain.~Chain();
+        } else {
+          std::cout << "ERROR >> La cadena " << dividedChains[j] << " no pertenece al alfabeto del lenguaje del [primer] fichero de entrada." << std::endl;
+          errorFlag = true;
+        }
       }
 
       /// En el caso de que se vaya a hacer uso del segundo fichero
@@ -88,25 +95,41 @@ int main(int argc, char *argv[]) {
         newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2); /// Obtención de alfabetos funciona de manera correcta
         Chain newChain2;
         for (int j = 0; j < dividedChains2.size(); j++) {
-          newChain2.AddChain(dividedChains2[j], newAlphabet2);
-          chainsGroup2.push_back(newChain2);
-          newChain2.~Chain();
+          if (newAlphabet2.AlphabetComprobation(dividedChains2[j]) == true) {
+            newChain2.AddChain(dividedChains2[j], newAlphabet2);
+            chainsGroup2.push_back(newChain2);
+            newChain2.~Chain();
+          } else {
+            std::cout << "ERROR >> La cadena " << dividedChains2[j] << " no pertenece al alfabeto del lenguaje del [segundo] fichero de entrada." << std::endl;
+            errorFlag = true;
+          }
         }
       }
       /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
       Language language1;
       language1.IntroduceChainsGroup(chainsGroup);
+      std::cout << "Primer lenguaje >>" << std::endl;
       newAlphabet.PrintAlphabet();
       language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
       Language language2;
       if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
         || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {
       language2.IntroduceChainsGroup(chainsGroup2);
+      std::cout << "Segundo lenguaje >>" << std::endl;
       newAlphabet2.PrintAlphabet();
       language2.LanguagePrint();
       }
-      Menu(language1, language2, option, outputFileName, printFlag);
-      printFlag = false;
+      std::cout << std::endl;
+      if (errorFlag == false) {
+        Menu(language1, language2, option, outputFileName, printFlag);
+        printCounter++;
+      }
+      if (printCounter == 1) {
+        printFlag = true;
+      } else {
+        printFlag = false;
+      }
+      errorFlag = false;
     }
 
   } else {
