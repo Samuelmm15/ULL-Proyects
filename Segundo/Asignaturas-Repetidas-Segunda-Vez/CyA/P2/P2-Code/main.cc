@@ -22,13 +22,14 @@
 #include "Language.h"
 #include "FileOperations.h"
 
+/// ANOTACIÓN IMPORTANTE FALTA COMPROBAR SI LAS CADENAS PERTENECEN DE MANERA CORRECTA AL ALFABETO
 
 void Menu(Language language1, Language language2, std::string option, std::string outputFileName, bool printFlag) {
   Language languageResult;
   if ((option == "Concatenacion") || (option == "Concatenación")) {
     languageResult.LanguageConcatenation(language1, language2, outputFileName, printFlag);
   } else if ((option == "Union") || (option == "Unión")) {
-
+    languageResult.LanguageUnion(language1, language2, outputFileName, printFlag);
   } else if ((option == "Interseccion" || (option == "Intersección"))) {
 
   } else if (option == "Diferencia") {

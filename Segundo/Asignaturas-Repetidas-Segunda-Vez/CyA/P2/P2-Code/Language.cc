@@ -66,7 +66,55 @@ void Language::LanguageConcatenation(Language language1, Language language2, std
   printLanguageToFile(outputFileName, printFlag);
 };
 
-void Language::LanguageUnion() {
+void Language::LanguageUnion(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+  /// Obtenemos el contenido del lenguaje 1
+  std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
+  std::set<Chain>::iterator it;
+  std::vector<Chain> auxiliaryVector1;
+  for (it = auxiliaryLanguage1.begin(); it != auxiliaryLanguage1.end(); it++) {
+    auxiliaryVector1.push_back(*it);
+  }
+  
+  /// Obtenemos el contenido del lenguaje 2
+  std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
+  std::set<Chain>::iterator it2;
+  std::vector<Chain> auxiliaryVector2;
+  for (it2 = auxiliaryLanguage2.begin(); it2 != auxiliaryLanguage2.end(); it2++) {
+    auxiliaryVector2.push_back(*it2);
+  }
+
+  /// Primero se introducen como resultado todas las cadenas del primer lenguaje
+  Alphabet auxiliaryAlphabet;
+  auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
+  std::vector<Chain> auxiliaryfinalResult;
+  for (int i = auxiliaryVector1.size() - 1; i >= 0; i--) {
+    Chain auxiliaryChain;
+    auxiliaryChain.AddChain(auxiliaryVector1[i].getChain(),auxiliaryAlphabet);
+    auxiliaryfinalResult.push_back(auxiliaryChain);
+  }
+
+  /// Después se introducen las cadenas del segundo lenguaje que no se encuentren introducidas en el resultado
+  bool comparationFlag = false;
+  for (int i = auxiliaryVector2.size() - 1; i >= 0; i--) {
+    for (int j = 0; j < auxiliaryfinalResult.size(); j++) {
+      if (auxiliaryVector2[i].getChain() == auxiliaryfinalResult[j].getChain()) {
+        comparationFlag = true;
+      }
+    }
+    if (comparationFlag != true) {
+        Chain auxiliaryChain;
+        auxiliaryChain.AddChain(auxiliaryVector2[i].getChain(),auxiliaryAlphabet);
+        auxiliaryfinalResult.push_back(auxiliaryChain);
+      }
+      comparationFlag = false;
+  }
+
+  /// Introducimos todo en el lenguaje
+  for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
+    chainVector.insert(auxiliaryfinalResult[i]);
+  }
+  /// Imprimimos
+  printLanguageToFile(outputFileName, printFlag);
 };
 
 void Language::LanguageInterseccion() {

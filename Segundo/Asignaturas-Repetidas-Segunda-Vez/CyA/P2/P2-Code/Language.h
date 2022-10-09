@@ -23,7 +23,7 @@ class Language : public Chain {
     Language();
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag);
-    void LanguageUnion();
+    void LanguageUnion(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageInterseccion();
     void LanguageSubtract();
     void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);

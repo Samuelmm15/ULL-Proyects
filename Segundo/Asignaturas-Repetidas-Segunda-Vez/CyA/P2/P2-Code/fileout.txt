@@ -1,3 +1,3 @@
-{ aa , aabc , acab , abbcc , abca , abcabc , abccab , abcbbcc , caba , cababc , cabcab , cabbbcc , bbcca , bbccabc , bbcccab , bbccbbcc  }
-{ aa , aaa , aaaa , aaa , aaaa , aaaaa , aaaa , aaaaa , aaaaaa  }
+{ a , abc , cab , bbcc , abcc  }
+{ a , aa , aaa  }
 {  }
