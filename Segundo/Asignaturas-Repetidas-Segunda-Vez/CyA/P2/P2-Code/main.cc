@@ -31,7 +31,7 @@ void Menu(Language language1, Language language2, std::string option, std::strin
   } else if ((option == "Union") || (option == "Unión")) {
     languageResult.LanguageUnion(language1, language2, outputFileName, printFlag);
   } else if ((option == "Interseccion" || (option == "Intersección"))) {
-
+    languageResult.LanguageInterseccion(language1, language2, outputFileName, printFlag);
   } else if (option == "Diferencia") {
 
   } else if (option == "Inversa") { /// un único lenguaje

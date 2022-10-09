@@ -117,7 +117,48 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
   printLanguageToFile(outputFileName, printFlag);
 };
 
-void Language::LanguageInterseccion() {
+void Language::LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+  /// Obtenemos el contenido del lenguaje 1
+  std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
+  std::set<Chain>::iterator it;
+  std::vector<Chain> auxiliaryVector1;
+  for (it = auxiliaryLanguage1.begin(); it != auxiliaryLanguage1.end(); it++) {
+    auxiliaryVector1.push_back(*it);
+  }
+  
+  /// Obtenemos el contenido del lenguaje 2
+  std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
+  std::set<Chain>::iterator it2;
+  std::vector<Chain> auxiliaryVector2;
+  for (it2 = auxiliaryLanguage2.begin(); it2 != auxiliaryLanguage2.end(); it2++) {
+    auxiliaryVector2.push_back(*it2);
+  }
+
+  /// Se comparan ambos lenguaje y aquellos elementos que sean comunes pues se introducen en el resultado final
+  Alphabet auxiliaryAlphabet;
+  auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
+  std::vector<Chain> auxiliaryfinalResult;
+  bool comprobationFlag = false;
+  for (int i = auxiliaryVector1.size() - 1; i >= 0; i--) {
+    for (int j = auxiliaryVector2.size() - 1; j >= 0; j--) {
+      if (auxiliaryVector1[i].getChain() == auxiliaryVector2[j].getChain()) {
+        comprobationFlag = true;
+      }
+    }
+    if (comprobationFlag == true) {
+      Chain auxiliaryChain;
+      auxiliaryChain.AddChain(auxiliaryVector1[i].getChain(),auxiliaryAlphabet);
+      auxiliaryfinalResult.push_back(auxiliaryChain);
+    }
+    comprobationFlag = false;
+  }
+
+  /// Introducimos el resultado en el lenguaje resultante
+  for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
+    chainVector.insert(auxiliaryfinalResult[i]);
+  }
+  /// Imprimimos
+  printLanguageToFile(outputFileName, printFlag);
 };
 
 void Language::LanguageSubtract() {
@@ -256,7 +297,7 @@ void Language::printLanguageToFile(std::string outputFileName, bool printFlag) {
           outputFile << auxiliaryVector[i].getChain() << " ";
         }
       }
-      outputFile << " }" << "\n";
+      outputFile << "}" << "\n";
     }
   } else {
     outputFile.open(outputFileName, std::ios_base::app);
