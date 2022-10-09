@@ -8,6 +8,8 @@
  @copyright Copyright (c) 2022
 """
 
+from Unreported_Search_InDepth_Search import InDepthSearch
 
-def Unreported_Search(initialNode, finalNode, edgeVector, edgeCosts):
+# Se implementará una búsqueda primero en profundidad iterativa
+def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
     print()
