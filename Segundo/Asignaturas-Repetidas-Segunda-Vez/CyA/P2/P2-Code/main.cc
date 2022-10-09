@@ -23,7 +23,7 @@
 #include "FileOperations.h"
 
 
-void Menu(Language language1, Language language2, std::string option, FileOperations fileToUse, std::string outputFileName) {
+void Menu(Language language1, Language language2, std::string option, FileOperations fileToUse, std::string outputFileName, bool printFlag) {
   Language languageResult;
   if ((option == "Concatenacion") || (option == "Concatenación")) {
 
@@ -34,9 +34,9 @@ void Menu(Language language1, Language language2, std::string option, FileOperat
   } else if (option == "Diferencia") {
 
   } else if (option == "Inversa") { /// un único lenguaje
-    languageResult.LanguageInverse(language1, option, outputFileName);
+    languageResult.LanguageInverse(language1, option, outputFileName, printFlag);
   } else if (option == "Potencia") { /// un único lenguaje
-    languageResult.LanguagePotency(language1, option, outputFileName);
+    languageResult.LanguagePotency(language1, option, outputFileName, printFlag);
   }
 };
 
@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> fileContent = fileOperation.ReadFile(inputFileName);
     std::vector<std::string> fileContent2 = fileOperation2.ReadFile(inputFileName2);
     
+    bool printFlag = true;
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
       std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
@@ -97,10 +98,14 @@ int main(int argc, char *argv[]) {
       newAlphabet.PrintAlphabet();
       language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
       Language language2;
+      if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
+        || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {
       language2.IntroduceChainsGroup(chainsGroup2);
       newAlphabet2.PrintAlphabet();
       language2.LanguagePrint();
-      Menu(language1, language2, option, fileOperation, outputFileName);
+      }
+      Menu(language1, language2, option, fileOperation, outputFileName, printFlag);
+      printFlag = false;
     }
 
   } else {

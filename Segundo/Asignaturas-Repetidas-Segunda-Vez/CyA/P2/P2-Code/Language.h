@@ -26,11 +26,11 @@ class Language : public Chain {
     void LanguageUnion();
     void LanguageInterseccion();
     void LanguageSubtract();
-    void LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName);
-    void LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName);
+    void LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag);
+    void LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag);
     void LanguagePrint();
     std::set<Chain> getLanguage();
-    void printLanguageToFile(std::string outputFileName, std::string option);
+    void printLanguageToFile(std::string outputFileName, std::string option, bool printFlag);
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };
