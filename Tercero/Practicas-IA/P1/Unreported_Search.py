@@ -12,4 +12,7 @@ from Unreported_Search_InDepth_Search import InDepthSearch
 
 # Se implementará una búsqueda primero en profundidad iterativa
 def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
-    print()
+    depth = 0
+    while depth <= len(edgeVector):
+        InDepthSearch(initialNode, finalNode, edgeVector, edgeCosts, depth)
+        depth += 1
