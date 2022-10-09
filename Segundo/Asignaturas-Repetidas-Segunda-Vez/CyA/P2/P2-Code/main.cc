@@ -48,10 +48,11 @@ void Menu(Language language1, Language language2, std::string option, FileOperat
  * @return int 
  */
 int main(int argc, char *argv[]) {
-  if (argc == 4) {
+  if (argc == 5) {
     std::string inputFileName = argv[1];
-    std::string outputFileName = argv[2];
-    std::string option = argv[3];
+    std::string inputFileName2 = argv[2];
+    std::string outputFileName = argv[3];
+    std::string option = argv[4];
 
     /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
     FileOperations fileOperation;
@@ -77,7 +78,32 @@ int main(int argc, char *argv[]) {
       Language language1;
       language1.IntroduceChainsGroup(chainsGroup);
       language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
+      
       Language language2;
+      std::vector<Chain> chainsGroup2;
+      if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
+        || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {
+          FileOperations fileOperation2;
+          std::vector<std::string> fileContent2 = fileOperation2.ReadFile(inputFileName2);
+    
+          /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
+          for (int i = 0; i < fileContent2.size(); i++) {
+            std::vector<std::string> dividedAlphabet2 = fileOperation2.AlphabetDivision(fileContent2[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
+            std::vector<std::string> dividedChains2 = fileOperation2.ChainDivision(fileContent2[i]);
+
+            Alphabet newAlphabet2;
+            newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2); /// Obtención de alfabetos funciona de manera correcta
+            newAlphabet2.PrintAlphabet();
+            Chain newChain2;
+            for (int j = 0; j < dividedChains2.size(); j++) {
+              newChain2.AddChain(dividedChains2[j], newAlphabet2);
+              chainsGroup2.push_back(newChain2);
+              newChain2.~Chain();
+            }
+          }
+          language2.IntroduceChainsGroup(chainsGroup2);
+          language2.LanguagePrint();
+      }
       Menu(language1, language2, option, fileOperation, outputFileName);
     }
 
