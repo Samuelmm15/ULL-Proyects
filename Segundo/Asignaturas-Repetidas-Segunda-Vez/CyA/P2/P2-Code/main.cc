@@ -56,7 +56,9 @@ int main(int argc, char *argv[]) {
 
     /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
     FileOperations fileOperation;
+    FileOperations fileOperation2;
     std::vector<std::string> fileContent = fileOperation.ReadFile(inputFileName);
+    std::vector<std::string> fileContent2 = fileOperation2.ReadFile(inputFileName2);
     
     /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
@@ -65,7 +67,6 @@ int main(int argc, char *argv[]) {
 
       Alphabet newAlphabet;
       newAlphabet.setSymbolsToAlphabet(dividedAlphabet); /// Obtención de alfabetos funciona de manera correcta
-      newAlphabet.PrintAlphabet();
       Chain newChain;
       std::vector<Chain> chainsGroup;
       for (int j = 0; j < dividedChains.size(); j++) {
@@ -74,36 +75,31 @@ int main(int argc, char *argv[]) {
         newChain.~Chain();
       }
 
+      /// En el caso de que se vaya a hacer uso del segundo fichero
+      std::vector<Chain> chainsGroup2;
+      Alphabet newAlphabet2;
+      if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
+        || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {    
+        std::vector<std::string> dividedAlphabet2 = fileOperation2.AlphabetDivision(fileContent2[i]); /// No se hace uso de otro bucle debido a que este fichero debe de ser del mismo tamaño que el primero para poder realizar las operaciones
+        std::vector<std::string> dividedChains2 = fileOperation2.ChainDivision(fileContent2[i]);
+
+        newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2); /// Obtención de alfabetos funciona de manera correcta
+        Chain newChain2;
+        for (int j = 0; j < dividedChains2.size(); j++) {
+          newChain2.AddChain(dividedChains2[j], newAlphabet2);
+          chainsGroup2.push_back(newChain2);
+          newChain2.~Chain();
+        }
+      }
       /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
       Language language1;
       language1.IntroduceChainsGroup(chainsGroup);
+      newAlphabet.PrintAlphabet();
       language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
-      
       Language language2;
-      std::vector<Chain> chainsGroup2;
-      if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
-        || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {
-          FileOperations fileOperation2;
-          std::vector<std::string> fileContent2 = fileOperation2.ReadFile(inputFileName2);
-    
-          /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
-          for (int i = 0; i < fileContent2.size(); i++) {
-            std::vector<std::string> dividedAlphabet2 = fileOperation2.AlphabetDivision(fileContent2[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
-            std::vector<std::string> dividedChains2 = fileOperation2.ChainDivision(fileContent2[i]);
-
-            Alphabet newAlphabet2;
-            newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2); /// Obtención de alfabetos funciona de manera correcta
-            newAlphabet2.PrintAlphabet();
-            Chain newChain2;
-            for (int j = 0; j < dividedChains2.size(); j++) {
-              newChain2.AddChain(dividedChains2[j], newAlphabet2);
-              chainsGroup2.push_back(newChain2);
-              newChain2.~Chain();
-            }
-          }
-          language2.IntroduceChainsGroup(chainsGroup2);
-          language2.LanguagePrint();
-      }
+      language2.IntroduceChainsGroup(chainsGroup2);
+      newAlphabet2.PrintAlphabet();
+      language2.LanguagePrint();
       Menu(language1, language2, option, fileOperation, outputFileName);
     }
 
