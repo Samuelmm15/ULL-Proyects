@@ -64,7 +64,6 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
   for (it = auxiliary.begin(); it != auxiliary.end(); it++) {
     auxiliaryVector.push_back(*it);
   }
-
   /// A partir de este punto se realiza la operación de potencia
   int nValue;
   std::cout << "Introduzca el valor 'n' para poder realizar la operación de potencia: ";
@@ -83,10 +82,13 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
           previousVector.push_back(auxiliaryVector[j]);
           actualVector.push_back(auxiliaryVector[j]);
         }
-        for (int i = 0; i < actualVector.size(); i++) { /// To print the result
-          chainVector.insert(actualVector[i]);
+        if (i == nValue) {
+          for (int i = 0; i < actualVector.size(); i++) { /// To print the result
+            chainVector.insert(actualVector[i]);
+          }
         }
       } else { /// Hay que tener en cuenta que la concatenación es L * L-1
+        int previousFlag = 0;
         for (int k = 0; k < actualVector.size(); k++) {
           for (int l = 0; l < previousVector.size(); l++) {
             Chain auxiliaryChainObject;
@@ -98,9 +100,31 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
             resultVector.push_back(auxiliaryChainObject);
           }
         }
-        for (int i = 0; i < resultVector.size(); i++) { /// To print the result
-          chainVector.insert(resultVector[i]);
+        if (i == nValue) {
+          for (int i = 0; i < resultVector.size(); i++) { /// To print the result
+            chainVector.insert(resultVector[i]);
+          }
+        } else { /// Para actualizar los vectores anterior y actual
+          if (previousFlag == 1) {
+            previousVector.clear();
+            for (int i = 0; i < actualVector.size(); i++) {
+              previousVector.push_back(actualVector[i]);
+            }
+            actualVector.clear();
+            for (int i = 0; i < resultVector.size(); i++) {
+              actualVector.push_back(resultVector[i]);
+            }
+            resultVector.clear();
+            previousFlag = 0;
+          } else {
+            actualVector.clear();
+            for (int i = 0; i < resultVector.size(); i++) {
+              actualVector.push_back(resultVector[i]);
+            }
+            resultVector.clear();
+            previousFlag = 1;
         }
+          }
       }
     }
     printLanguageToFile(outputFileName, option);
