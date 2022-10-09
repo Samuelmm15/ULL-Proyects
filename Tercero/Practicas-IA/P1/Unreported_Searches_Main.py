@@ -8,10 +8,13 @@
  @copyright Copyright (c) 2022
 """
 
+from itertools import count
 import os
 import colorama # Librería necesaria para ejecutar los colores de los mensajes por la terminal
 from colorama import Fore
 from colorama import init
+
+from Unreported_Search import Unreported_Search
 
 init(autoreset=True) # Esto hace que el color de las cadenas vuelva a su color original cada vez que se use por defecto
 
@@ -40,6 +43,30 @@ if __name__ == '__main__': # This is the main program
 
     verticesNumber = edgeCosts[0] # Obtenemos el número de vértices
     edgeCosts.remove(verticesNumber) # De esta manera se elimina el número de vértices del vector de costes
+    verticesNumber = int(verticesNumber) # Se convierte a entero para poder operar con este
     
     # Obtenemos el vector de aristas
+    i = 1
+    j = 2
+    counter = 0
+    auxiliary = []
+    while counter < len(edgeCosts):
+        while j <= verticesNumber:
+            auxiliary.append(i)
+            auxiliary.append(j)
+            edgeVector.append(auxiliary)
+            auxiliary = [] # No se hace uso de .clear() ya que genera errores de que elimina dónde apunta la memoria
+            j += 1
+        j = i + 2
+        i += 1
+        counter += 1
+        
+    # Impresión del vector de aristas
+    print(edgeVector)
+
+    # Solicitud del nodo inicial y del nodo final
+    initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
+    finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
     
+    Unreported_Search(initialNode, finalNode, edgeVector, edgeCosts)
+
