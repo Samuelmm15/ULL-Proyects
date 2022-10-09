@@ -28,7 +28,42 @@ void Language::IntroduceChainsGroup(std::vector<Chain> groupChains) {
 }
 
 void Language::LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+  /// Obtenemos el contenido del lenguaje 1
+  std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
+  std::set<Chain>::iterator it;
+  std::vector<Chain> auxiliaryVector1;
+  for (it = auxiliaryLanguage1.begin(); it != auxiliaryLanguage1.end(); it++) {
+    auxiliaryVector1.push_back(*it);
+  }
   
+  /// Obtenemos el contenido del lenguaje 2
+  std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
+  std::set<Chain>::iterator it2;
+  std::vector<Chain> auxiliaryVector2;
+  for (it2 = auxiliaryLanguage2.begin(); it2 != auxiliaryLanguage2.end(); it2++) {
+    auxiliaryVector2.push_back(*it2);
+  }
+
+  Chain operateWithChains;
+  Alphabet auxiliaryAlphabet;
+  auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
+  std::string auxiliaryResult;
+  std::vector<Chain> finalResult;
+  for (int i = auxiliaryVector1.size() - 1; i >= 0; i--) {
+    for (int j = auxiliaryVector2.size() - 1; j >= 0; j--) {
+      Chain auxiliaryChain;
+      auxiliaryResult = operateWithChains.ConcatenateChain(auxiliaryVector1[i].getChain(), auxiliaryVector2[j].getChain());
+      auxiliaryChain.AddChain(auxiliaryResult,auxiliaryAlphabet);
+      finalResult.push_back(auxiliaryChain);
+      auxiliaryResult.clear();
+    }
+  }
+
+  /// Introducimos el lenguaje resultante
+  for (int i = 0; i < finalResult.size(); i++) {
+    chainVector.insert(finalResult[i]);
+  }
+  printLanguageToFile(outputFileName, printFlag);
 };
 
 void Language::LanguageUnion() {
