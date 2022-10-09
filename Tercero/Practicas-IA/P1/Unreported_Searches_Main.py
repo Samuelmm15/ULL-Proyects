@@ -39,7 +39,7 @@ if __name__ == '__main__': # This is the main program
     edgeVector = [] # Vector de aristas
     
     for line in inputFile:
-        edgeCosts.append(line)
+        edgeCosts.append(float(line))
 
     verticesNumber = edgeCosts[0] # Obtenemos el número de vértices
     edgeCosts.remove(verticesNumber) # De esta manera se elimina el número de vértices del vector de costes

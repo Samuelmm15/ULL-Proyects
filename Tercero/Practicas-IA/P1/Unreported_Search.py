@@ -8,11 +8,19 @@
  @copyright Copyright (c) 2022
 """
 
-from Unreported_Search_InDepth_Search import InDepthSearch
-
-# Se implementará una búsqueda primero en profundidad iterativa
+# Se implementará una búsqueda en amplitud que es lo mismo que en anchura
 def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
-    depth = 0
-    while depth <= len(edgeVector):
-        InDepthSearch(initialNode, finalNode, edgeVector, edgeCosts, depth)
-        depth += 1
+    # Para comenzar eliminación de aquellos nodos que son de coste -1
+    i = 0
+    while i < len(edgeVector):
+        auxiliaryCost = edgeCosts[i]
+        if float(auxiliaryCost) == float(-1.00):
+            edgeVector.pop(i)
+            edgeCosts.pop(i)
+            i = 0
+        i += 1
+    
+    # De esta manera sólo se dejan los nodos que realmente son necesarios para el árbol y el grafo
+    print()
+    print(edgeVector)
+    print(edgeCosts)
