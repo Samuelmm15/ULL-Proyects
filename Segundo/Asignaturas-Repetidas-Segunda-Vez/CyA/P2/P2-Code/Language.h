@@ -22,15 +22,15 @@ class Language : public Chain {
     friend bool operator<(const Chain& a, const Chain& b); /// sobrecarga del operador
     Language();
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
-    void LanguageConcatenation();
+    void LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageUnion();
     void LanguageInterseccion();
     void LanguageSubtract();
-    void LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag);
-    void LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag);
+    void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
+    void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePrint();
     std::set<Chain> getLanguage();
-    void printLanguageToFile(std::string outputFileName, std::string option, bool printFlag);
+    void printLanguageToFile(std::string outputFileName, bool printFlag);
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };

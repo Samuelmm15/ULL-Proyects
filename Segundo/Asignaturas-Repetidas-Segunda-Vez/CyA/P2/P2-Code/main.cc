@@ -23,10 +23,10 @@
 #include "FileOperations.h"
 
 
-void Menu(Language language1, Language language2, std::string option, FileOperations fileToUse, std::string outputFileName, bool printFlag) {
+void Menu(Language language1, Language language2, std::string option, std::string outputFileName, bool printFlag) {
   Language languageResult;
   if ((option == "Concatenacion") || (option == "Concatenación")) {
-
+    languageResult.LanguageConcatenation(language1, language2, outputFileName, printFlag);
   } else if ((option == "Union") || (option == "Unión")) {
 
   } else if ((option == "Interseccion" || (option == "Intersección"))) {
@@ -34,9 +34,9 @@ void Menu(Language language1, Language language2, std::string option, FileOperat
   } else if (option == "Diferencia") {
 
   } else if (option == "Inversa") { /// un único lenguaje
-    languageResult.LanguageInverse(language1, option, outputFileName, printFlag);
+    languageResult.LanguageInverse(language1, outputFileName, printFlag);
   } else if (option == "Potencia") { /// un único lenguaje
-    languageResult.LanguagePotency(language1, option, outputFileName, printFlag);
+    languageResult.LanguagePotency(language1, outputFileName, printFlag);
   }
 };
 
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
       newAlphabet2.PrintAlphabet();
       language2.LanguagePrint();
       }
-      Menu(language1, language2, option, fileOperation, outputFileName, printFlag);
+      Menu(language1, language2, option, outputFileName, printFlag);
       printFlag = false;
     }
 

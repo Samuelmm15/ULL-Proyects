@@ -27,7 +27,8 @@ void Language::IntroduceChainsGroup(std::vector<Chain> groupChains) {
 
 }
 
-void Language::LanguageConcatenation() {
+void Language::LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+  
 };
 
 void Language::LanguageUnion() {
@@ -39,7 +40,7 @@ void Language::LanguageInterseccion() {
 void Language::LanguageSubtract() {
 };
 
-void Language::LanguageInverse(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag) {
+void Language::LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
@@ -54,10 +55,10 @@ void Language::LanguageInverse(Language languageToOperate, std::string option, s
     auxiliaryObject.AddChain(auxiliaryVector[i].InverseChain(), auxiliaryAlphabet);
     chainVector.insert(auxiliaryObject); /// Este es el lenguage resultante de la operación inversa
   }
-  printLanguageToFile(outputFileName, option, printFlag);
+  printLanguageToFile(outputFileName, printFlag);
 };
 
-void Language::LanguagePotency(Language languageToOperate, std::string option, std::string outputFileName, bool printFlag) {
+void Language::LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
@@ -70,7 +71,7 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
   std::cin >> nValue;
 
   if (nValue == 0) {
-    printLanguageToFile(outputFileName, option, printFlag);
+    printLanguageToFile(outputFileName, printFlag);
   } else { /// se pasa del cero porque es la cadena vacía
     Chain operateWitchChains;
     std::vector<Chain> previousVector;
@@ -127,7 +128,7 @@ void Language::LanguagePotency(Language languageToOperate, std::string option, s
           }
       }
     }
-    printLanguageToFile(outputFileName, option, printFlag);
+    printLanguageToFile(outputFileName, printFlag);
   }
 };
 
@@ -152,7 +153,7 @@ std::set<Chain> Language::getLanguage() {
   return chainVector;
 };
 
-void Language::printLanguageToFile(std::string outputFileName, std::string option, bool printFlag) { /// SOLUCIONAR LA IMPRESIÓN POR FICHERO PARA QUE SE LIMPIE EL CONTENIDO DE LO ANTERIOR
+void Language::printLanguageToFile(std::string outputFileName, bool printFlag) {
   std::fstream outputFile;
   if (printFlag == true) {
     outputFile.open(outputFileName, std::ios_base::out);
