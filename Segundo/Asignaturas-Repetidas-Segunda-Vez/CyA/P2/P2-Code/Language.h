@@ -25,7 +25,7 @@ class Language : public Chain {
     void LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageUnion(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag);
-    void LanguageSubtract();
+    void LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePrint();
