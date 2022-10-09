@@ -110,17 +110,24 @@ int main(int argc, char *argv[]) {
     }
 
   } else {
-    std::string option = argv[1];
-    if ((argc = 1) && (option != "--help")) {
+    // std::cout << "accede" << std::endl;
+    if (argc == 1) {
       std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
+      std::cout << "Para más información: ./p02_languages [ -h || --help ]" << std::endl;
+      exit(1);
+    }
+    std::string option = argv[1];
+    if ((argc == 2) && (option != "--help") && (option != "-h")) {
+      std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
+      std::cout << "Para más información: ./p02_languages [ -h || --help ]" << std::endl;
       exit(1);
     }
     if ((option == "-h") || (option == "--help")) {
       std::cout << "AYUDA >>" << std::endl;
-      std::cout << "./p01_strings filein.txt fileout.txt [option]" << std::endl;
+      std::cout << "./p02_languages filein.txt filein2.txt fileout.txt [opción]" << std::endl;
+      std::cout << "Las opciones válidas son: [ Concatenacion || Union || Interseccion || Diferencia || Inversa || Potencia ]" << std::endl;
     } else {
       std::cout << "ERROR >> El programa ha sido ejecutado de manera incorrecta." << std::endl;
-      std::cout << std::endl;
       std::cout << "Introduzca la opción -h o --help para comprobar la correcta ejecución del programa." << std::endl;
     }
     exit(1); /// Exit with error code
