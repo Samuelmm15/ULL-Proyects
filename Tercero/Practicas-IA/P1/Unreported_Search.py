@@ -21,6 +21,41 @@ def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
         i += 1
     
     # De esta manera sólo se dejan los nodos que realmente son necesarios para el árbol y el grafo
+    
+    # Comprobación
     print()
     print(edgeVector)
     print(edgeCosts)
+    
+    # Una vez se tiene esto, se debe de encontrar el nodo ráiz del árbol
+    # Cuando se tiene el nodo raiz, se expanden todos los sucesores de este nodo raíz.
+    
+    # Primero búsqueda del nodo raíz y expansión de los nodos sucesores de dicho nodo raíz, además de los costes
+    i = 0
+    comprobationFlag = False
+    sucessorsEdges = [] # Este es el vector de sucesores a partir del nodo raiz
+    while i < len(edgeVector):
+        auxiliaryEdge = edgeVector[i]
+        if int(auxiliaryEdge[0]) == int(initialNode):
+            comprobationFlag = True
+        if comprobationFlag == False: # Se realiza la eliminación de los costes asociados hasta que se encuentre el nodo raiz
+            edgeCosts.pop(i)
+        if comprobationFlag == True:
+            sucessorsEdges.append(auxiliaryEdge) # De esta manera se obtiene el vector de sucesores a partir del nodo raíz
+        i += 1
+    
+    # Comprobación
+    print()   
+    print(sucessorsEdges)
+    print(edgeCosts)
+    print(len(sucessorsEdges))
+    print(len(edgeCosts))
+    
+    # Búsqueda del camino haciendo uso del vector de sucesores y costes asociado
+    i = 0
+    j = int(initialNode) + 1
+    while i < len(sucessorsEdges):
+        
+        i += 1
+    
+    
