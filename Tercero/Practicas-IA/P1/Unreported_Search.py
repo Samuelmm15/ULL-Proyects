@@ -51,36 +51,71 @@ def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
     print(len(sucessorsEdges))
     print(len(edgeCosts))
     
-    # Búsqueda del camino haciendo uso del vector de sucesores y costes asociado
+    # # Búsqueda del camino haciendo uso del vector de sucesores y costes asociado
+    # i = 0
+    # j = int(initialNode)
+    # finalFlag = False
+    # partialCosts = -1
+    # partialCostsPosition = 0
+    # partialRoute = [] # Este es el vector de soluciones parcial
+    # while i < len(sucessorsEdges):
+    #     auxiliaryEdge = sucessorsEdges[i] # De esta manera se obtiene la arista
+    #     auxiliaryCost = edgeCosts[i] # De esta manera se obtiene el coste asociado
+    #     if auxiliaryEdge[0] == j:
+    #         if int(auxiliaryEdge[1]) == int(finalNode): # En el caso de que el siguiente nodo de alguna de las aristas sea el nodo final
+    #             finalFlag = True
+    #             partialCostsPosition = i
+    #             partialRoute.append(int(partialCostsPosition))
+    #         if finalFlag != True:
+    #             if partialCosts == -1:
+    #                 partialCosts = float(auxiliaryCost)
+    #                 partialCostsPosition = i
+    #             else:
+    #                 if float(auxiliaryCost) <= partialCosts:
+    #                     partialCosts = float(auxiliaryCost)
+    #                     partialCostsPosition = i
+    #     else:
+    #         if finalFlag != True:
+    #             partialRoute.append(int(partialCostsPosition))
+    #             partialCosts = -1
+    #             partialCostsPosition = 0
+    #             j += 1 # De esta manera se está yendo al siguiente nivel del árbol, es decir se pasa al siguiente nivel
+    #     i += 1
+    
+    # PRUEBA DE IMPLEMENTACIÓN DE OTRA FORMA DEL CÓDIGO ANTERIOR
     i = 0
     j = int(initialNode)
     finalFlag = False
-    partialCosts = -1
-    partialCostsPosition = 0
+    partialPosition = 0
     partialRoute = [] # Este es el vector de soluciones parcial
     while i < len(sucessorsEdges):
         auxiliaryEdge = sucessorsEdges[i] # De esta manera se obtiene la arista
         auxiliaryCost = edgeCosts[i] # De esta manera se obtiene el coste asociado
-        if auxiliaryEdge[0] == j:
-            if int(auxiliaryEdge[1]) == int(finalNode): # En el caso de que el siguiente nodo de alguna de las aristas sea el nodo final
-                finalFlag = True
-                partialCostsPosition = i
-                partialRoute.append(int(partialCostsPosition))
-            if finalFlag != True:
-                if partialCosts == -1:
-                    partialCosts = float(auxiliaryCost)
-                    partialCostsPosition = i
-                else:
-                    if float(auxiliaryCost) <= partialCosts:
-                        partialCosts = float(auxiliaryCost)
-                        partialCostsPosition = i
+        if int(auxiliaryEdge[0]) == int(finalNode):
+            partialPosition = i
+            partialRoute.append(partialPosition)
+            i = len(sucessorsEdges)
+            finalFlag = True
+        if (int(auxiliaryEdge[0]) == int(j)) and (finalFlag != True):
+            if int(auxiliaryEdge[1]) != int(finalNode):
+                partialPosition = i
+                partialRoute.append(partialPosition)
+            else:
+                partialPosition = i
+                partialRoute.append(partialPosition)
+                i = len(sucessorsEdges)
         else:
-            if finalFlag != True:
-                partialRoute.append(int(partialCostsPosition))
-                partialCosts = -1
-                partialCostsPosition = 0
-                j += 1 # De esta manera se está yendo al siguiente nivel del árbol, es decir se pasa al siguiente nivel
-        i += 1
+            j += 1 # Necesario para cambiar de nodo
+            if int(auxiliaryEdge[0]) == int(j): # Para el caso en el que se aumenta una posición
+                if int(auxiliaryEdge[1]) != int(finalNode):
+                    partialPosition = i
+                    partialRoute.append(partialPosition)
+            else:
+                partialPosition = i
+                partialRoute.append(partialPosition)
+                i = len(sucessorsEdges)
+        i += 1 # Para ir cambiando de aristas
+    
     
     finalRoute = []
     finalCosts = []
