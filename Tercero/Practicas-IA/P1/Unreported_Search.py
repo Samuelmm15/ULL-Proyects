@@ -53,9 +53,43 @@ def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
     
     # Búsqueda del camino haciendo uso del vector de sucesores y costes asociado
     i = 0
-    j = int(initialNode) + 1
+    j = int(initialNode)
+    finalFlag = False
+    partialCosts = -1
+    partialCostsPosition = 0
+    partialRoute = [] # Este es el vector de soluciones parcial
     while i < len(sucessorsEdges):
-        
+        auxiliaryEdge = sucessorsEdges[i] # De esta manera se obtiene la arista
+        auxiliaryCost = edgeCosts[i] # De esta manera se obtiene el coste asociado
+        if auxiliaryEdge[0] == j:
+            if int(auxiliaryEdge[1]) == int(finalNode): # En el caso de que el siguiente nodo de alguna de las aristas sea el nodo final
+                finalFlag = True
+                partialCostsPosition = i
+                partialRoute.append(int(partialCostsPosition))
+            if finalFlag != True:
+                if partialCosts == -1:
+                    partialCosts = float(auxiliaryCost)
+                    partialCostsPosition = i
+                else:
+                    if float(auxiliaryCost) <= partialCosts:
+                        partialCosts = float(auxiliaryCost)
+                        partialCostsPosition = i
+        else:
+            if finalFlag != True:
+                partialRoute.append(int(partialCostsPosition))
+                partialCosts = -1
+                partialCostsPosition = 0
+                j += 1 # De esta manera se está yendo al siguiente nivel del árbol, es decir se pasa al siguiente nivel
         i += 1
     
+    finalRoute = []
+    finalCosts = []
+    for i in partialRoute:
+        auxiliaryEdge = sucessorsEdges[i]
+        auxiliaryCost = edgeCosts[i]
+        finalRoute.append(auxiliaryEdge)
+        finalCosts.append(float(auxiliaryCost))
     
+    print()
+    print(finalRoute)
+    print(finalCosts)
