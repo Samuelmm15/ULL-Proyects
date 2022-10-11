@@ -14,7 +14,7 @@ import colorama # Librería necesaria para ejecutar los colores de los mensajes 
 from colorama import Fore
 from colorama import init
 
-from Unreported_Search import UnreportedSearch
+from BFS_Search import BFSSearch
 
 init(autoreset=True) # Esto hace que el color de las cadenas vuelva a su color original cada vez que se use por defecto
 
@@ -68,5 +68,5 @@ if __name__ == '__main__': # This is the main program
     initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
     finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
     
-    UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts)
+    BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber)
 
