@@ -147,7 +147,7 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
 };
 
 /**
- * @brief This is the implementayion of the interseccion operation.
+ * @brief This is the implementaion of the interseccion operation.
  * 
  * @param language1 The first language to do the interseccion.
  * @param language2 The second language to do the interseccion.
@@ -171,7 +171,7 @@ void Language::LanguageInterseccion(Language language1, Language language2, std:
     auxiliaryVector2.push_back(*it2);
   }
 
-  /// Se comparan ambos lenguaje y aquellos elementos que sean comunes pues se introducen en el resultado final
+  /// Comparation of the chains of the two languages
   Alphabet auxiliaryAlphabet;
   auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
   std::vector<Chain> auxiliaryfinalResult;
@@ -190,16 +190,22 @@ void Language::LanguageInterseccion(Language language1, Language language2, std:
     comprobationFlag = false;
   }
 
-  /// Introducimos el resultado en el lenguaje resultante
   for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
     chainVector.insert(auxiliaryfinalResult[i]);
   }
-  /// Imprimimos
   printLanguageToFile(outputFileName, printFlag);
 };
 
+/**
+ * @brief This is the implementation of the substract operation.
+ * 
+ * @param language1 This is the first language to substract.
+ * @param language2 This is the second language to substract.
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag) {
-  /// Obtenemos el contenido del lenguaje 1
+  /// The content of the first language
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector1;
@@ -207,7 +213,7 @@ void Language::LanguageSubtract(Language language1, Language language2, std::str
     auxiliaryVector1.push_back(*it);
   }
   
-  /// Obtenemos el contenido del lenguaje 2
+  /// The content of the second language
   std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
   std::set<Chain>::iterator it2;
   std::vector<Chain> auxiliaryVector2;
@@ -215,7 +221,7 @@ void Language::LanguageSubtract(Language language1, Language language2, std::str
     auxiliaryVector2.push_back(*it2);
   }
 
-  /// Se comparan ambos lenguajes hasta comprobar que las cadenas del primero no están en el segundo
+  /// Comparation of the two languages
   Alphabet auxiliaryAlphabet;
   auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
   std::vector<Chain> auxiliaryfinalResult;
@@ -234,14 +240,19 @@ void Language::LanguageSubtract(Language language1, Language language2, std::str
     comprobationFlag = false;
   }
 
-  /// Introducción del restultado en el lenguaje resultante
   for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
     chainVector.insert(auxiliaryfinalResult[i]);
   }
-  /// Impresión de todo
   printLanguageToFile(outputFileName, printFlag);
 };
 
+/**
+ * @brief This is the implemention of the inverse language operation.
+ * 
+ * @param languageToOperate This is the language to operate.
+ * @param outputFileName This is the name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
@@ -250,16 +261,23 @@ void Language::LanguageInverse(Language languageToOperate, std::string outputFil
     auxiliaryVector.push_back(*it);
   }
   
-  for (int i = auxiliaryVector.size() - 1; i >= 0; i--) { /// FALTA INTRODUCIR LOS RESULTADOS EN EL FICHERO DE SALIDA
+  for (int i = auxiliaryVector.size() - 1; i >= 0; i--) {
     Chain auxiliaryObject;
     Alphabet auxiliaryAlphabet;
     auxiliaryAlphabet.setAlphabet(auxiliaryVector[i].getAlphabet());
     auxiliaryObject.AddChain(auxiliaryVector[i].InverseChain(), auxiliaryAlphabet);
-    chainVector.insert(auxiliaryObject); /// Este es el lenguage resultante de la operación inversa
+    chainVector.insert(auxiliaryObject); /// This is the result of the inverse chain operation.
   }
   printLanguageToFile(outputFileName, printFlag);
 };
 
+/**
+ * @brief This is the implementation of the language potency operation.
+ * 
+ * @param languageToOperate This is the language to operate.
+ * @param outputFileName This is the name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
@@ -267,19 +285,19 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
   for (it = auxiliary.begin(); it != auxiliary.end(); it++) {
     auxiliaryVector.push_back(*it);
   }
-  /// A partir de este punto se realiza la operación de potencia
+  
   int nValue;
   std::cout << "Introduzca el valor 'n' para poder realizar la operación de potencia: ";
   std::cin >> nValue;
 
   if (nValue == 0) {
     printLanguageToFile(outputFileName, printFlag);
-  } else { /// se pasa del cero porque es la cadena vacía
+  } else {
     Chain operateWitchChains;
     std::vector<Chain> previousVector;
     std::vector<Chain> actualVector;
     std::vector<Chain> resultVector;
-    for (int i = 1; i <= nValue; i++) { /// se debe de hacer la potencia consigo mismo
+    for (int i = 1; i <= nValue; i++) {
       if (i == 1) { /// initialization
         for (int j = auxiliaryVector.size() - 1; j >= 0; j--) {
           previousVector.push_back(auxiliaryVector[j]);
@@ -290,7 +308,7 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
             chainVector.insert(actualVector[i]);
           }
         }
-      } else { /// Hay que tener en cuenta que la concatenación es L * L-1
+      } else { /// The concatenation is L * Ln-1
         int previousFlag = 0;
         for (int k = 0; k < actualVector.size(); k++) {
           for (int l = 0; l < previousVector.size(); l++) {
@@ -307,7 +325,7 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
           for (int i = 0; i < resultVector.size(); i++) { /// To print the result
             chainVector.insert(resultVector[i]);
           }
-        } else { /// Para actualizar los vectores anterior y actual
+        } else {
           if (previousFlag == 1) {
             previousVector.clear();
             for (int i = 0; i < actualVector.size(); i++) {
@@ -334,6 +352,10 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
   }
 };
 
+/**
+ * @brief This method prints the language into the screen.
+ * 
+ */
 void Language::LanguagePrint() {
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliary;
@@ -351,10 +373,21 @@ void Language::LanguagePrint() {
   std::cout << " }" << std::endl;
 };
 
+/**
+ * @brief This method returns the language of the object.
+ * 
+ * @return std::set<Chain> 
+ */
 std::set<Chain> Language::getLanguage() {
   return chainVector;
 };
 
+/**
+ * @brief This method prints the language result into the output File
+ * 
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::printLanguageToFile(std::string outputFileName, bool printFlag) {
   std::fstream outputFile;
   if (printFlag == true) {

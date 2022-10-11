@@ -22,8 +22,15 @@
 #include "Language.h"
 #include "FileOperations.h"
 
-/// ANOTACIÓN IMPORTANTE FALTA COMPROBAR SI LAS CADENAS PERTENECEN DE MANERA CORRECTA AL ALFABETO
-
+/**
+ * @brief This function implements the Menu of the different options of the program.
+ * 
+ * @param language1 This is the first language to operate.
+ * @param language2 This is the second language to operate.
+ * @param option The operation of the program.
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Menu(Language language1, Language language2, std::string option, std::string outputFileName, bool printFlag) {
   Language languageResult;
   if ((option == "Concatenacion") || (option == "Concatenación")) {
@@ -55,7 +62,6 @@ int main(int argc, char *argv[]) {
     std::string outputFileName = argv[3];
     std::string option = argv[4];
 
-    /// EN ESTE PUNTO SE DEBE DE PRODUCIR LA LECTURA DEL FICHERO
     FileOperations fileOperation;
     FileOperations fileOperation2;
     std::vector<std::string> fileContent = fileOperation.ReadFile(inputFileName);
@@ -64,13 +70,12 @@ int main(int argc, char *argv[]) {
     bool printFlag = true;
     int printCounter = 1;
     bool errorFlag = false;
-    /// TRATAMIENTO DEL CONTENIDO DEL FICHERO PARA PODER OBTENER LOS DISTINTOS ELEMENTOS
     for (int i = 0; i < fileContent.size(); i++) {
-      std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]); /// FALTA RECORRER TODAS LAS LÍNEAS DEL FICHERO
+      std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]);
       std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
 
       Alphabet newAlphabet;
-      newAlphabet.setSymbolsToAlphabet(dividedAlphabet); /// Obtención de alfabetos funciona de manera correcta
+      newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
       Chain newChain;
       std::vector<Chain> chainsGroup;
       for (int j = 0; j < dividedChains.size(); j++) {
@@ -84,15 +89,14 @@ int main(int argc, char *argv[]) {
         }
       }
 
-      /// En el caso de que se vaya a hacer uso del segundo fichero
       std::vector<Chain> chainsGroup2;
       Alphabet newAlphabet2;
       if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
         || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {    
-        std::vector<std::string> dividedAlphabet2 = fileOperation2.AlphabetDivision(fileContent2[i]); /// No se hace uso de otro bucle debido a que este fichero debe de ser del mismo tamaño que el primero para poder realizar las operaciones
+        std::vector<std::string> dividedAlphabet2 = fileOperation2.AlphabetDivision(fileContent2[i]);
         std::vector<std::string> dividedChains2 = fileOperation2.ChainDivision(fileContent2[i]);
 
-        newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2); /// Obtención de alfabetos funciona de manera correcta
+        newAlphabet2.setSymbolsToAlphabet(dividedAlphabet2);
         Chain newChain2;
         for (int j = 0; j < dividedChains2.size(); j++) {
           if (newAlphabet2.AlphabetComprobation(dividedChains2[j]) == true) {
@@ -105,17 +109,17 @@ int main(int argc, char *argv[]) {
           }
         }
       }
-      /// SE METE DICHO GRUPO DE CADENAS EN EL LENGUAJE
+
       Language language1;
       language1.IntroduceChainsGroup(chainsGroup);
-      std::cout << "Primer lenguaje >>" << std::endl;
+      std::cout << "Lenguaje y alfabeto fichero 1>>" << std::endl;
       newAlphabet.PrintAlphabet();
-      language1.LanguagePrint(); /// Se realiza la impresión para comprobar como va todo
+      language1.LanguagePrint();
       Language language2;
       if ((option == "Concatenacion") || (option == "Concatenación") || (option == "Union") || (option == "Unión")
         || (option == "Interseccion" || (option == "Intersección")) || (option == "Diferencia")) {
       language2.IntroduceChainsGroup(chainsGroup2);
-      std::cout << "Segundo lenguaje >>" << std::endl;
+      std::cout << "Lenguaje y alfabeto fichero 2 >>" << std::endl;
       newAlphabet2.PrintAlphabet();
       language2.LanguagePrint();
       }
@@ -133,7 +137,6 @@ int main(int argc, char *argv[]) {
     }
 
   } else {
-    // std::cout << "accede" << std::endl;
     if (argc == 1) {
       std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
       std::cout << "Para más información: ./p02_languages [ -h || --help ]" << std::endl;

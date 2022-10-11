@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file implements the file operation class.
  * @version 0.1
  * @date 2022-10-06
  * @signature Computabilidad y Algoritmia.
@@ -18,6 +18,10 @@
 
 #include "Chain.h"
 
+/**
+ * @brief This class implments operations with the file or the content of the file.
+ * 
+ */
 class FileOperations {
   public:
     FileOperations();

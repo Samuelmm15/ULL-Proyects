@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contents the implemention of the different class methods.
  * @version 0.1
  * @date 2022-10-06
  * @signature Computabilidad y Algoritmia.
@@ -13,9 +13,19 @@
 
 #include "FileOperations.h"
 
+/**
+ * @brief This is the constructor of the class.
+ * 
+ */
 FileOperations::FileOperations() {
 };
 
+/**
+ * @brief This method implements the reading of the input files.
+ * 
+ * @param fileName The name of the input file.
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   inputFileName = fileName;
   std::ifstream inputFile;
@@ -29,7 +39,7 @@ std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
     exit(1);
   }
   std::string line;
-  std::vector<std::string> fileContent; /// Almacenaje por líneas del fichero
+  std::vector<std::string> fileContent; /// Storage by lines of the file.
   if (inputFile.is_open()) {
     while (getline(inputFile, line)) {
       fileContent.push_back(line);
@@ -39,6 +49,12 @@ std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   return fileContent;
 };
 
+/**
+ * @brief This method divides the alphabet characters to use with the different languages.
+ * 
+ * @param line This is the line of the input File.
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
   std::vector<std::string> result;
   bool comprobationFlag = false;
@@ -58,6 +74,12 @@ std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
   return result;
 };
 
+/**
+ * @brief This method divides the different chains at the input file to introduce into de language.
+ * 
+ * @param line This is the line of the input file.
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string> FileOperations::ChainDivision(std::string line) {
   std::vector<std::string> result;
   std::string auxiliary;
