@@ -1,7 +1,7 @@
 /**
  * @file Alphabet.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This class implements the Alphabet objects Code.
  * @version 0.1
  * @date 2022-10-05
  * @signature Computabilidad y Algoritmia.

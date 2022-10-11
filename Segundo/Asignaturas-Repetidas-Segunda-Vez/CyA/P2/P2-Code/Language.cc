@@ -1,7 +1,7 @@
 /**
  * @file language.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file implements the different language methods.
  * @version 0.1
  * @date 2022-10-05
  * @signature Computabilidad y Algoritmia.
@@ -13,22 +13,46 @@
 
 #include "Language.h"
 
-bool operator<(const Chain& a, const Chain& b) { /// COMPROBAR LA SOBRECARGA DE LOS OPERADORES
-  return true; /// Al introducir varios valores, si se hace uso de una comparación generaba errores
+/**
+ * @brief This is the overload of the operator '<' to use the set structure with Chain objects.
+ * 
+ * @param a The first chain to comprobe.
+ * @param b The second chain to comprobe.
+ * @return true 
+ * @return false 
+ */
+bool operator<(const Chain& a, const Chain& b) {
+  return true;
 }
 
+/**
+ * @brief This is the constructor of the class
+ * 
+ */
 Language::Language() {
 };
 
+/**
+ * @brief This method introduces the different chains into the set structure.
+ * 
+ * @param groupChains The group of chains of the Language.
+ */
 void Language::IntroduceChainsGroup(std::vector<Chain> groupChains) {
-  for (int i = 0; i < groupChains.size(); i++) { /// De esta manera se tienen introducidas las cadenas en el lenguaje
+  for (int i = 0; i < groupChains.size(); i++) {
     chainVector.insert(groupChains[i]);
   }
-
 }
 
+/**
+ * @brief This method concatenates two introduced languages.
+ * 
+ * @param language1 The first language to concatenate.
+ * @param language2 The second language to concatenate.
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag) {
-  /// Obtenemos el contenido del lenguaje 1
+  /// The content of the first language.
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector1;
@@ -36,7 +60,7 @@ void Language::LanguageConcatenation(Language language1, Language language2, std
     auxiliaryVector1.push_back(*it);
   }
   
-  /// Obtenemos el contenido del lenguaje 2
+  /// The content of the second language.
   std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
   std::set<Chain>::iterator it2;
   std::vector<Chain> auxiliaryVector2;
@@ -59,15 +83,22 @@ void Language::LanguageConcatenation(Language language1, Language language2, std
     }
   }
 
-  /// Introducimos el lenguaje resultante
   for (int i = 0; i < finalResult.size(); i++) {
     chainVector.insert(finalResult[i]);
   }
   printLanguageToFile(outputFileName, printFlag);
 };
 
+/**
+ * @brief This method implements the union of two languages.
+ * 
+ * @param language1 The first language to merge.
+ * @param language2 The second language to merge.
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguageUnion(Language language1, Language language2, std::string outputFileName, bool printFlag) {
-  /// Obtenemos el contenido del lenguaje 1
+  /// The content of the first language.
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector1;
@@ -75,7 +106,7 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
     auxiliaryVector1.push_back(*it);
   }
   
-  /// Obtenemos el contenido del lenguaje 2
+  /// The content of the second language.
   std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
   std::set<Chain>::iterator it2;
   std::vector<Chain> auxiliaryVector2;
@@ -83,7 +114,7 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
     auxiliaryVector2.push_back(*it2);
   }
 
-  /// Primero se introducen como resultado todas las cadenas del primer lenguaje
+  /// First, the introduction of all the chains of the first language.
   Alphabet auxiliaryAlphabet;
   auxiliaryAlphabet.setAlphabet(language1.getAlphabet());
   std::vector<Chain> auxiliaryfinalResult;
@@ -93,7 +124,7 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
     auxiliaryfinalResult.push_back(auxiliaryChain);
   }
 
-  /// Después se introducen las cadenas del segundo lenguaje que no se encuentren introducidas en el resultado
+  /// Then introduce the chains of the second language that not have the first language.
   bool comparationFlag = false;
   for (int i = auxiliaryVector2.size() - 1; i >= 0; i--) {
     for (int j = 0; j < auxiliaryfinalResult.size(); j++) {
@@ -109,16 +140,22 @@ void Language::LanguageUnion(Language language1, Language language2, std::string
       comparationFlag = false;
   }
 
-  /// Introducimos todo en el lenguaje
   for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
     chainVector.insert(auxiliaryfinalResult[i]);
   }
-  /// Imprimimos
   printLanguageToFile(outputFileName, printFlag);
 };
 
+/**
+ * @brief This is the implementayion of the interseccion operation.
+ * 
+ * @param language1 The first language to do the interseccion.
+ * @param language2 The second language to do the interseccion.
+ * @param outputFileName The name of the output file.
+ * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
+ */
 void Language::LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag) {
-  /// Obtenemos el contenido del lenguaje 1
+  /// The content of the first language
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector1;
@@ -126,7 +163,7 @@ void Language::LanguageInterseccion(Language language1, Language language2, std:
     auxiliaryVector1.push_back(*it);
   }
   
-  /// Obtenemos el contenido del lenguaje 2
+  /// The content of the second language
   std::set<Chain> auxiliaryLanguage2 = language2.getLanguage();
   std::set<Chain>::iterator it2;
   std::vector<Chain> auxiliaryVector2;

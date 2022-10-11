@@ -1,7 +1,7 @@
 /**
  * @file Alphabet.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This fila contents the implementation of the Alphabet methods operations.
  * @version 0.1
  * @date 2022-10-05
  * @signature Computabilidad y Algoritmia.
@@ -26,7 +26,7 @@ Alphabet::Alphabet() {
  * @param line This is the readed line of the introduced file to obtain the alphabet of the differents chains.
  */
 void Alphabet::setSymbolsToAlphabet(std::vector<std::string> dividedAlphabet) {
-  for (int i = 0; i < dividedAlphabet.size(); i++) { /// Introducción de los símbolos en el alfabeto del lenguaje en el caso de que sean de longitud uno
+  for (int i = 0; i < dividedAlphabet.size(); i++) {
     if (dividedAlphabet[i].size() == 1) {
       alphabet.push_back(dividedAlphabet[i]);
     }
@@ -74,14 +74,30 @@ bool Alphabet::AlphabetComprobation(std::string chain) {
   }
 };
 
+/**
+ * @brief This method sets an alphabet into the class alphabet.
+ * 
+ * @param alphabetToIntroduce This is the alphabet to introduce into the alphabet object.
+ */
 void Alphabet::setAlphabet(std::vector<std::string> alphabetToIntroduce) {
   alphabet = alphabetToIntroduce;
 };
 
+/**
+ * @brief This method returns the alphabet contained into the object.
+ * 
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string> Alphabet::getAlphabet() {
   return alphabet;
 };
 
+/**
+ * @brief This method comprobes if an introduced chain belongs at the object alphabet.
+ * 
+ * @param chain The introduced chain to comprobe if it belongs at the alphabet.
+ * @return std::string 
+ */
 std::string Alphabet::ChainComprobation(std::string chain) {
   std::string chainResult;
   for (int i = 0; i < chain.size(); i++) {

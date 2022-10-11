@@ -1,7 +1,7 @@
 /**
  * @file Chain.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file implements the methods of the Chain class.
  * @version 0.1
  * @date 2022-10-05
  * @signature Computabilidad y Algoritmia.
@@ -20,7 +20,11 @@
 Chain::Chain() {
 };
 
-Chain::~Chain() { /// To destroy de content
+/**
+ * @brief Destroy the Chain:: Chain object
+ * 
+ */
+Chain::~Chain() {
   chain.clear();
 }
 
@@ -46,6 +50,13 @@ std::string Chain::InverseChain() {
   return result;
 }
 
+/**
+ * @brief This is the chain operation that concatenates two introduced chains.
+ * 
+ * @param firstChain Is the first chain to concatenate.
+ * @param secondChain Is the second chain to concatenate.
+ * @return std::string 
+ */
 std::string Chain::ConcatenateChain(std::string firstChain, std::string secondChain) {
   for (int i = 0; i < secondChain.size(); i++) {
     firstChain.push_back(secondChain[i]);
