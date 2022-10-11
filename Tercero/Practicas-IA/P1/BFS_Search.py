@@ -80,58 +80,78 @@ def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
         i += 1
     print()
     
-    # Obtener los costes totales de las aristas
     auxiliaryEdges = []
     finalRouteEdges = []
     i = 0
     j = 1
     while i < len(finalRoute) - 1:
-        if (finalRoute[i] < finalRoute[j]):
-            auxiliaryEdges.append(finalRoute[i])
-            auxiliaryEdges.append(finalRoute[j])
-            finalRouteEdges.append(auxiliaryEdges)
-            auxiliaryEdges = []
-        else:
-            auxiliaryEdges.append(finalRoute[j])
-            auxiliaryEdges.append(finalRoute[i])
-            finalRouteEdges.append(auxiliaryEdges)
-            auxiliaryEdges = []
+        auxiliaryEdges.append(finalRoute[i])
+        auxiliaryEdges.append(finalRoute[j])
+        for edge in edgeVector:
+            if (edge == auxiliaryEdges):
+                finalRouteEdges.append(edge)
         j += 1
-        i += 1
-    
+        auxiliaryEdges = []
+        if (j >= len(finalRoute)):
+            i += 1
+            j = i + 1
+            
     print()
-    print('Aristas del camino final:')
     print(finalRouteEdges)
     print()
     
-    # Una vez con las aristas del camino final se obtiene el coste total asociado
-    i = 0
-    j = 0
-    repetitionFlag = False
-    costPosition = 0
-    costsVector = []
-    while i < len(edgeCosts):
-        auxiliaryEdges = finalRouteEdges[j]
-        auxiliaryEdgesOriginal = edgeVector[i]
-        if (auxiliaryEdges == auxiliaryEdgesOriginal):
-            costPosition = i
-            costsVector.append(costPosition)
-            repetitionFlag =True
-            j += 1
-        if (repetitionFlag == False):
-            i += 1
-        else:
-            i = 0
-            repetitionFlag = False
-        
-    finalCosts = []
-    for position in costsVector:
-        auxiliaryCosts = edgeCosts[position]
-        finalCosts.append(auxiliaryCosts)
+    # # Obtener los costes totales de las aristas
+    # auxiliaryEdges = []
+    # finalRouteEdges = []
+    # i = 0
+    # j = 1
+    # while i < len(finalRoute) - 1:
+    #     if (finalRoute[i] < finalRoute[j]):
+    #         auxiliaryEdges.append(finalRoute[i])
+    #         auxiliaryEdges.append(finalRoute[j])
+    #         finalRouteEdges.append(auxiliaryEdges)
+    #         auxiliaryEdges = []
+    #     else:
+    #         auxiliaryEdges.append(finalRoute[j])
+    #         auxiliaryEdges.append(finalRoute[i])
+    #         finalRouteEdges.append(auxiliaryEdges)
+    #         auxiliaryEdges = []
+    #     j += 1
+    #     i += 1
     
-    print()
-    print('Vector de costes:')
-    print(finalCosts)
-    print()
+    # print()
+    # print('Aristas del camino final:')
+    # print(finalRouteEdges)
+    # print()
+    
+    # # Una vez con las aristas del camino final se obtiene el coste total asociado
+    # i = 0
+    # j = 0
+    # repetitionFlag = False
+    # costPosition = 0
+    # costsVector = []
+    # while i < len(edgeCosts):
+    #     auxiliaryEdges = finalRouteEdges[j]
+    #     auxiliaryEdgesOriginal = edgeVector[i]
+    #     if (auxiliaryEdges == auxiliaryEdgesOriginal):
+    #         costPosition = i
+    #         costsVector.append(costPosition)
+    #         repetitionFlag =True
+    #         j += 1
+    #     if (repetitionFlag == False):
+    #         i += 1
+    #     else:
+    #         i = 0
+    #         repetitionFlag = False
+        
+    # finalCosts = []
+    # for position in costsVector:
+    #     auxiliaryCosts = edgeCosts[position]
+    #     finalCosts.append(auxiliaryCosts)
+    
+    # print()
+    # print('Vector de costes:')
+    # print(finalCosts)
+    # print()
     
     
