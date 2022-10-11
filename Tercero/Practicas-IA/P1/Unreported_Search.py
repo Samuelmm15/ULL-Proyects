@@ -67,22 +67,16 @@ def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
     partialPosition = 0
     partialRoute = [] # Este es el vector de soluciones parcial
     while i < len(sucessorsEdges):
-        auxiliaryEdge = sucessorsEdges[i] # De esta manera se obtiene la arista
-        if (int(auxiliaryEdge[1]) == int(finalNode)) or (int(auxiliaryEdge[0]) == int(finalNode)): # COMPROBAR POR QUÉ DA ERRORES
+        auxiliaryEdge = sucessorsEdges[i]
+        if (finalFlag != True):
             partialPosition = i
-            partialRoute.append(partialPosition);
-            i = len(sucessorsEdges)
+            partialRoute.append(partialPosition)
+        if (int(auxiliaryEdge[0]) == int(finalNode)):
             finalFlag = True
-        if finalFlag == False:
-            if int(auxiliaryEdge[0]) == int(j):
-                partialPosition = i
-                partialRoute.append(partialPosition)
-            else:
-                j += 1
-                partialPosition = 0
-                if int(auxiliaryEdge[0]) == int(j): # Para cuando se cambia de j y se aumenta
-                    partialPosition = i
-                    partialRoute.append(partialPosition)
+            i = len(sucessorsEdges)
+        if (int(auxiliaryEdge[1]) == int(finalNode)):
+            finalFlag = True
+            i = len(sucessorsEdges)
         i += 1
     
     
@@ -96,4 +90,4 @@ def UnreportedSearch(initialNode, finalNode, edgeVector, edgeCosts):
     
     print()
     print(finalRoute)
-    print(finalCosts)
+    print(finalCosts) # En este punto se tiene el camino reducido desde el nodo inicial hasta el nodo final, ahora queda encontrar el posible camino entre el nodo inicial y el final
