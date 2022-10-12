@@ -1,10 +1,7 @@
-def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
-    
+def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector):
     partialRotue = []
     print()
-    print(finalResult)
-    print()
-    print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
+    print(f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')
     beforeNode = 0
     size = 0
     for i in finalResult:
@@ -20,6 +17,12 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
             print(f'{i[1]}')
             partialRotue.append(i[1])
         size += 1
+    
+    print()
+    print(f'La cantidad de nodos que han sido generados son: {len(partialRotue)}')
+    
+    print()
+    print(f'La cantidad de nodos que han sido ispeccionados han sido: {len(visited)}')
     
     printRoute = []
     introducedFlag = False
@@ -58,9 +61,9 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
         else:
             i = len(partialRotue)
         
-    print()
-    print(printRoute)
-    print()
+    # print()
+    # print(printRoute)
+    # print()
     
     # Búsqueda final del camino
     i = len(printRoute) - 1
@@ -89,11 +92,11 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
         auxiliaryResult.append(finalRoute[i])
         i -= 1
 
-    print()
-    print(auxiliaryResult)
+    # print()
+    # print(auxiliaryResult)
     
     print()
-    print('El camino final es:')
+    print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
     i = 0
     while i < len(auxiliaryResult):
         if (i < len(auxiliaryResult) - 1):
@@ -130,8 +133,8 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
     for i in indexVectorAuxiliary:
         costsVectorResult.append(edgeCosts[i])
         
-    print('El vector de costes de las aristas resultantes es: ')
-    print(costsVectorResult)
+    # print('El vector de costes de las aristas resultantes es: ')
+    # print(costsVectorResult)
     
     distanceResult = 0
     for i in costsVectorResult:
