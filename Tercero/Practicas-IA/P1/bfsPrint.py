@@ -1,0 +1,143 @@
+def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
+    
+    partialRotue = []
+    print()
+    print(finalResult)
+    print()
+    print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
+    beforeNode = 0
+    size = 0
+    for i in finalResult:
+        if (beforeNode == 0):
+            beforeNode = i[0]
+            print(f'{i[0]} --> ', end=' ')
+            partialRotue.append(i[0])
+        if (beforeNode != i[0]):
+            beforeNode = i[0]
+            print(f'{i[0]} --> ', end=' ')
+            partialRotue.append(i[0])
+        if (size == len(finalResult) - 1):
+            print(f'{i[1]}')
+            partialRotue.append(i[1])
+        size += 1
+    
+    printRoute = []
+    introducedFlag = False
+    repeatedFlag = False
+    i = 0
+    j = 1
+    while i < (len(partialRotue)):
+        auxiliary = []
+        if (i < len(partialRotue)) and (j < len(partialRotue)):
+            auxiliary.append(partialRotue[i])
+            auxiliary.append(partialRotue[j])
+            for k in finalResult:
+                if (auxiliary == k):
+                    printRoute.append(auxiliary)
+                    if (repeatedFlag == False):
+                        i += 1
+                        if (j >= len(partialRotue)):
+                            i = len(partialRotue)
+                        j += 1
+                        repeatedFlag = False
+                        introducedFlag = True
+                    else:
+                        i += 1
+                        if (j >= len(partialRotue)):
+                            i = len(partialRotue)
+                        j += 1
+                        repeatedFlag = False
+                        introducedFlag = True
+            if (introducedFlag == False) or (repeatedFlag == True):
+                if (i > 0):
+                    i -= 1
+                else:
+                    i = j
+                repeatedFlag = True
+            introducedFlag = False
+        else:
+            i = len(partialRotue)
+        
+    print()
+    print(printRoute)
+    print()
+    
+    # Búsqueda final del camino
+    i = len(printRoute) - 1
+    j = i - 1
+    # (v, u)
+    v = 0
+    u = 0
+    finalRoute = []
+    finalRoute.append(printRoute[i])
+    while i >= 0:
+        v = printRoute[i]
+        u = printRoute[j]
+        if (v[0] == u[1]):
+            finalRoute.append(u)
+            i = j
+            j -= 1
+        else:
+            if (j >= 0):
+                j -= 1
+            else:
+                i = -1
+    
+    i = len(finalRoute) - 1
+    auxiliaryResult = []
+    while i >= 0:
+        auxiliaryResult.append(finalRoute[i])
+        i -= 1
+
+    print()
+    print(auxiliaryResult)
+    
+    print()
+    print('El camino final es:')
+    i = 0
+    while i < len(auxiliaryResult):
+        if (i < len(auxiliaryResult) - 1):
+            print(f'{auxiliaryResult[i][0]} --> ', end=' ')
+        else:
+            print(f'{auxiliaryResult[i][0]} -->', end=' ')
+            print(f'{auxiliaryResult[i][1]}')
+        i += 1
+
+    # Calculo del coste final del camino entre ambos nodos
+    i = 0
+    j = 0
+    indexVectorAuxiliary = []
+    while i < len(auxiliaryResult):
+        auxiliary = auxiliaryResult[i]
+        if (auxiliary[0] > auxiliary[1]):
+            auxiliaryVector = []
+            auxiliaryVector.append(auxiliary[1])
+            auxiliaryVector.append(auxiliary[0])
+            while j < len(edgeVector):
+                if (edgeVector[j] == auxiliaryVector):
+                    indexVectorAuxiliary.append(j)
+                j += 1
+            j = 0
+        else:
+            while j < len(edgeVector):
+                if (edgeVector[j] == auxiliary):
+                    indexVectorAuxiliary.append(j)
+                j += 1
+            j = 0
+        i += 1
+    
+    costsVectorResult = []
+    for i in indexVectorAuxiliary:
+        costsVectorResult.append(edgeCosts[i])
+        
+    print('El vector de costes de las aristas resultantes es: ')
+    print(costsVectorResult)
+    
+    distanceResult = 0
+    for i in costsVectorResult:
+        distanceResult = float(distanceResult) + float(i)
+        
+        
+    print()
+    print('La distancia total del camino es:')
+    print(distanceResult)

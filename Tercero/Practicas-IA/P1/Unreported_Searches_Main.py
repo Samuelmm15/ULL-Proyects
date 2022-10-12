@@ -14,7 +14,7 @@ import colorama # Librería necesaria para ejecutar los colores de los mensajes 
 from colorama import Fore
 from colorama import init
 
-from BFS_Search import BFSSearch
+from BFSSearch import BFSSearch
 
 init(autoreset=True) # Esto hace que el color de las cadenas vuelva a su color original cada vez que se use por defecto
 
@@ -61,10 +61,11 @@ if __name__ == '__main__': # This is the main program
         i += 1
         counter += 1
         
-    # Impresión del vector de aristas
-    print(edgeVector)
+    # # Impresión del vector de aristas
+    # print(edgeVector)
 
     # Solicitud del nodo inicial y del nodo final
+    print()
     initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
     finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
     
