@@ -1,4 +1,4 @@
-from bfsPrint import bfsPrint
+from bfsPrint import BfsPrint
 
 # Implementación de la búsqueda en amplitud
 def bfs(edgeGraph, initialnode, finalNode, edgeCosts, edgeVector):
@@ -27,5 +27,5 @@ def bfs(edgeGraph, initialnode, finalNode, edgeCosts, edgeVector):
                 vectorResult.append(auxiliaryEdge)
             if (neighbour in visited) and (neighbour == int(finalNode)): # De esta manera se puede encontrar el camino desde el nodo inicial hasta el final
                 if (finalFlag == False):
-                    bfsPrint(vectorResult, visited, initialnode, finalNode, edgeCosts, edgeVector)
+                    BfsPrint(vectorResult, visited, initialnode, finalNode, edgeCosts, edgeVector)
                 finalFlag = True # Esto se hace debido a que se sigue recorriendo el árbol hasta el último nodo
