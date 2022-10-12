@@ -1,10 +1,10 @@
-def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector):
+def bfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector):
     partialRotue = []
     print()
     print(f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')
     beforeNode = 0
     size = 0
-    for i in finalResult:
+    for i in vectorResult:
         if (beforeNode == 0):
             beforeNode = i[0]
             print(f'{i[0]} --> ', end=' ')
@@ -13,7 +13,7 @@ def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector
             beforeNode = i[0]
             print(f'{i[0]} --> ', end=' ')
             partialRotue.append(i[0])
-        if (size == len(finalResult) - 1):
+        if (size == len(vectorResult) - 1):
             print(f'{i[1]}')
             partialRotue.append(i[1])
         size += 1
@@ -34,7 +34,7 @@ def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector
         if (i < len(partialRotue)) and (j < len(partialRotue)):
             auxiliary.append(partialRotue[i])
             auxiliary.append(partialRotue[j])
-            for k in finalResult:
+            for k in vectorResult:
                 if (auxiliary == k):
                     printRoute.append(auxiliary)
                     if (repeatedFlag == False):
@@ -61,10 +61,6 @@ def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector
         else:
             i = len(partialRotue)
         
-    # print()
-    # print(printRoute)
-    # print()
-    
     # Búsqueda final del camino
     i = len(printRoute) - 1
     j = i - 1
@@ -85,15 +81,11 @@ def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector
                 j -= 1
             else:
                 i = -1
-    
     i = len(finalRoute) - 1
     auxiliaryResult = []
     while i >= 0:
         auxiliaryResult.append(finalRoute[i])
         i -= 1
-
-    # print()
-    # print(auxiliaryResult)
     
     print()
     print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
@@ -133,8 +125,6 @@ def bfsPrint(finalResult, visited, initialNode, finalNode, edgeCosts, edgeVector
     for i in indexVectorAuxiliary:
         costsVectorResult.append(edgeCosts[i])
         
-    # print('El vector de costes de las aristas resultantes es: ')
-    # print(costsVectorResult)
     
     distanceResult = 0
     for i in costsVectorResult:

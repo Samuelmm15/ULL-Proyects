@@ -23,9 +23,8 @@ def generateDictionary(edges):
         dictionaryList[v].append(u)
     return dictionaryList
 
-# Se implementará una búsqueda en amplitud que es lo mismo que en anchura
 def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts):
-    # Para comenzar eliminación de aquellos nodos que son de coste -1
+    # Eliminación de los costes y de los nodos de coste -1 o que son inalcanzables
     i = 0
     while i < len(edgeVector):
         auxiliaryCost = edgeCosts[i]
@@ -35,17 +34,7 @@ def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts):
             i = 0
         i += 1
     
-    # De esta manera sólo se dejan los nodos que realmente son necesarios para el árbol y el grafo
-    
-    # # Comprobación
-    # print()
-    # print(edgeVector)
-    # print(edgeCosts)
-    
     # Creación del diccionario
     edgeGraph = generateDictionary(edgeVector)
-    # print()
-    # print(edgeGraph)
-    # print()
     
     bfs(edgeGraph, int(initialNode), int(finalNode), edgeCosts, edgeVector)

@@ -23,17 +23,15 @@ if __name__ == '__main__': # This is the main program
     print(Fore.MAGENTA + '<< BIENVENIDO A LA BÚSQUEDA EN AMPLITUD DEL CAMINO QUE CONECTE DOS VÉRTICES DE UN GRAFO >>')
     print()
     
-    # Se pregunta el nombre del fichero el cual se va a hacer uso
     inputFileName = input(Fore.GREEN + 'Introduzca el nombre del fichero del cual se van a obtener los datos del grafo: ')
-    if os.path.exists(inputFileName) == False: # Esta sentencia sirve para comprobar si un fichero introducido por teclado existe
+    if os.path.exists(inputFileName) == False: # Comprobación de si el fichero existe
         print()
         print(Fore.RED + 'ERROR >> El nombre del fichero que ha sido introducido, no existe, introduzca un nombre válido.')
-        exit(1) # Finaliza el programa con un código de error de tipo 1
+        exit(1)
     
-    # Se realiza la lectura del fichero que ha sido indicado
     inputFile = open(inputFileName)
     
-    # Para el grafo se van a tener dos vectores, uno que almacene los costes y otro que contenga la representación de las aristas.
+
     verticesNumber = 0
     edgeCosts = [] # Vector de costes
     edgeVector = [] # Vector de aristas
@@ -55,19 +53,21 @@ if __name__ == '__main__': # This is the main program
             auxiliary.append(i)
             auxiliary.append(j)
             edgeVector.append(auxiliary)
-            auxiliary = [] # No se hace uso de .clear() ya que genera errores de que elimina dónde apunta la memoria
+            auxiliary = []
             j += 1
         j = i + 2
         i += 1
         counter += 1
         
-    # # Impresión del vector de aristas
-    # print(edgeVector)
-
     # Solicitud del nodo inicial y del nodo final
     print()
     initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
     finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
+    
+    if (int(finalNode) == int(initialNode)):
+        print()
+        print(Fore.RED + 'ERROR >>> Introduzca de manera correcta el nodo inicial y el nodo final.')
+        exit(1)
     
     BFSSearch(initialNode, finalNode, edgeVector, edgeCosts)
 
