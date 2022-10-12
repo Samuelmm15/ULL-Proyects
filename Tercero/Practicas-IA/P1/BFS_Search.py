@@ -47,13 +47,18 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
         for k in finalResult:
             if (auxiliary == k):
                 printRoute.append(auxiliary)
+                print(printRoute)
                 if (repeatedFlag == False):
                     i += 1
+                    if (j == len(partialRotue) - 1):
+                        i = len(partialRotue)
                     j += 1
                     repeatedFlag = False
                     introducedFlag = True
                 else:
-                    i += 2
+                    i += 1
+                    if (j == len(partialRotue) - 1):
+                        i = len(partialRotue)
                     j += 1
                     repeatedFlag = False
                     introducedFlag = True
@@ -80,7 +85,6 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
         u = printRoute[j]
         if (v[0] == u[1]):
             finalRoute.append(u)
-            print(finalRoute)
             if (flag == False):
                 i -= 1
             else:
@@ -146,6 +150,7 @@ def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
     distanceResult = 0
     for i in costsVectorResult:
         distanceResult = float(distanceResult) + float(i)
+        
         
     print()
     print('La distancia total del camino es:')
