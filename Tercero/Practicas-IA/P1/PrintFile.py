@@ -1,8 +1,8 @@
 import os
 from prettytable import PrettyTable
 
-def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, visited):
-    myTable = PrettyTable(["V0", "V1", "Camino", "Distancia", "Nodos generados", "Nodos inspeccionados"])
+def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, visited, verticesNumber, edgesNumber):
+    myTable = PrettyTable(["n", "m", "V0", "V1", "Camino", "Distancia", "Nodos generados", "Nodos inspeccionados"])
     
     # This includes all the content in a vector to print at the table
     i = 0
@@ -18,7 +18,7 @@ def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, 
         i += 1
     
     # Add rows to the table
-    myTable.add_row([initialNode, finalNode, vectorToPrint, distanceResult, len(partialRoute), len(visited)])
+    myTable.add_row([verticesNumber, edgesNumber, initialNode, finalNode, vectorToPrint, distanceResult, len(partialRoute), len(visited)])
     print()
     print(myTable)
     

@@ -4,7 +4,7 @@ from colorama import init
 
 from PrintFile import PrintFile
 
-def BfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector):
+def BfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber):
     partialRoute = []
     print()
     print(Fore.MAGENTA + f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')
@@ -141,4 +141,4 @@ def BfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVecto
     print(Fore.MAGENTA + 'La distancia total del camino es:')
     print(Fore.CYAN + f'{distanceResult}')
     
-    PrintFile(auxiliaryResult, initialNode, finalNode, distanceResult, partialRoute, visited)
+    PrintFile(auxiliaryResult, initialNode, finalNode, distanceResult, partialRoute, visited, verticesNumber, edgesNumber)

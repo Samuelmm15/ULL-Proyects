@@ -23,7 +23,7 @@ def generateDictionary(edges):
         dictionaryList[v].append(u)
     return dictionaryList
 
-def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts):
+def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
     # Eliminación de los costes y de los nodos de coste -1 o que son inalcanzables
     i = 0
     while i < len(edgeVector):
@@ -34,7 +34,9 @@ def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts):
             i = 0
         i += 1
     
+    edgesNumber = len(edgeCosts)
+    
     # Creación del diccionario
     edgeGraph = generateDictionary(edgeVector)
     
-    bfs(edgeGraph, int(initialNode), int(finalNode), edgeCosts, edgeVector)
+    bfs(edgeGraph, int(initialNode), int(finalNode), edgeCosts, edgeVector, verticesNumber, edgesNumber)

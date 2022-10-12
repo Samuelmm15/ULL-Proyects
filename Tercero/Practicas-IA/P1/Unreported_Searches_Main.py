@@ -69,5 +69,5 @@ if __name__ == '__main__': # This is the main program
         print(Fore.RED + 'ERROR >>> Introduzca de manera correcta el nodo inicial y el nodo final.')
         exit(1)
     
-    BFSSearch(initialNode, finalNode, edgeVector, edgeCosts)
+    BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber)
 
