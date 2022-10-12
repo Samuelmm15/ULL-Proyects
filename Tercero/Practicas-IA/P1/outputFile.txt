@@ -1,2 +1,0 @@
-V0 V1 Camino                                         Distancia Nodos generados Nodos inspeccionados
-3 --> 5 --> 10
