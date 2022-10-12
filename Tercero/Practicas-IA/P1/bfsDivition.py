@@ -4,7 +4,7 @@ from colorama import init
 
 from PrintFile import PrintFile
 
-def BfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber):
+def BfsDivition(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber):
     partialRoute = []
     print()
     print(Fore.MAGENTA + f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')

@@ -1,4 +1,6 @@
-import os
+import os #Librería necesaria para la escritura en ficheros
+from colorama import Fore
+from colorama import init
 from prettytable import PrettyTable
 
 def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, visited, verticesNumber, edgesNumber):
@@ -20,6 +22,7 @@ def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, 
     # Add rows to the table
     myTable.add_row([verticesNumber, edgesNumber, initialNode, finalNode, vectorToPrint, distanceResult, len(partialRoute), len(visited)])
     print()
+    print(Fore.MAGENTA + 'Generación de la tabla resultante:')
     print(myTable)
     
     # This prints into an output file, but it not works with the prettyTable
