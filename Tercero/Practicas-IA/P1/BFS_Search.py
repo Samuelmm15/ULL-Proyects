@@ -13,7 +13,7 @@ from colorama import Fore
 from colorama import init
 from collections import defaultdict
 
-def bfsPrint(finalResult, initialNode, finalNode):
+def bfsPrint(finalResult, initialNode, finalNode, edgeCosts, edgeVector):
     partialRotue = []
     print()
     print(finalResult)
@@ -115,8 +115,41 @@ def bfsPrint(finalResult, initialNode, finalNode):
 
     # Calculo del coste final del camino entre ambos nodos
     i = 0
+    j = 0
+    indexVectorAuxiliary = []
     while i < len(auxiliaryResult):
+        auxiliary = auxiliaryResult[i]
+        if (auxiliary[0] > auxiliary[1]):
+            auxiliaryVector = []
+            auxiliaryVector.append(auxiliary[1])
+            auxiliaryVector.append(auxiliary[0])
+            while j < len(edgeVector):
+                if (edgeVector[j] == auxiliaryVector):
+                    indexVectorAuxiliary.append(j)
+                j += 1
+            j = 0
+        else:
+            while j < len(edgeVector):
+                if (edgeVector[j] == auxiliary):
+                    indexVectorAuxiliary.append(j)
+                j += 1
+            j = 0
         i += 1
+    
+    costsVectorResult = []
+    for i in indexVectorAuxiliary:
+        costsVectorResult.append(edgeCosts[i])
+        
+    print('El vector de costes de las aristas resultantes es: ')
+    print(costsVectorResult)
+    
+    distanceResult = 0
+    for i in costsVectorResult:
+        distanceResult = float(distanceResult) + float(i)
+        
+    print()
+    print('La distancia total del camino es:')
+    print(distanceResult)
 
 # Función necesaria para generar el deccionario de nodos y aristas
 def generateDictionary(edges):
@@ -126,7 +159,7 @@ def generateDictionary(edges):
         dictionaryList[v].append(u)
     return dictionaryList
 
-def bfs(edgeGraph, initialnode, finalNode):
+def bfs(edgeGraph, initialnode, finalNode, edgeCosts, edgeVector):
     finalResult = []
     visited = [] # Lista de nodos visitado
     queue = [] # Cola de nodos a visitar
@@ -152,10 +185,10 @@ def bfs(edgeGraph, initialnode, finalNode):
                 auxiliaryEdge.append(neighbour)
                 finalResult.append(auxiliaryEdge)
             if (neighbour in visited) and (neighbour == int(finalNode)): # De esta manera se puede encontrar el camino desde el nodo inicial hasta el final
-                bfsPrint(finalResult, initialnode, finalNode)
+                bfsPrint(finalResult, initialnode, finalNode, edgeCosts, edgeVector)
 
 # Se implementará una búsqueda en amplitud que es lo mismo que en anchura
-def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
+def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts):
     # Para comenzar eliminación de aquellos nodos que son de coste -1
     i = 0
     while i < len(edgeVector):
@@ -178,6 +211,4 @@ def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
     print(edgeGraph)
     print()
     
-    finalRoute = bfs(edgeGraph, int(initialNode), int(finalNode))
-    
-    
+    bfs(edgeGraph, int(initialNode), int(finalNode), edgeCosts, edgeVector)

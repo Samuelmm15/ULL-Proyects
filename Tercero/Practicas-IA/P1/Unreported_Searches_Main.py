@@ -68,5 +68,5 @@ if __name__ == '__main__': # This is the main program
     initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
     finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
     
-    BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber)
+    BFSSearch(initialNode, finalNode, edgeVector, edgeCosts)
 
