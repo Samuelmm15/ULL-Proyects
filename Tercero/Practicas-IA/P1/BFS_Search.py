@@ -13,6 +13,24 @@ from colorama import Fore
 from colorama import init
 from collections import defaultdict
 
+def bfsPrint(finalResult, initialNode, finalNode):
+    print()
+    print(finalResult)
+    print()
+    print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
+    beforeNode = 0
+    size = 0
+    for i in finalResult:
+        if (beforeNode == 0):
+            beforeNode = i[0]
+            print(f'{i[0]} --> ', end=' ')
+        if (beforeNode != i[0]):
+            beforeNode = i[0]
+            print(f'{i[0]} --> ', end=' ')
+        if (size == len(finalResult) - 1):
+            print(f'{i[1]}')
+        size += 1
+
 # Función necesaria para generar el deccionario de nodos y aristas
 def generateDictionary(edges):
     dictionaryList = defaultdict(list)
@@ -22,26 +40,32 @@ def generateDictionary(edges):
     return dictionaryList
 
 def bfs(edgeGraph, initialnode, finalNode):
-    finalRoute = []
+    finalResult = []
     visited = [] # Lista de nodos visitado
     queue = [] # Cola de nodos a visitar
     node = int(initialnode)
     
     # Comienzo del algoritmo BFS    
-    visited.append(node) # Inicializacion de los vectores
+    # Inicializacion de los vectores
+    visited.append(node)
     queue.append(node)
     
     while queue:
         auxiliary = queue.pop(0)
         print(auxiliary, end = " ") # Para imprimir los nodos visitados
     
+        # Se comprueba para cada arista del tipo (auxiliary, neighbour), es similar a la arista (i, j)
         for neighbour in edgeGraph[auxiliary]:
             if (neighbour not in visited):
                 visited.append(neighbour)
                 queue.append(neighbour)
+                # Mediante esta operación se va añadiendo hasta que se encuentre el nodo final del camino
+                auxiliaryEdge = []
+                auxiliaryEdge.append(auxiliary)
+                auxiliaryEdge.append(neighbour)
+                finalResult.append(auxiliaryEdge)
             if (neighbour in visited) and (neighbour == int(finalNode)): # De esta manera se puede encontrar el camino desde el nodo inicial hasta el final
-                finalRoute = visited
-                return finalRoute
+                bfsPrint(finalResult, initialnode, finalNode)
 
 # Se implementará una búsqueda en amplitud que es lo mismo que en anchura
 def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
@@ -68,90 +92,5 @@ def BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber):
     print()
     
     finalRoute = bfs(edgeGraph, int(initialNode), int(finalNode))
-    
-    print()
-    print('Encontrado el camino entre los nodos introducidos por teclado >>>')
-    i = 0
-    while i < len(finalRoute):
-        if (i != len(finalRoute) - 1):
-            print(f'{finalRoute[i]} --> ', end=' ')
-        else:
-            print(f'{finalRoute[i]}')
-        i += 1
-    print()
-    
-    auxiliaryEdges = []
-    finalRouteEdges = []
-    i = 0
-    j = 1
-    while i < len(finalRoute) - 1:
-        auxiliaryEdges.append(finalRoute[i])
-        auxiliaryEdges.append(finalRoute[j])
-        for edge in edgeVector:
-            if (edge == auxiliaryEdges):
-                finalRouteEdges.append(edge)
-        j += 1
-        auxiliaryEdges = []
-        if (j >= len(finalRoute)):
-            i += 1
-            j = i + 1
-            
-    print()
-    print(finalRouteEdges)
-    print()
-    
-    # # Obtener los costes totales de las aristas
-    # auxiliaryEdges = []
-    # finalRouteEdges = []
-    # i = 0
-    # j = 1
-    # while i < len(finalRoute) - 1:
-    #     if (finalRoute[i] < finalRoute[j]):
-    #         auxiliaryEdges.append(finalRoute[i])
-    #         auxiliaryEdges.append(finalRoute[j])
-    #         finalRouteEdges.append(auxiliaryEdges)
-    #         auxiliaryEdges = []
-    #     else:
-    #         auxiliaryEdges.append(finalRoute[j])
-    #         auxiliaryEdges.append(finalRoute[i])
-    #         finalRouteEdges.append(auxiliaryEdges)
-    #         auxiliaryEdges = []
-    #     j += 1
-    #     i += 1
-    
-    # print()
-    # print('Aristas del camino final:')
-    # print(finalRouteEdges)
-    # print()
-    
-    # # Una vez con las aristas del camino final se obtiene el coste total asociado
-    # i = 0
-    # j = 0
-    # repetitionFlag = False
-    # costPosition = 0
-    # costsVector = []
-    # while i < len(edgeCosts):
-    #     auxiliaryEdges = finalRouteEdges[j]
-    #     auxiliaryEdgesOriginal = edgeVector[i]
-    #     if (auxiliaryEdges == auxiliaryEdgesOriginal):
-    #         costPosition = i
-    #         costsVector.append(costPosition)
-    #         repetitionFlag =True
-    #         j += 1
-    #     if (repetitionFlag == False):
-    #         i += 1
-    #     else:
-    #         i = 0
-    #         repetitionFlag = False
-        
-    # finalCosts = []
-    # for position in costsVector:
-    #     auxiliaryCosts = edgeCosts[position]
-    #     finalCosts.append(auxiliaryCosts)
-    
-    # print()
-    # print('Vector de costes:')
-    # print(finalCosts)
-    # print()
     
     
