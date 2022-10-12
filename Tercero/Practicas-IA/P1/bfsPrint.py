@@ -1,28 +1,32 @@
+from typing import final
+from colorama import Fore
+from colorama import init
+
 def bfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector):
     partialRotue = []
     print()
-    print(f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')
+    print(Fore.MAGENTA + f'Los nodos genrerados para poder encontrar el camino entre los nodos {int(initialNode)} y {int(finalNode)} han sido: ')
     beforeNode = 0
     size = 0
     for i in vectorResult:
         if (beforeNode == 0):
             beforeNode = i[0]
-            print(f'{i[0]} --> ', end=' ')
+            print(Fore.CYAN + f'{i[0]} --> ', end=' ')
             partialRotue.append(i[0])
         if (beforeNode != i[0]):
             beforeNode = i[0]
-            print(f'{i[0]} --> ', end=' ')
+            print(Fore.CYAN + f'{i[0]} --> ', end=' ')
             partialRotue.append(i[0])
         if (size == len(vectorResult) - 1):
-            print(f'{i[1]}')
+            print(Fore.CYAN + f'{i[1]}')
             partialRotue.append(i[1])
         size += 1
     
     print()
-    print(f'La cantidad de nodos que han sido generados son: {len(partialRotue)}')
+    print(Fore.CYAN + f'La cantidad de nodos que han sido generados son: {len(partialRotue)}')
     
     print()
-    print(f'La cantidad de nodos que han sido ispeccionados han sido: {len(visited)}')
+    print(Fore.CYAN + f'La cantidad de nodos que han sido ispeccionados han sido: {len(visited)}')
     
     printRoute = []
     introducedFlag = False
@@ -88,14 +92,14 @@ def bfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVecto
         i -= 1
     
     print()
-    print(f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
+    print(Fore.MAGENTA + f'El camino de nodos para poder ir desde el nodo {initialNode} hasta el nodo {finalNode} es: ')
     i = 0
     while i < len(auxiliaryResult):
         if (i < len(auxiliaryResult) - 1):
-            print(f'{auxiliaryResult[i][0]} --> ', end=' ')
+            print(Fore.CYAN + f'{auxiliaryResult[i][0]} --> ', end=' ')
         else:
-            print(f'{auxiliaryResult[i][0]} -->', end=' ')
-            print(f'{auxiliaryResult[i][1]}')
+            print(Fore.CYAN + f'{auxiliaryResult[i][0]} -->', end=' ')
+            print(Fore.CYAN + f'{auxiliaryResult[i][1]}')
         i += 1
 
     # Calculo del coste final del camino entre ambos nodos
@@ -132,5 +136,5 @@ def bfsPrint(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVecto
         
         
     print()
-    print('La distancia total del camino es:')
-    print(distanceResult)
+    print(Fore.MAGENTA + 'La distancia total del camino es:')
+    print(Fore.CYAN + f'{distanceResult}')
