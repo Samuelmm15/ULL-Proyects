@@ -62,7 +62,61 @@ def bfsPrint(finalResult, initialNode, finalNode):
             repeatedFlag = True
         introducedFlag = False
         
+    print()
     print(printRoute)
+    print()
+    
+    # Búsqueda final del camino
+    i = len(printRoute) - 1
+    j = i - 1
+    # (v, u)
+    v = 0
+    u = 0
+    finalRoute = []
+    finalRoute.append(printRoute[i])
+    flag = False
+    while i >= 0:
+        v = printRoute[i]
+        u = printRoute[j]
+        if (v[0] == u[1]):
+            finalRoute.append(u)
+            print(finalRoute)
+            if (flag == False):
+                i -= 1
+            else:
+                i -= 2
+            flag = False
+        else:
+            flag = True
+        if (j >= 0):
+            j -= 1
+        else:
+            i = -1
+    
+    i = len(finalRoute) - 1
+    auxiliaryResult = []
+    while i >= 0:
+        auxiliaryResult.append(finalRoute[i])
+        i -= 1
+
+    print()
+    print(auxiliaryResult)
+    
+    print()
+    print('El camino final es:')
+    i = 0
+    while i < len(auxiliaryResult):
+        if (i < len(auxiliaryResult) - 1):
+            print(f'{auxiliaryResult[i][0]} --> ', end=' ')
+        else:
+            print(f'{auxiliaryResult[i][0]} -->', end=' ')
+            print(f'{auxiliaryResult[i][1]}')
+        i += 1
+
+    # Calculo del coste final del camino entre ambos nodos
+    i = 0
+    while i < len(auxiliaryResult):
+        i += 1
 
 # Función necesaria para generar el deccionario de nodos y aristas
 def generateDictionary(edges):
