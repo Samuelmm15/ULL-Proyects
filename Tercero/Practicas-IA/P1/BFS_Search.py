@@ -14,6 +14,7 @@ from colorama import init
 from collections import defaultdict
 
 def bfsPrint(finalResult, initialNode, finalNode):
+    partialRotue = []
     print()
     print(finalResult)
     print()
@@ -24,12 +25,44 @@ def bfsPrint(finalResult, initialNode, finalNode):
         if (beforeNode == 0):
             beforeNode = i[0]
             print(f'{i[0]} --> ', end=' ')
+            partialRotue.append(i[0])
         if (beforeNode != i[0]):
             beforeNode = i[0]
             print(f'{i[0]} --> ', end=' ')
+            partialRotue.append(i[0])
         if (size == len(finalResult) - 1):
             print(f'{i[1]}')
+            partialRotue.append(i[1])
         size += 1
+    
+    printRoute = []
+    introducedFlag = False
+    repeatedFlag = False
+    i = 0
+    j = 1
+    while i < (len(partialRotue) - 1):
+        auxiliary = []
+        auxiliary.append(partialRotue[i])
+        auxiliary.append(partialRotue[j])
+        for k in finalResult:
+            if (auxiliary == k):
+                printRoute.append(auxiliary)
+                if (repeatedFlag == False):
+                    i += 1
+                    j += 1
+                    repeatedFlag = False
+                    introducedFlag = True
+                else:
+                    i += 2
+                    j += 1
+                    repeatedFlag = False
+                    introducedFlag = True
+        if (introducedFlag == False) or (repeatedFlag == True):
+            i -= 1
+            repeatedFlag = True
+        introducedFlag = False
+        
+    print(printRoute)
 
 # Función necesaria para generar el deccionario de nodos y aristas
 def generateDictionary(edges):
