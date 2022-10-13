@@ -58,7 +58,14 @@ void Menu(Language language1, std::string option, std::string outputFileName, bo
  * @return int 
  */
 int main(int argc, char *argv[]) {
-  if (argc == 2) {
+  if (argc == 1) {
+      std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
+      std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
+      exit(1);
+  }
+  
+  std::string option = argv[1];
+  if ((argc == 2) && (option != "-h") && (option != "--help")) {
     std::string inputFileName = argv[1];
 
     FileOperations fileOperation;
@@ -130,19 +137,10 @@ int main(int argc, char *argv[]) {
       errorFlag = false;
     }
   } else {
-    if (argc == 1) {
-      std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
-      std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
-      exit(1);
-    }
     std::string option = argv[1];
-    if ((argc == 2) && (option != "--help") && (option != "-h")) {
-      std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
-      std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
-      exit(1);
-    }
     if ((option == "-h") || (option == "--help")) {
       std::cout << "AYUDA >>" << std::endl;
+      std::cout << "Un ejemplo de correcta ejecución del programa es: " << std::endl;
       std::cout << "./p03_calculator filein.txt" << std::endl;
     } else {
       std::cout << "ERROR >> El programa ha sido ejecutado de manera incorrecta." << std::endl;
