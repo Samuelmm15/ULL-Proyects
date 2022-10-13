@@ -97,10 +97,6 @@ int main(int argc, char *argv[]) {
         }
       }
       
-      for (int j = 0; j < dividedChains.size(); j++) {
-        std::cout << dividedChains[j] << std::endl;
-      }
-
       Alphabet newAlphabet;
       newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
       Chain newChain;
@@ -118,7 +114,7 @@ int main(int argc, char *argv[]) {
 
       Language language1;
       language1.IntroduceChainsGroup(chainsGroup);
-      std::cout << "Lenguaje y alfabeto fichero 1>>" << std::endl;
+      std::cout << "Lenguaje y alfabeto de la línea " << i << " >>" << std::endl;
       newAlphabet.PrintAlphabet();
       language1.LanguagePrint();
       std::cout << std::endl;
