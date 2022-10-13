@@ -48,10 +48,6 @@ void Menu(Language language1, std::string option, std::string outputFileName, bo
   // }
 };
 
-bool operator<(const Language& a, const Language& b) { /// sobrecarga del operador para poder introducir los lenguajes en el set
-  return true;
-}
-
 /**
  * @brief This is the main function of the program.
  * 
@@ -78,7 +74,7 @@ int main(int argc, char *argv[]) {
     bool printFlag = true;
     int printCounter = 1;
     bool errorFlag = false;
-    std::set<Language> languageVector; /// necesario para poder almacenar todos los lenguajes en el conjunto
+    std::vector<Language> languageVector; /// necesario para poder almacenar todos los lenguajes en el conjunto
     std::vector<int> operationFileLines;
     for (int i = 0; i < fileContent.size(); i++) { /// ESTO ES NECESARIO PARA ALMACENAR UN SET DE LENGUAJES
       std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
@@ -131,7 +127,7 @@ int main(int argc, char *argv[]) {
 
         Language auxiliaryLanguage;
         auxiliaryLanguage.IntroduceChainsGroup(chainsGroup);
-        languageVector.insert(auxiliaryLanguage);
+        languageVector.push_back(auxiliaryLanguage);
         std::cout << "Lenguaje y alfabeto de la línea " << i << " >>" << std::endl;
         newAlphabet.PrintAlphabet();
         auxiliaryLanguage.LanguagePrint();
@@ -150,6 +146,14 @@ int main(int argc, char *argv[]) {
         operationFileLines.push_back(i); /// se obtiene el vector de posiciones de líneas del fichero que contienen las operaciones
       }
     }
+
+    // std::cout << "Comprobación de almacenamiento de los lenguajes: " << std::endl;
+    // for (int i = 0; i < languageVector.size(); i++) {
+    //   Language auxiliaryLanguaje;
+    //   auxiliaryLanguaje = languageVector[i];
+    //   auxiliaryLanguaje.LanguagePrint();
+    // }
+
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {

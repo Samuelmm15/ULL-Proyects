@@ -28,6 +28,7 @@ class FileOperations {
     std::vector<std::string> ReadFile(std::string fileName);
     std::vector<std::string> AlphabetDivision(std::string line); /// se devuelve un vector, ya que se trata de un vector de caracteres y no una cadena
     std::vector<std::string> ChainDivision(std::string line);
+    void ReversePolishNotation(); /// Lo pongo en esta clase porque esto pertenece a una operación con determinadas líneas del fichero de entrada
   private:
     std::string inputFileName;
 };

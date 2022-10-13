@@ -109,3 +109,7 @@ std::vector<std::string> FileOperations::ChainDivision(std::string line) {
     return returnFlag;
   }
 };
+
+void FileOperations::ReversePolishNotation() {
+
+};
