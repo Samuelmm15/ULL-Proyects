@@ -1,0 +1,32 @@
+Hacer uso de set.
+
+Sobrecarga de los operadores de suma para la concatenación
+y esas cosas. (TENER EN CUENTA PORQUE ES IMPORTANTE).
+
+Tener en cuenta los casos de potencia con cero, casos 
+con la cadena vacía y comprobar si funciona el código.
+
+Sobrecarga de los operadores de entrada y salida.
+
+Generación de calculadora para lenguajes formales.
+
+./p03_calculatos filein.txt (Ejecución)
+
+Para la espcificación de los lenguajes primero se pone
+el nombre del lenguaje y después un igual para poder
+identificar que se trata de un lenguaje. Las cadenas
+del lenguaje estarán separadas por comas.
+
+Se debe generar de manera automática los alfabetos a partir
+de las cadenas.
+
+Utilización de la notación polaca inversa. En la notación
+, primero están los operandos y después viene el operador
+que va a realizar cálculos sobre ellos. El orden de los
+operadores viene implícito en la operación.
+
+Hacer uso del algoritmo de notación postfija que está en
+la especificación.
+
+Hay que tener en cuenta que los resultados de las operaciones
+se deben de sacar por pantalla y no por fichero.
