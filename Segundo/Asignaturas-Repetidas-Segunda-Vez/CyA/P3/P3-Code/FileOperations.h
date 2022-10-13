@@ -1,9 +1,9 @@
 /**
  * @file FileOperations.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief This file implements the file operation class.
+ * @brief 
  * @version 0.1
- * @date 2022-10-06
+ * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
  * @course 2022-2023.
  * 

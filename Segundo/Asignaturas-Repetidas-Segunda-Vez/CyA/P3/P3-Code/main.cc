@@ -3,7 +3,7 @@
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
  * @brief 
  * @version 0.1
- * @date 2022-10-05
+ * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
  * @course 2022-2023.
  * 
