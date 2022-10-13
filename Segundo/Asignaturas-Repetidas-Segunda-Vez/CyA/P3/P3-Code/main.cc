@@ -48,6 +48,8 @@ void Menu(Language language1, std::string option, std::string outputFileName, bo
   // }
 };
 
+/// ARREGLAR LA COMPROBACIÓN DE QUE SI INTRODUCIMOS LA OPCIÓN -H SE EJECUTE LA AYUDA DEL PROGRAMA
+
 /**
  * @brief This is the main function of the program.
  * 
@@ -56,11 +58,8 @@ void Menu(Language language1, std::string option, std::string outputFileName, bo
  * @return int 
  */
 int main(int argc, char *argv[]) {
-  if (argc == 5) {
+  if (argc == 2) {
     std::string inputFileName = argv[1];
-    std::string inputFileName2 = argv[2];
-    std::string outputFileName = argv[3];
-    std::string option = argv[4];
 
     FileOperations fileOperation;
     std::vector<std::string> fileContent = fileOperation.ReadFile(inputFileName);
@@ -72,8 +71,38 @@ int main(int argc, char *argv[]) {
       // std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]);
       std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
 
+      /// OBTENCIÓN DE LOS ALFABETOS A PARTIR DE LAS CADENAS DE LOS LENGUAJES
+      std::vector<std::string> dividedAlphabet;
+      std::string auxiliaryDivition;
+      bool comprobationFlag = false;
+      for (int i = 0; i < dividedChains.size(); i++) {
+        auxiliaryDivition = dividedChains[i];
+        for (int j = 0; j < auxiliaryDivition.size(); j++) {
+          if (dividedAlphabet.size() == 0) {
+            std::string auxiliary;
+            auxiliary = auxiliaryDivition[j];
+            dividedAlphabet.push_back(auxiliary);
+          } else {
+            std::string auxiliary;
+            auxiliary = auxiliaryDivition[j];
+            for (int k = 0; k < dividedAlphabet.size(); k++) {
+              if (dividedAlphabet[k] == auxiliary) {
+                comprobationFlag = true;
+              }
+            }
+            if (comprobationFlag == false) {
+              dividedAlphabet.push_back(auxiliary);
+            }
+          }
+        }
+      }
+      
+      for (int j = 0; j < dividedChains.size(); j++) {
+        std::cout << dividedChains[j] << std::endl;
+      }
+
       Alphabet newAlphabet;
-      // newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
+      newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
       Chain newChain;
       std::vector<Chain> chainsGroup;
       for (int j = 0; j < dividedChains.size(); j++) {
@@ -94,7 +123,7 @@ int main(int argc, char *argv[]) {
       language1.LanguagePrint();
       std::cout << std::endl;
       if (errorFlag == false) {
-        Menu(language1, option, outputFileName, printFlag);
+        // Menu(language1, option, outputFileName, printFlag);
         printCounter++;
       }
       if (printCounter == 1) {
@@ -107,19 +136,18 @@ int main(int argc, char *argv[]) {
   } else {
     if (argc == 1) {
       std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
-      std::cout << "Para más información: ./p02_languages [ -h || --help ]" << std::endl;
+      std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
       exit(1);
     }
     std::string option = argv[1];
     if ((argc == 2) && (option != "--help") && (option != "-h")) {
       std::cout << "ERROR >>> Introduzca las opciones necesarias para la correcta ejecución del programa" << std::endl;
-      std::cout << "Para más información: ./p02_languages [ -h || --help ]" << std::endl;
+      std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
       exit(1);
     }
     if ((option == "-h") || (option == "--help")) {
       std::cout << "AYUDA >>" << std::endl;
-      std::cout << "./p02_languages filein.txt filein2.txt fileout.txt [opción]" << std::endl;
-      std::cout << "Las opciones válidas son: [ Concatenacion || Union || Interseccion || Diferencia || Inversa || Potencia ]" << std::endl;
+      std::cout << "./p03_calculator filein.txt" << std::endl;
     } else {
       std::cout << "ERROR >> El programa ha sido ejecutado de manera incorrecta." << std::endl;
       std::cout << "Introduzca la opción -h o --help para comprobar la correcta ejecución del programa." << std::endl;

@@ -107,8 +107,18 @@ std::vector<std::string> FileOperations::ChainDivision(std::string line) {
   std::string auxiliary;
   bool comprobationFlag = false;
   for (int i = 0; i < line.size(); i++) {
-    if ((line[i] != '\n') && (line[i] != '\n')) {
-      
+    if (line[i] == '=') {
+      comprobationFlag = true;
+    }
+    if (comprobationFlag == true) {
+      if ((line[i] != '\n') && (line[i] != '{')  && (line[i] != '=')) {
+        if ((line[i] != ' ') && (line[i] != ',') && (line[i] != '}')) {
+          auxiliary.push_back(line[i]);
+        } else {
+          result.push_back(auxiliary);
+          auxiliary.clear();
+        }
+      }
     }
   }
   return result;
