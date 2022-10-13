@@ -83,10 +83,14 @@ std::vector<std::string> FileOperations::AlphabetDivision(std::string line) {
 std::vector<std::string> FileOperations::ChainDivision(std::string line) {
   std::vector<std::string> result;
   std::string auxiliary;
+  std::vector<std::string> returnFlag;
   bool comprobationFlag = false;
   for (int i = 0; i < line.size(); i++) {
     if (line[i] == '=') {
       comprobationFlag = true;
+    } else { /// Esto es una condición para que recupere únicamente las líneas que tienen lenguajes y no las operaciones
+      std::string auxiliaryFlag = "-1";
+      returnFlag.push_back(auxiliaryFlag);
     }
     if (comprobationFlag == true) {
       if ((line[i] != '\n') && (line[i] != '{')  && (line[i] != '=') && (line[i] != ' ')) {
@@ -99,5 +103,9 @@ std::vector<std::string> FileOperations::ChainDivision(std::string line) {
       }
     }
   }
-  return result;
+  if (comprobationFlag == true) {
+    return result;
+  } else {
+    return returnFlag;
+  }
 };

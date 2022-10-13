@@ -48,7 +48,9 @@ void Menu(Language language1, std::string option, std::string outputFileName, bo
   // }
 };
 
-/// ARREGLAR LA COMPROBACIÓN DE QUE SI INTRODUCIMOS LA OPCIÓN -H SE EJECUTE LA AYUDA DEL PROGRAMA
+bool operator<(const Language& a, const Language& b) { /// sobrecarga del operador para poder introducir los lenguajes en el set
+  return true;
+}
 
 /**
  * @brief This is the main function of the program.
@@ -64,6 +66,8 @@ int main(int argc, char *argv[]) {
       exit(1);
   }
   
+  /// Para obtener todos los lenguajes y tenerlos almacenados por números, es decir 0, 1 o 2, hacer uso de set de objetos languages
+
   std::string option = argv[1];
   if ((argc == 2) && (option != "-h") && (option != "--help")) {
     std::string inputFileName = argv[1];
@@ -74,67 +78,72 @@ int main(int argc, char *argv[]) {
     bool printFlag = true;
     int printCounter = 1;
     bool errorFlag = false;
-    for (int i = 0; i < fileContent.size(); i++) {
-      // std::vector<std::string> dividedAlphabet = fileOperation.AlphabetDivision(fileContent[i]);
+    std::set<Language> languageVector; /// necesario para poder almacenar todos los lenguajes en el conjunto
+    std::vector<int> operationFileLines;
+    for (int i = 0; i < fileContent.size(); i++) { /// ESTO ES NECESARIO PARA ALMACENAR UN SET DE LENGUAJES
       std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
 
-      /// OBTENCIÓN DE LOS ALFABETOS A PARTIR DE LAS CADENAS DE LOS LENGUAJES
-      std::vector<std::string> dividedAlphabet;
-      std::string auxiliaryDivition;
-      bool comprobationFlag = false;
-      for (int i = 0; i < dividedChains.size(); i++) {
-        auxiliaryDivition = dividedChains[i];
-        for (int j = 0; j < auxiliaryDivition.size(); j++) {
-          if (dividedAlphabet.size() == 0) {
-            std::string auxiliary;
-            auxiliary = auxiliaryDivition[j];
-            dividedAlphabet.push_back(auxiliary);
-          } else {
-            std::string auxiliary;
-            auxiliary = auxiliaryDivition[j];
-            for (int k = 0; k < dividedAlphabet.size(); k++) {
-              if (dividedAlphabet[k] == auxiliary) {
-                comprobationFlag = true;
-              }
-            }
-            if (comprobationFlag == false) {
+      if (dividedChains[0] != "-1") {
+        /// OBTENCIÓN DE LOS ALFABETOS A PARTIR DE LAS CADENAS DE LOS LENGUAJES
+        std::vector<std::string> dividedAlphabet;
+        std::string auxiliaryDivition;
+        bool comprobationFlag = false;
+        for (int i = 0; i < dividedChains.size(); i++) {
+          auxiliaryDivition = dividedChains[i];
+          for (int j = 0; j < auxiliaryDivition.size(); j++) {
+            if (dividedAlphabet.size() == 0) {
+              std::string auxiliary;
+              auxiliary = auxiliaryDivition[j];
               dividedAlphabet.push_back(auxiliary);
+            } else {
+              std::string auxiliary;
+              auxiliary = auxiliaryDivition[j];
+              for (int k = 0; k < dividedAlphabet.size(); k++) {
+                if (dividedAlphabet[k] == auxiliary) {
+                  comprobationFlag = true;
+                }
+              }
+              if (comprobationFlag == false) {
+                dividedAlphabet.push_back(auxiliary);
+              }
             }
           }
         }
-      }
-      
-      Alphabet newAlphabet;
-      newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
-      Chain newChain;
-      std::vector<Chain> chainsGroup;
-      for (int j = 0; j < dividedChains.size(); j++) {
-        if (newAlphabet.AlphabetComprobation(dividedChains[j]) == true) {
-          newChain.AddChain(dividedChains[j], newAlphabet);
-          chainsGroup.push_back(newChain);
-          newChain.~Chain();
-        } else {
-          std::cout << "ERROR >> La cadena " << dividedChains[j] << " no pertenece al alfabeto del lenguaje del [primer] fichero de entrada." << std::endl;
-          errorFlag = true;
-        }
-      }
 
-      Language language1;
-      language1.IntroduceChainsGroup(chainsGroup);
-      std::cout << "Lenguaje y alfabeto de la línea " << i << " >>" << std::endl;
-      newAlphabet.PrintAlphabet();
-      language1.LanguagePrint();
-      std::cout << std::endl;
-      if (errorFlag == false) {
-        // Menu(language1, option, outputFileName, printFlag);
-        printCounter++;
+        Alphabet newAlphabet;
+        newAlphabet.setSymbolsToAlphabet(dividedAlphabet);
+        Chain newChain;
+        std::vector<Chain> chainsGroup;
+        for (int j = 0; j < dividedChains.size(); j++) {
+          if (newAlphabet.AlphabetComprobation(dividedChains[j]) == true) {
+            newChain.AddChain(dividedChains[j], newAlphabet);
+            chainsGroup.push_back(newChain);
+            newChain.~Chain();
+          } else {
+            std::cout << "ERROR >> La cadena " << dividedChains[j] << " no pertenece al alfabeto del lenguaje del [primer] fichero de entrada." << std::endl;
+            errorFlag = true;
+          }
+        }
+
+        Language language1;
+        language1.IntroduceChainsGroup(chainsGroup);
+        std::cout << "Lenguaje y alfabeto de la línea " << i << " >>" << std::endl;
+        newAlphabet.PrintAlphabet();
+        language1.LanguagePrint();
+        std::cout << std::endl;
+        if (errorFlag == false) {
+          // Menu(language1, option, outputFileName, printFlag);
+          printCounter++;
+        }
+        if (printCounter == 1) {
+          printFlag = true;
+        } else {
+          printFlag = false;
+        }
+        errorFlag = false;
+      } else { /// Vector que obtenga las posiciones para que después pueda obtener las líneas del fichero que contienen las operaciones a realizar
+        operationFileLines.push_back(i); /// se obtiene el vector de posiciones de líneas del fichero que contienen las operaciones
       }
-      if (printCounter == 1) {
-        printFlag = true;
-      } else {
-        printFlag = false;
-      }
-      errorFlag = false;
     }
   } else {
     std::string option = argv[1];
