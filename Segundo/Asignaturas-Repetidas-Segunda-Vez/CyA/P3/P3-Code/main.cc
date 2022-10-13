@@ -91,20 +91,24 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < dividedChains.size(); i++) {
           auxiliaryDivition = dividedChains[i];
           for (int j = 0; j < auxiliaryDivition.size(); j++) {
-            if (dividedAlphabet.size() == 0) {
+            if ((dividedAlphabet.size() == 0)) { /// para el caso de que el vector esté vacío
               std::string auxiliary;
               auxiliary = auxiliaryDivition[j];
-              dividedAlphabet.push_back(auxiliary);
-            } else {
-              std::string auxiliary;
-              auxiliary = auxiliaryDivition[j];
-              for (int k = 0; k < dividedAlphabet.size(); k++) {
-                if (dividedAlphabet[k] == auxiliary) {
-                  comprobationFlag = true;
-                }
-              }
-              if (comprobationFlag == false) {
+              if (auxiliary != "&") {
                 dividedAlphabet.push_back(auxiliary);
+              }
+            } else { /// si está completo
+              std::string auxiliary;
+              auxiliary = auxiliaryDivition[j];
+              if (auxiliary != "&") {
+                for (int k = 0; k < dividedAlphabet.size(); k++) {
+                  if (dividedAlphabet[k] == auxiliary) {
+                    comprobationFlag = true;
+                  }
+                }
+                if (comprobationFlag == false) {
+                  dividedAlphabet.push_back(auxiliary);
+                }
               }
             }
           }
@@ -125,14 +129,15 @@ int main(int argc, char *argv[]) {
           }
         }
 
-        Language language1;
-        language1.IntroduceChainsGroup(chainsGroup);
+        Language auxiliaryLanguage;
+        auxiliaryLanguage.IntroduceChainsGroup(chainsGroup);
+        languageVector.insert(auxiliaryLanguage);
         std::cout << "Lenguaje y alfabeto de la línea " << i << " >>" << std::endl;
         newAlphabet.PrintAlphabet();
-        language1.LanguagePrint();
+        auxiliaryLanguage.LanguagePrint();
         std::cout << std::endl;
         if (errorFlag == false) {
-          // Menu(language1, option, outputFileName, printFlag);
+          // Menu(auxiliaryLanguage, option, outputFileName, printFlag);
           printCounter++;
         }
         if (printCounter == 1) {

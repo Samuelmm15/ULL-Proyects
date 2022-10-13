@@ -57,20 +57,24 @@ void Alphabet::PrintAlphabet() {
  * @return false if the chain was not formed by the alphabet.
  */
 bool Alphabet::AlphabetComprobation(std::string chain) {
-  bool flag;
-  int counter = 0;
-  for (int i = 0; i < chain.size(); i++) {
-    for (int j = 0; j < alphabet.size(); j++) {
-      std::string auxiliary = alphabet[j];
-      if (chain[i] == auxiliary[0]) {
-        counter++;
-      }
-    }
-  }
-  if (counter == chain.size()) {
+  if (chain == "&") {
     return true;
   } else {
-    return false;
+    bool flag;
+    int counter = 0;
+    for (int i = 0; i < chain.size(); i++) {
+      for (int j = 0; j < alphabet.size(); j++) {
+        std::string auxiliary = alphabet[j];
+        if (chain[i] == auxiliary[0]) {
+          counter++;
+        }
+      }
+    }
+    if (counter == chain.size()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
