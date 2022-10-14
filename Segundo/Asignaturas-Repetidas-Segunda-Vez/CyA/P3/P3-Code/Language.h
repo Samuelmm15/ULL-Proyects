@@ -26,13 +26,13 @@ class Language : public Chain {
     friend bool operator<(const Chain& a, const Chain& b); /// this is the overload of the operator <, neccesary to use the set structure with Chains objects.
     Language();
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
-    void LanguageConcatenation(Language language1, Language language2, std::string outputFileName, bool printFlag);
-    void LanguageUnion(Language language1, Language language2, std::string outputFileName, bool printFlag);
+    void LanguageConcatenation(Language language1, Language language2);
+    void LanguageUnion(Language language1, Language language2);
     void LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
-    void ReversePolishNotation(std::string line);
+    void ReversePolishNotation(std::string line, std::vector<Language> languageVector);
     void LanguagePrint();
     std::set<Chain> getLanguage();
     void printLanguageToFile(std::string outputFileName, bool printFlag);
