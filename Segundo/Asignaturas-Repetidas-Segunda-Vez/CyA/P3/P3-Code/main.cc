@@ -154,6 +154,11 @@ int main(int argc, char *argv[]) {
     //   auxiliaryLanguaje.LanguagePrint();
     // }
 
+    int auxiliaryPosition = 0;
+    for (int j = 0; j < operationFileLines.size(); j++) {
+      auxiliaryPosition = operationFileLines[j];
+      fileOperation.ReversePolishNotation(fileContent[auxiliaryPosition]);
+    }
   } else {
     std::string option = argv[1];
     if ((option == "-h") || (option == "--help")) {
