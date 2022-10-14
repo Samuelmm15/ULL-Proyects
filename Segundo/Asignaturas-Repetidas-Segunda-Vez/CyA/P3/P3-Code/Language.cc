@@ -352,6 +352,71 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
   }
 };
 
+void Language::ReversePolishNotation(std::string line) {
+  /// Primero le quitamos los espacios a los distintos elementos de la línea
+  std::vector<std::string> inbox;
+  std::string auxiliary;
+  for (int i = 0; i < line.size(); i++) {
+    if (line[i] != ' ') {
+      auxiliary.push_back(line[i]);
+      if (i == line.size() - 1) {
+        inbox.push_back(auxiliary);
+        auxiliary.clear();
+      }
+    } else {
+      inbox.push_back(auxiliary);
+      auxiliary.clear();
+    }
+  }
+
+  // std::cout << "Comprobación: " << std::endl;
+  // for (int i = 0; i < inbox.size(); i++) {
+  //   std::cout << inbox[i];
+  // }
+  // std::cout << std::endl;
+
+  std::vector<std::string> stack;
+  for (int i = 0; i < inbox.size(); i++) {
+    if ((inbox[i] != "+") && (inbox[i] != "|") && (inbox[i] != "^") && (inbox[i] != "-") &&
+    (inbox[i] != "!") && (inbox[i] != "*")) { /// necesario para determinar el elemento de la bandeja se trata de un operador
+      stack.push_back(inbox[i]);
+    } else {
+      if (stack.size() > 0) { /// Para el caso de que hayan n operandos
+      std::vector<std::string> operands;
+        for (int j = 0; j < stack.size(); j++) { /// coger los n elementos de la pila
+          operands.push_back(stack[j]);
+          stack.erase(stack.begin());
+        }
+        if (operands.size() >= 1) {
+          if (inbox[i] == "+") {
+            /// código asociado de la operación
+            /// almacenamos el resultado en la pila para realizar la próxima operación
+          } else if (inbox[i] == "|") {
+
+          } else if (inbox[i] == "^") {
+
+          } else if (inbox[i] == "-") {
+
+          }
+        } else {
+          if (inbox[i] == "!") {
+
+          } else if (inbox[i] == "*") {
+
+          }
+        }
+      } else { /// Para el caso de que no hayan n operandos
+        std::cout << "ERROR >>> operandos insuficientes en la expresión." << std::endl;
+      }
+    }
+  }
+  if (stack.size() == 1) {
+    /// Imprimir resultado final, que equivale a el stack final
+  } else {
+    std::cout << "ERROR >>> Expresión incorrecta." << std::endl;
+  }
+};
+
 /**
  * @brief This method prints the language into the screen.
  * 

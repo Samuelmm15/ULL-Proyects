@@ -155,9 +155,10 @@ int main(int argc, char *argv[]) {
     // }
 
     int auxiliaryPosition = 0;
+    Language languageResult;
     for (int j = 0; j < operationFileLines.size(); j++) {
       auxiliaryPosition = operationFileLines[j];
-      fileOperation.ReversePolishNotation(fileContent[auxiliaryPosition]);
+      languageResult.ReversePolishNotation(fileContent[auxiliaryPosition]);
     }
   } else {
     std::string option = argv[1];

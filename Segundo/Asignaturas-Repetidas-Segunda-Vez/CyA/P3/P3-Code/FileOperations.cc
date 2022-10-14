@@ -109,27 +109,3 @@ std::vector<std::string> FileOperations::ChainDivision(std::string line) {
     return returnFlag;
   }
 };
-
-void FileOperations::ReversePolishNotation(std::string line) {
-  /// Primero le quitamos los espacios a los distintos elementos de la línea
-  std::vector<std::string> inbox;
-  std::string auxiliary;
-  for (int i = 0; i < line.size(); i++) {
-    if (line[i] != ' ') {
-      auxiliary.push_back(line[i]);
-      if (i == line.size() - 1) {
-        inbox.push_back(auxiliary);
-        auxiliary.clear();
-      }
-    } else {
-      inbox.push_back(auxiliary);
-      auxiliary.clear();
-    }
-  }
-
-  // std::cout << "Comprobación: " << std::endl;
-  // for (int i = 0; i < inbox.size(); i++) {
-  //   std::cout << inbox[i];
-  // }
-  // std::cout << std::endl;
-};

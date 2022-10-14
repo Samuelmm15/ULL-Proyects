@@ -32,6 +32,7 @@ class Language : public Chain {
     void LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag);
     void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
+    void ReversePolishNotation(std::string line);
     void LanguagePrint();
     std::set<Chain> getLanguage();
     void printLanguageToFile(std::string outputFileName, bool printFlag);
