@@ -294,6 +294,7 @@ void Language::LanguagePotency(Language languageToOperate, int nValue) {
     std::vector<Chain> previousVector;
     std::vector<Chain> actualVector;
     std::vector<Chain> resultVector;
+    bool comprobationFlag = false;
     for (int i = 1; i <= nValue; i++) {
       if (i == 1) { /// initialization
         for (int j = auxiliaryVector.size() - 1; j >= 0; j--) {
@@ -313,9 +314,58 @@ void Language::LanguagePotency(Language languageToOperate, int nValue) {
             Alphabet auxiliaryAlphabet;
             auxiliaryAlphabet.setAlphabet(actualVector[k].getAlphabet());
             std::string auxiliary;
-            auxiliary = operateWitchChains.ConcatenateChain(actualVector[k].getChain(), previousVector[l].getChain());
-            auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
-            resultVector.push_back(auxiliaryChainObject);
+            if ((actualVector[k].getChain() == "&") && (previousVector[l].getChain() != "&")) {
+              auxiliary = previousVector[l].getChain();
+              for (int m = 0; m < resultVector.size(); m++) {
+                if (auxiliary == resultVector[m].getChain()) {
+                  comprobationFlag = true;
+                }
+              }
+              if (comprobationFlag == false) {
+                auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
+                resultVector.push_back(auxiliaryChainObject);
+              }
+              comprobationFlag = false;
+            }
+            if ((actualVector[k].getChain() == "&") | (previousVector[l].getChain() == "&")) {
+              auxiliary = actualVector[k].getChain();
+              for (int m = 0; m < resultVector.size(); m++) {
+                if (auxiliary == resultVector[m].getChain()) {
+                  comprobationFlag = true;
+                }
+              }
+              if (comprobationFlag == false) {
+                auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
+                resultVector.push_back(auxiliaryChainObject);
+              }
+              comprobationFlag = false;
+            }
+            if ((actualVector[k].getChain() != "&") && (previousVector[l].getChain() == "&")) {
+              auxiliary = actualVector[k].getChain();
+              for (int m = 0; m < resultVector.size(); m++) {
+                if (auxiliary == resultVector[m].getChain()) {
+                  comprobationFlag = true;
+                }
+              }
+              if (comprobationFlag == false) {
+                auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
+                resultVector.push_back(auxiliaryChainObject);
+              }
+              comprobationFlag = false;
+            }
+            if ((actualVector[k].getChain() != "&") && (previousVector[l].getChain() != "&")) {
+              auxiliary = operateWitchChains.ConcatenateChain(actualVector[k].getChain(), previousVector[l].getChain());
+              for (int m = 0; m < resultVector.size(); m++) {
+                if (auxiliary == resultVector[m].getChain()) {
+                  comprobationFlag = true;
+                }
+              }
+              if (comprobationFlag == false) {
+                auxiliaryChainObject.AddChain(auxiliary, auxiliaryAlphabet);
+                resultVector.push_back(auxiliaryChainObject);
+              }
+              comprobationFlag = false;
+            }
           }
         }
         if (i == nValue) {
