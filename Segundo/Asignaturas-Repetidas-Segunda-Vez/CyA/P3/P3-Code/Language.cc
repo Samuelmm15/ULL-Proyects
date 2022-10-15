@@ -357,12 +357,6 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
     }
   }
 
-  // std::cout << "Comprobación: " << std::endl;
-  // for (int i = 0; i < inbox.size(); i++) {
-  //   std::cout << inbox[i];
-  // }
-  // std::cout << std::endl;
-
   std::vector<std::string> stack;
   std::vector<std::string> operands;
   std::vector<Language> partialResult;
@@ -377,14 +371,15 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
         // }
         if ((inbox[i] == "+") | (inbox[i] == "|") | (inbox[i] == "^") | (inbox[i] == "-")) { /// para el caso en el que la operación sea de dos operandos
           operands.push_back(stack[0]);
+          std::cout << stack[0] << std::endl;
           operands.push_back(stack[1]);
+          std::cout << stack[1] << std::endl;
           stack.erase(stack.begin());
           stack.erase(stack.begin());
         } else {
           operands.push_back(stack[0]);
           stack.erase(stack.begin());
         }
-        std::cout << stack.size() << std::endl;
         if (operands.size() >= 1) {
           if (inbox[i] == "+") {
             if (partialResult.size() == 1) { /// esto se produce en el caso de que se hayan producido otras operaciones anteriores
@@ -397,7 +392,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
                 languageResult.LanguagePrint();
                 partialResult.erase(partialResult.begin());
                 std::string languageResultString = "LR";
-                stack.push_back(languageResultString);
+                stack.insert(stack.begin(), languageResultString);
+                partialResult.clear();
                 partialResult.push_back(languageResult);
                 operands.clear();
               }
@@ -411,7 +407,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               languageResult.LanguageConcatenation(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
               languageResult.LanguagePrint();
               std::string languageResultString = "LR";
-              stack.push_back(languageResultString);
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.clear();
               partialResult.push_back(languageResult);
               operands.clear();
             }
@@ -427,7 +424,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
                 languageResult.LanguagePrint();
                 partialResult.erase(partialResult.begin());
                 std::string languageResultString = "LR";
-                stack.push_back(languageResultString);
+                stack.insert(stack.begin(), languageResultString);
+                partialResult.clear();
                 partialResult.push_back(languageResult);
                 operands.clear();
               }
@@ -441,7 +439,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               languageResult.LanguageUnion(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
               languageResult.LanguagePrint();
               std::string languageResultString = "LR";
-              stack.push_back(languageResultString);
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.clear();
               partialResult.push_back(languageResult);
               operands.clear();
             }
@@ -456,7 +455,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
                 languageResult.LanguagePrint();
                 partialResult.erase(partialResult.begin());
                 std::string languageResultString = "LR";
-                stack.push_back(languageResultString);
+                stack.insert(stack.begin(), languageResultString);
+                partialResult.clear();
                 partialResult.push_back(languageResult);
                 operands.clear();
               }
@@ -470,7 +470,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               languageResult.LanguageInterseccion(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
               languageResult.LanguagePrint();
               std::string languageResultString = "LR";
-              stack.push_back(languageResultString);
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.clear();
               partialResult.push_back(languageResult);
               operands.clear();
             }
@@ -485,7 +486,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
                 languageResult.LanguagePrint();
                 partialResult.erase(partialResult.begin());
                 std::string languageResultString = "LR";
-                stack.push_back(languageResultString);
+                stack.insert(stack.begin(), languageResultString);
+                partialResult.clear();
                 partialResult.push_back(languageResult);
                 operands.clear();
               }
@@ -499,7 +501,8 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               languageResult.LanguageSubtract(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
               languageResult.LanguagePrint();
               std::string languageResultString = "LR";
-              stack.push_back(languageResultString);
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.clear();
               partialResult.push_back(languageResult);
               operands.clear();
             }
@@ -517,7 +520,10 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
     }
   }
   if (stack.size() == 1) {
-    /// Imprimir resultado final, que equivale a el stack final
+    std::cout << "El resultado final de la operación es: " << std::endl;
+    Language finalResultLanguage;
+    finalResultLanguage = partialResult[0];
+    finalResultLanguage.LanguagePrint();
   } else {
     std::cout << "ERROR >>> Expresión incorrecta." << std::endl;
   }
