@@ -28,8 +28,8 @@ class Language : public Chain {
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation(Language language1, Language language2);
     void LanguageUnion(Language language1, Language language2);
-    void LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag);
-    void LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag);
+    void LanguageInterseccion(Language language1, Language language2);
+    void LanguageSubtract(Language language1, Language language2);
     void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
     void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
     void ReversePolishNotation(std::string line, std::vector<Language> languageVector);

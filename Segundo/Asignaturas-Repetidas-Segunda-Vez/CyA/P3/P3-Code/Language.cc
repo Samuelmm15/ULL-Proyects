@@ -144,7 +144,7 @@ void Language::LanguageUnion(Language language1, Language language2) {
  * @param outputFileName The name of the output file.
  * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
  */
-void Language::LanguageInterseccion(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+void Language::LanguageInterseccion(Language language1, Language language2) {
   /// The content of the first language
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
@@ -183,7 +183,6 @@ void Language::LanguageInterseccion(Language language1, Language language2, std:
   for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
     chainVector.insert(auxiliaryfinalResult[i]);
   }
-  printLanguageToFile(outputFileName, printFlag);
 };
 
 /**
@@ -194,7 +193,7 @@ void Language::LanguageInterseccion(Language language1, Language language2, std:
  * @param outputFileName The name of the output file.
  * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
  */
-void Language::LanguageSubtract(Language language1, Language language2, std::string outputFileName, bool printFlag) {
+void Language::LanguageSubtract(Language language1, Language language2) {
   /// The content of the first language
   std::set<Chain> auxiliaryLanguage1 = language1.getLanguage();
   std::set<Chain>::iterator it;
@@ -233,7 +232,6 @@ void Language::LanguageSubtract(Language language1, Language language2, std::str
   for (int i = 0; i < auxiliaryfinalResult.size(); i++) {
     chainVector.insert(auxiliaryfinalResult[i]);
   }
-  printLanguageToFile(outputFileName, printFlag);
 };
 
 /**
@@ -367,42 +365,144 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
 
   std::vector<std::string> stack;
   std::vector<std::string> operands;
+  std::vector<Language> partialResult;
   for (int i = 0; i < inbox.size(); i++) {
     if ((inbox[i] != "+") && (inbox[i] != "|") && (inbox[i] != "^") && (inbox[i] != "-") &&
     (inbox[i] != "!") && (inbox[i] != "*")) { /// necesario para determinar el elemento de la bandeja se trata de un operador
       stack.push_back(inbox[i]);
     } else {
       if (stack.size() > 0) { /// Para el caso de que hayan n operandos
-        for (int j = 0; j < stack.size(); j++) { /// coger los n elementos de la pila
-          operands.push_back(stack[j]);
+        // for (int j = 0; j < stack.size(); j++) { /// coger los n elementos de la pila
+        //   operands.push_back(stack[j]);
+        // }
+        if ((inbox[i] == "+") | (inbox[i] == "|") | (inbox[i] == "^") | (inbox[i] == "-")) { /// para el caso en el que la operación sea de dos operandos
+          operands.push_back(stack[0]);
+          operands.push_back(stack[1]);
+          stack.erase(stack.begin());
+          stack.erase(stack.begin());
+        } else {
+          operands.push_back(stack[0]);
           stack.erase(stack.begin());
         }
-        if (operands.size() >= 2) {
+        std::cout << stack.size() << std::endl;
+        if (operands.size() >= 1) {
           if (inbox[i] == "+") {
-            /// código asociado de la operación
-            char firstOperand = operands[0][1];
-            int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
-            char secondOperand = operands[1][1];
-            int languagePosition2 = secondOperand - '0';
-            Language languageResult;
-            languageResult.LanguageConcatenation(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
-            languageResult.LanguagePrint();
+            if (partialResult.size() == 1) { /// esto se produce en el caso de que se hayan producido otras operaciones anteriores
+              char firstOperand = operands[0][1];
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              if (firstOperand == 'R') {
+                Language languageResult;
+                languageResult.LanguageConcatenation(partialResult[0], languageVector[languagePosition2 - 1]);
+                languageResult.LanguagePrint();
+                partialResult.erase(partialResult.begin());
+                std::string languageResultString = "LR";
+                stack.push_back(languageResultString);
+                partialResult.push_back(languageResult);
+                operands.clear();
+              }
+            } else {
+              /// código asociado de la operación
+              char firstOperand = operands[0][1];
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguageConcatenation(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.push_back(languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
             /// almacenamos el resultado en la pila para realizar la próxima operación
           } else if (inbox[i] == "|") {
-            std::cout << operands.size() << std::endl;
-            // código asociado de la operación
-            char firstOperand = operands[0][1];
-            int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
-            char secondOperand = operands[1][1];
-            int languagePosition2 = secondOperand - '0';
-            Language languageResult;
-            languageResult.LanguageUnion(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
-            languageResult.LanguagePrint();
-            /// almacenamos el resultado en la pila para realizar la próxima operación
+            if (partialResult.size() == 1) {
+              char firstOperand = operands[0][1];
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              if (firstOperand == 'R') {
+                Language languageResult;
+                languageResult.LanguageUnion(partialResult[0], languageVector[languagePosition2 - 1]);
+                languageResult.LanguagePrint();
+                partialResult.erase(partialResult.begin());
+                std::string languageResultString = "LR";
+                stack.push_back(languageResultString);
+                partialResult.push_back(languageResult);
+                operands.clear();
+              }
+            } else {
+              // código asociado de la operación
+              char firstOperand = operands[0][1];
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguageUnion(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.push_back(languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
           } else if (inbox[i] == "^") {
-
+            if (partialResult.size() == 1) {
+              char firstOperand = operands[0][1];
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              if (firstOperand == 'R') {
+                Language languageResult;
+                languageResult.LanguageInterseccion(partialResult[0], languageVector[languagePosition2 - 1]);
+                languageResult.LanguagePrint();
+                partialResult.erase(partialResult.begin());
+                std::string languageResultString = "LR";
+                stack.push_back(languageResultString);
+                partialResult.push_back(languageResult);
+                operands.clear();
+              }
+            } else {
+              // código asociado de la operación
+              char firstOperand = operands[0][1];
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguageInterseccion(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.push_back(languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
           } else if (inbox[i] == "-") {
-
+            if (partialResult.size() == 1) {
+              char firstOperand = operands[0][1];
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              if (firstOperand == 'R') {
+                Language languageResult;
+                languageResult.LanguageSubtract(partialResult[0], languageVector[languagePosition2 - 1]);
+                languageResult.LanguagePrint();
+                partialResult.erase(partialResult.begin());
+                std::string languageResultString = "LR";
+                stack.push_back(languageResultString);
+                partialResult.push_back(languageResult);
+                operands.clear();
+              }
+            } else {
+              // código asociado de la operación
+              char firstOperand = operands[0][1];
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              char secondOperand = operands[1][1];
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguageSubtract(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.push_back(languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
           }
         } else {
           if (inbox[i] == "!") {
