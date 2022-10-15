@@ -40,12 +40,8 @@ void Chain::AddChain(std::string newChain, Alphabet alphabet) {
 
 std::string Chain::InverseChain() {
   std::string result;
-  if (AlphabetComprobation(chain) == true) {
-    std::cout << "ERROR >> La cadena " << chain << " no está formada a partir del alfabeto de dicho lenguaje." << std::endl;
-  } else {
-    for (int i = chain.size() - 1; i >= 0; i--) {
-      result.push_back(chain[i]);
-    }
+  for (int i = chain.size() - 1; i >= 0; i--) {
+    result.push_back(chain[i]);
   }
   return result;
 }
