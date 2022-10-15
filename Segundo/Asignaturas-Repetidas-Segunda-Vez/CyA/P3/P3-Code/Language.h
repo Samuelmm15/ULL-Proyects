@@ -30,8 +30,8 @@ class Language : public Chain {
     void LanguageUnion(Language language1, Language language2);
     void LanguageInterseccion(Language language1, Language language2);
     void LanguageSubtract(Language language1, Language language2);
-    void LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag);
-    void LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag);
+    void LanguageInverse(Language languageToOperate);
+    void LanguagePotency(Language languageToOperate, int nValue);
     void ReversePolishNotation(std::string line, std::vector<Language> languageVector);
     void LanguagePrint();
     std::set<Chain> getLanguage();

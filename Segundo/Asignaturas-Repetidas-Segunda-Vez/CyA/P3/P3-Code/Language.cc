@@ -241,7 +241,7 @@ void Language::LanguageSubtract(Language language1, Language language2) {
  * @param outputFileName This is the name of the output file.
  * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
  */
-void Language::LanguageInverse(Language languageToOperate, std::string outputFileName, bool printFlag) {
+void Language::LanguageInverse(Language languageToOperate) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
@@ -256,7 +256,6 @@ void Language::LanguageInverse(Language languageToOperate, std::string outputFil
     auxiliaryObject.AddChain(auxiliaryVector[i].InverseChain(), auxiliaryAlphabet);
     chainVector.insert(auxiliaryObject); /// This is the result of the inverse chain operation.
   }
-  printLanguageToFile(outputFileName, printFlag);
 };
 
 /**
@@ -266,20 +265,16 @@ void Language::LanguageInverse(Language languageToOperate, std::string outputFil
  * @param outputFileName This is the name of the output file.
  * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
  */
-void Language::LanguagePotency(Language languageToOperate, std::string outputFileName, bool printFlag) {
+void Language::LanguagePotency(Language languageToOperate, int nValue) {
   std::set<Chain> auxiliary = languageToOperate.getLanguage();
   std::set<Chain>::iterator it;
   std::vector<Chain> auxiliaryVector;
   for (it = auxiliary.begin(); it != auxiliary.end(); it++) {
     auxiliaryVector.push_back(*it);
   }
-  
-  int nValue;
-  std::cout << "Introduzca el valor 'n' para poder realizar la operación de potencia: ";
-  std::cin >> nValue;
 
   if (nValue == 0) {
-    printLanguageToFile(outputFileName, printFlag);
+    LanguagePrint();
   } else {
     Chain operateWitchChains;
     std::vector<Chain> previousVector;
@@ -336,7 +331,6 @@ void Language::LanguagePotency(Language languageToOperate, std::string outputFil
           }
       }
     }
-    printLanguageToFile(outputFileName, printFlag);
   }
 };
 
@@ -366,10 +360,7 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
       stack.push_back(inbox[i]);
     } else {
       if (stack.size() > 0) { /// Para el caso de que hayan n operandos
-        // for (int j = 0; j < stack.size(); j++) { /// coger los n elementos de la pila
-        //   operands.push_back(stack[j]);
-        // }
-        if ((inbox[i] == "+") | (inbox[i] == "|") | (inbox[i] == "^") | (inbox[i] == "-")) { /// SIEMPRE HAY QUE TOMAR LOS DOS ÚLTIMOS VALORES DE LA PILA
+        if ((inbox[i] == "+") | (inbox[i] == "|") | (inbox[i] == "^") | (inbox[i] == "-") | (inbox[i] == "*")) { /// SIEMPRE HAY QUE TOMAR LOS DOS ÚLTIMOS VALORES DE LA PILA
           operands.push_back(stack[stack.size() - 2]);
           std::cout << stack[stack.size() - 2] << std::endl;
           operands.push_back(stack[stack.size() - 1]);
@@ -537,12 +528,62 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               partialResult.push_back(languageResult);
               operands.clear();
             }
+          } else if (inbox[i] == "*") {
+            int counter = 0;
+            char firstOperand = operands[0][1];
+            char secondOperand = operands[1][1];
+            if (firstOperand == 'R') {
+              counter++;
+            }
+            if (secondOperand == 'R') {
+              counter++;
+            }
+            if (counter == 0) {
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguagePotency(languageVector[langugePosition1 - 1], languagePosition2);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            } else if (counter == 1) {
+              int languagePosition2 = secondOperand - '0';
+              Language languageResult;
+              languageResult.LanguagePotency(partialResult[0], languagePosition2);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
           }
         } else {
           if (inbox[i] == "!") {
-
-          } else if (inbox[i] == "*") {
-
+            int counter = 0;
+            char firstOperand = operands[0][1];
+            if (firstOperand == 'R') {
+              counter++;
+            }
+            if (counter == 0) {
+              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              Language languageResult;
+              languageResult.LanguageInverse(languageVector[langugePosition1 - 1]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            } else if (counter == 1) {
+              Language languageResult;
+              languageResult.LanguageInverse(partialResult[0]);
+              languageResult.LanguagePrint();
+              std::string languageResultString = "LR";
+              stack.insert(stack.begin(), languageResultString);
+              partialResult.push_back(languageResult);
+              operands.clear();
+            }
           }
         }
       } else { /// Para el caso de que no hayan n operandos
