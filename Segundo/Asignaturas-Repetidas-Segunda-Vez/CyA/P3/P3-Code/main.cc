@@ -23,32 +23,6 @@
 #include "FileOperations.h"
 
 /**
- * @brief This function implements the Menu of the different options of the program.
- * 
- * @param language1 This is the first language to operate.
- * @param language2 This is the second language to operate.
- * @param option The operation of the program.
- * @param outputFileName The name of the output file.
- * @param printFlag The flag to use the 'in' mode or 'out' mode at the write at the file.
- */
-void Menu(Language language1, std::string option, std::string outputFileName, bool printFlag) {
-  // Language languageResult;
-  // if ((option == "Concatenacion") || (option == "Concatenación")) {
-  //   languageResult.LanguageConcatenation(language1, language2, outputFileName, printFlag);
-  // } else if ((option == "Union") || (option == "Unión")) {
-  //   languageResult.LanguageUnion(language1, language2, outputFileName, printFlag);
-  // } else if ((option == "Interseccion" || (option == "Intersección"))) {
-  //   languageResult.LanguageInterseccion(language1, language2, outputFileName, printFlag);
-  // } else if (option == "Diferencia") {
-  //   languageResult.LanguageSubtract(language1, language2, outputFileName, printFlag);
-  // } else if (option == "Inversa") { /// un único lenguaje
-  //   languageResult.LanguageInverse(language1, outputFileName, printFlag);
-  // } else if (option == "Potencia") { /// un único lenguaje
-  //   languageResult.LanguagePotency(language1, outputFileName, printFlag);
-  // }
-};
-
-/**
  * @brief This is the main function of the program.
  * 
  * @param argc is the size of the line to execute the program.
@@ -133,7 +107,6 @@ int main(int argc, char *argv[]) {
         auxiliaryLanguage.LanguagePrint();
         std::cout << std::endl;
         if (errorFlag == false) {
-          // Menu(auxiliaryLanguage, option, outputFileName, printFlag);
           printCounter++;
         }
         if (printCounter == 1) {
@@ -146,14 +119,7 @@ int main(int argc, char *argv[]) {
         operationFileLines.push_back(i); /// se obtiene el vector de posiciones de líneas del fichero que contienen las operaciones
       }
     }
-
-    // std::cout << "Comprobación de almacenamiento de los lenguajes: " << std::endl;
-    // for (int i = 0; i < languageVector.size(); i++) {
-    //   Language auxiliaryLanguaje;
-    //   auxiliaryLanguaje = languageVector[i];
-    //   auxiliaryLanguaje.LanguagePrint();
-    // }
-
+    
     int auxiliaryPosition = 0;
     Language languageResult;
     for (int j = 0; j < operationFileLines.size(); j++) {
