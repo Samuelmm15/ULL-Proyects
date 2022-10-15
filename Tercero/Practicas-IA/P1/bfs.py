@@ -1,7 +1,7 @@
 """
  @file Unreported_Search.py
  @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- @brief
+ @brief This file contains the inplementation of the bfs algorithm.
  @version 0.1
  @date 2022-10-09
   
@@ -10,32 +10,32 @@
 
 from bfsDivition import BfsDivition
 
-# Implementación de la búsqueda en amplitud
+"""This function implements the bfs algorithm.
+    """
 def bfs(edgeGraph, initialnode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber):
     finalFlag = False
     vectorResult = []
-    visited = [] # Lista de nodos visitado
-    queue = [] # Cola de nodos a visitar
+    visited = [] # Visited nodes.
+    queue = [] # Queue of nodes to visit.
     node = int(initialnode)
 
-    # Inicializacion de los vectores
     visited.append(node)
     queue.append(node)
     
     while queue:
         auxiliary = queue.pop(0)
     
-        # Se comprueba para cada arista del tipo (auxiliary, neighbour), es similar a la arista (i, j)
+        # Comprobation of (i, j) edges.
         for neighbour in edgeGraph[auxiliary]:
             if (neighbour not in visited):
                 visited.append(neighbour)
                 queue.append(neighbour)
-                # Mediante esta operación se va añadiendo hasta que se encuentre el nodo final del camino
+                # Final route array insertion.
                 auxiliaryEdge = []
                 auxiliaryEdge.append(auxiliary)
                 auxiliaryEdge.append(neighbour)
                 vectorResult.append(auxiliaryEdge)
-            if (neighbour in visited) and (neighbour == int(finalNode)): # De esta manera se puede encontrar el camino desde el nodo inicial hasta el final
+            if (neighbour in visited) and (neighbour == int(finalNode)):
                 if (finalFlag == False):
                     BfsDivition(vectorResult, visited, initialnode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber)
-                finalFlag = True # Esto se hace debido a que se sigue recorriendo el árbol hasta el último nodo
+                finalFlag = True

@@ -1,19 +1,20 @@
 """
  @file Unreported_Search.py
  @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- @brief
+ @brief This file contains the final search of the route at two inserted nodes.
  @version 0.1
  @date 2022-10-09
   
  @copyright Copyright (c) 2022
 """
 
-from typing import final
 from colorama import Fore
 from colorama import init
 
 from PrintFile import PrintFile
 
+"""This function search the final route at the two introduced nodes.
+    """
 def BfsDivition(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVector, verticesNumber, edgesNumber):
     partialRoute = []
     print()
@@ -40,6 +41,7 @@ def BfsDivition(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVe
     print()
     print(Fore.CYAN + f'La cantidad de nodos que han sido ispeccionados han sido: {len(visited)}')
     
+    # This structure search the partial route of the final route of the two introduced nodes.
     printRoute = []
     introducedFlag = False
     repeatedFlag = False
@@ -77,7 +79,7 @@ def BfsDivition(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVe
         else:
             i = len(partialRoute)
         
-    # Búsqueda final del camino
+    # Final search of the route at the initial and final node.
     i = len(printRoute) - 1
     j = i - 1
     # (v, u)
@@ -114,7 +116,7 @@ def BfsDivition(vectorResult, visited, initialNode, finalNode, edgeCosts, edgeVe
             print(Fore.CYAN + f'{auxiliaryResult[i][1]}')
         i += 1
 
-    # Calculo del coste final del camino entre ambos nodos
+    # This structure calculates the final cost of the route
     i = 0
     j = 0
     indexVectorAuxiliary = []

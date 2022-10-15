@@ -1,22 +1,24 @@
 """
  @file Unreported_Search.py
  @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- @brief
+ @brief This file cotains the function that prints the final table to see the results.
  @version 0.1
  @date 2022-10-09
   
  @copyright Copyright (c) 2022
 """
 
-import os #Librería necesaria para la escritura en ficheros
+import os
 from colorama import Fore
 from colorama import init
 from prettytable import PrettyTable
 
+"""This function prints the final table that contains the results of the search.
+    """
 def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, visited, verticesNumber, edgesNumber):
     myTable = PrettyTable(["n", "m", "V0", "V1", "Camino", "Distancia", "Nodos generados", "Nodos inspeccionados"])
     
-    # This includes all the content in a vector to print at the table
+    # This structure makes the final route representation.
     i = 0
     vectorToPrint = []
     while i < len(finalRoute):
@@ -34,7 +36,3 @@ def PrintFile(finalRoute, initialNode, finalNode, distanceResult, partialRoute, 
     print()
     print(Fore.MAGENTA + 'Generación de la tabla resultante:')
     print(myTable)
-    
-    # This prints into an output file, but it not works with the prettyTable
-    # file = open("outputFile.txt", "w")
-    # file.write(myTable)

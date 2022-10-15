@@ -1,30 +1,31 @@
 """
  @file Unreported_Searches_Main.py
  @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- @brief
+ @brief This file implements the main function of the program.
  @version 0.1
  @date 2022-10-09
   
  @copyright Copyright (c) 2022
 """
 
-from itertools import count
-import os
-import colorama # Librería necesaria para ejecutar los colores de los mensajes por la terminal
+import os # This library brings the file operations functions.
+import colorama # This library prints the colour of the different screen messages.
 from colorama import Fore
 from colorama import init
 
 from BFSSearch import BFSSearch
 
-init(autoreset=True) # Esto hace que el color de las cadenas vuelva a su color original cada vez que se use por defecto
+init(autoreset=True) # This permits to reset the colours of the printed screen messages.
 
-if __name__ == '__main__': # This is the main program
+"""This is the main function of the program.    
+"""
+if __name__ == '__main__':
     print()
     print(Fore.MAGENTA + '<< BIENVENIDO A LA BÚSQUEDA EN AMPLITUD DEL CAMINO QUE CONECTE DOS VÉRTICES DE UN GRAFO >>')
     print()
     
     inputFileName = input(Fore.GREEN + 'Introduzca el nombre del fichero del cual se van a obtener los datos del grafo: ')
-    if os.path.exists(inputFileName) == False: # Comprobación de si el fichero existe
+    if os.path.exists(inputFileName) == False: # Comprobes if the introduced file exists.
         print()
         print(Fore.RED + 'ERROR >> El nombre del fichero que ha sido introducido, no existe, introduzca un nombre válido.')
         exit(1)
@@ -33,17 +34,17 @@ if __name__ == '__main__': # This is the main program
     
 
     verticesNumber = 0
-    edgeCosts = [] # Vector de costes
-    edgeVector = [] # Vector de aristas
+    edgeCosts = [] # Costs array.
+    edgeVector = [] # Edge array.
     
     for line in inputFile:
         edgeCosts.append(float(line))
 
-    verticesNumber = edgeCosts[0] # Obtenemos el número de vértices
-    edgeCosts.remove(verticesNumber) # De esta manera se elimina el número de vértices del vector de costes
-    verticesNumber = int(verticesNumber) # Se convierte a entero para poder operar con este
+    verticesNumber = edgeCosts[0] # This is the number of edges.
+    edgeCosts.remove(verticesNumber)
+    verticesNumber = int(verticesNumber)
     
-    # Obtenemos el vector de aristas
+    # Gets the edge array.
     i = 1
     j = 2
     counter = 0
@@ -59,7 +60,6 @@ if __name__ == '__main__': # This is the main program
         i += 1
         counter += 1
         
-    # Solicitud del nodo inicial y del nodo final
     print()
     initialNode = input('Introduzca el número del nodo el cual quiere que sea el nodo inicial del camino: ')
     finalNode = input('Introduzca el número del nodo el cual quiere que sea el nodo final del camino: ')
@@ -70,4 +70,3 @@ if __name__ == '__main__': # This is the main program
         exit(1)
     
     BFSSearch(initialNode, finalNode, edgeVector, edgeCosts, verticesNumber)
-
