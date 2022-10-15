@@ -68,10 +68,24 @@ void Language::LanguageConcatenation(Language language1, Language language2) {
   for (int i = auxiliaryVector1.size() - 1; i >= 0; i--) {
     for (int j = auxiliaryVector2.size() - 1; j >= 0; j--) {
       Chain auxiliaryChain;
-      auxiliaryResult = operateWithChains.ConcatenateChain(auxiliaryVector1[i].getChain(), auxiliaryVector2[j].getChain());
-      auxiliaryChain.AddChain(auxiliaryResult,auxiliaryAlphabet);
-      finalResult.push_back(auxiliaryChain);
-      auxiliaryResult.clear();
+      if ((auxiliaryVector1[i].getChain() != "&") && (auxiliaryVector2[j].getChain() != "&")) {
+        auxiliaryResult = operateWithChains.ConcatenateChain(auxiliaryVector1[i].getChain(), auxiliaryVector2[j].getChain());
+        auxiliaryChain.AddChain(auxiliaryResult,auxiliaryAlphabet);
+        finalResult.push_back(auxiliaryChain);
+        auxiliaryResult.clear();
+      } else {
+        if (auxiliaryVector1[i].getChain() == "&") {
+          auxiliaryResult = auxiliaryVector2[j].getChain();
+          auxiliaryChain.AddChain(auxiliaryResult,auxiliaryAlphabet);
+          finalResult.push_back(auxiliaryChain);
+          auxiliaryResult.clear();
+        } else if (auxiliaryVector2[j].getChain() == "&") {
+          auxiliaryResult = auxiliaryVector1[i].getChain();
+          auxiliaryChain.AddChain(auxiliaryResult,auxiliaryAlphabet);
+          finalResult.push_back(auxiliaryChain);
+          auxiliaryResult.clear();
+        }
+      }
     }
   }
   
