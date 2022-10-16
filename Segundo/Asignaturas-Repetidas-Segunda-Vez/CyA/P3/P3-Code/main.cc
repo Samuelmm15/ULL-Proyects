@@ -1,7 +1,7 @@
 /**
  * @file main.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the main function of the program.
  * @version 0.1
  * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
@@ -35,11 +35,9 @@ int main(int argc, char *argv[]) {
       std::cout << "Para más información: ./p03_calculator [ -h || --help ]" << std::endl;
       exit(1);
   }
-  
-  /// Para obtener todos los lenguajes y tenerlos almacenados por números, es decir 0, 1 o 2, hacer uso de set de objetos languages
 
   std::string option = argv[1];
-  if ((argc == 2) && (option != "-h") && (option != "--help")) {
+  if ((argc == 2) && (option != "-h") && (option != "--help")) { /// If the introduced option is different of --help or -h.
     std::string inputFileName = argv[1];
 
     FileOperations fileOperation;
@@ -48,26 +46,25 @@ int main(int argc, char *argv[]) {
     bool printFlag = true;
     int printCounter = 1;
     bool errorFlag = false;
-    std::vector<Language> languageVector; /// necesario para poder almacenar todos los lenguajes en el conjunto
+    std::vector<Language> languageVector; /// To store the different Languages included at the introduced file.
     std::vector<int> operationFileLines;
-    for (int i = 0; i < fileContent.size(); i++) { /// ESTO ES NECESARIO PARA ALMACENAR UN SET DE LENGUAJES
+    for (int i = 0; i < fileContent.size(); i++) {
       std::vector<std::string> dividedChains = fileOperation.ChainDivision(fileContent[i]);
 
-      if (dividedChains[0] != "-1") {
-        /// OBTENCIÓN DE LOS ALFABETOS A PARTIR DE LAS CADENAS DE LOS LENGUAJES
+      if (dividedChains[0] != "-1") { /// To obtain the alphabet of the Language.
         std::vector<std::string> dividedAlphabet;
         std::string auxiliaryDivition;
         bool comprobationFlag = false;
         for (int j = 0; j < dividedChains.size(); j++) {
           auxiliaryDivition = dividedChains[j];
           for (int k = 0; k < auxiliaryDivition.size(); k++) {
-            if ((dividedAlphabet.size() == 0)) { /// para el caso de que el vector esté vacío
+            if ((dividedAlphabet.size() == 0)) {
               std::string auxiliary;
               auxiliary = auxiliaryDivition[k];
               if (auxiliary != "&") {
                 dividedAlphabet.push_back(auxiliary);
               }
-            } else { /// si está completo
+            } else {
               std::string auxiliary;
               auxiliary = auxiliaryDivition[k];
               if (auxiliary != "&") {
@@ -116,8 +113,8 @@ int main(int argc, char *argv[]) {
           printFlag = false;
         }
         errorFlag = false;
-      } else { /// Vector que obtenga las posiciones para que después pueda obtener las líneas del fichero que contienen las operaciones a realizar
-        operationFileLines.push_back(i); /// se obtiene el vector de posiciones de líneas del fichero que contienen las operaciones
+      } else {
+        operationFileLines.push_back(i); /// This vector contains the position of the lines that has the operation code.
       }
     }
     

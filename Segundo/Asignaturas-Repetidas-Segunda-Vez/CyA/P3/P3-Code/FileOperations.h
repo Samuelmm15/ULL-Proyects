@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the file operations class.
  * @version 0.1
  * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
@@ -26,7 +26,7 @@ class FileOperations {
   public:
     FileOperations();
     std::vector<std::string> ReadFile(std::string fileName);
-    std::vector<std::string> AlphabetDivision(std::string line); /// se devuelve un vector, ya que se trata de un vector de caracteres y no una cadena
+    std::vector<std::string> AlphabetDivision(std::string line);
     std::vector<std::string> ChainDivision(std::string line);
   private:
     std::string inputFileName;

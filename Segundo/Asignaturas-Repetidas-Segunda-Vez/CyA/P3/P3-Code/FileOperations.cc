@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the implemention of the file operations methods.
  * @version 0.1
  * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
@@ -88,7 +88,7 @@ std::vector<std::string> FileOperations::ChainDivision(std::string line) {
   for (int i = 0; i < line.size(); i++) {
     if (line[i] == '=') {
       comprobationFlag = true;
-    } else { /// Esto es una condición para que recupere únicamente las líneas que tienen lenguajes y no las operaciones
+    } else { /// This is a condition to store only the lines that contains the languages.
       std::string auxiliaryFlag = "-1";
       returnFlag.push_back(auxiliaryFlag);
     }

@@ -1,7 +1,7 @@
 /**
  * @file Language.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contains the class of the Language objects.
  * @version 0.1
  * @date 2022-10-13
  * @signature Computabilidad y Algoritmia.
@@ -23,7 +23,7 @@
  */
 class Language : public Chain {
   public:
-    friend bool operator<(const Chain& a, const Chain& b); /// this is the overload of the operator <, neccesary to use the set structure with Chains objects.
+    friend bool operator<(const Chain& a, const Chain& b); /// This is the overload of the operator <, neccesary to use the set structure with Chains objects.
     Language();
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation(Language language1, Language language2);
@@ -38,10 +38,10 @@ class Language : public Chain {
     std::set<Chain> getLanguage();
     void printLanguageToFile(std::string outputFileName, bool printFlag);
   private:
-    std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
+    std::set<Chain> chainVector;
 };
 
-Language operator+(Language language1, Language language2);
+Language operator+(Language language1, Language language2); /// This is the differents operators overload, to use the operators with the differents Languages.
 Language operator|(Language language1, Language language2);
 Language operator^(Language language1, Language language2);
 Language operator-(Language language1, Language language2);
