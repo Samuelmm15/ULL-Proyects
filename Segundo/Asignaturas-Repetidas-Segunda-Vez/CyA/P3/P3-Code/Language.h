@@ -25,7 +25,6 @@ class Language : public Chain {
   public:
     friend bool operator<(const Chain& a, const Chain& b); /// this is the overload of the operator <, neccesary to use the set structure with Chains objects.
     Language();
-    // Language operator+(Language language2);
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation(Language language1, Language language2);
     void LanguageUnion(Language language1, Language language2);
@@ -35,8 +34,11 @@ class Language : public Chain {
     void LanguagePotency(Language languageToOperate, int nValue);
     void ReversePolishNotation(std::string line, std::vector<Language> languageVector);
     void LanguagePrint();
+    void setLanguage(std::set<Chain> languageToInsert);
     std::set<Chain> getLanguage();
     void printLanguageToFile(std::string outputFileName, bool printFlag);
   private:
     std::set<Chain> chainVector; /// Hacemos uso de set para poder almacenar las cadenas del lenguaje
 };
+
+Language operator+(Language language1, Language language2);

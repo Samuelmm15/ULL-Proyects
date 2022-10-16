@@ -25,9 +25,11 @@ bool operator<(const Chain& a, const Chain& b) {
   return true;
 };
 
-// Language operator+(Language language2) {
-
-// };
+Language operator+(Language language1, Language language2) {
+  Language languageResult;
+  languageResult.LanguageConcatenation(language1, language2);
+  return languageResult;
+};
 
 /**
  * @brief This is the constructor of the class
@@ -449,10 +451,10 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
               counter++;
             }
             if (counter == 0) {
-              int langugePosition1 = firstOperand - '0'; /// para convertir de char a int
+              int languagePosition1 = firstOperand - '0'; /// para convertir de char a int
               int languagePosition2 = secondOperand - '0';
               Language languageResult;
-              languageResult.LanguageConcatenation(languageVector[langugePosition1 - 1], languageVector[languagePosition2 - 1]);
+              languageResult = languageVector[languagePosition1 - 1] + languageVector[languagePosition2 - 1];
               std::string languageResultString = "LR";
               stack.insert(stack.begin(), languageResultString);
               partialResult.push_back(languageResult);
@@ -460,14 +462,14 @@ void Language::ReversePolishNotation(std::string line, std::vector<Language> lan
             } else if (counter == 1) {
               int languagePosition2 = secondOperand - '0';
               Language languageResult;
-              languageResult.LanguageConcatenation(partialResult[0], languageVector[languagePosition2 - 1]);
+              languageResult = partialResult[0] + languageVector[languagePosition2 - 1];
               std::string languageResultString = "LR";
               stack.insert(stack.begin(), languageResultString);
               partialResult.push_back(languageResult);
               operands.clear();
             } else if (counter == 2) {
               Language languageResult;
-              languageResult.LanguageConcatenation(partialResult[0], partialResult[1]);
+              languageResult = partialResult[0] + partialResult[1];
               std::string languageResultString = "LR";
               stack.insert(stack.begin(), languageResultString);
               partialResult.clear();
@@ -671,6 +673,10 @@ void Language::LanguagePrint() {
     }
   }
   std::cout << " }" << std::endl;
+};
+
+void Language::setLanguage(std::set<Chain> languageToInsert) {
+  chainVector = languageToInsert;
 };
 
 /**
