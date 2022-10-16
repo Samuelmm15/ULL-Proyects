@@ -42,3 +42,7 @@ class Language : public Chain {
 };
 
 Language operator+(Language language1, Language language2);
+Language operator|(Language language1, Language language2);
+Language operator^(Language language1, Language language2);
+Language operator-(Language language1, Language language2);
+Language operator*(Language language1, Language language2);
