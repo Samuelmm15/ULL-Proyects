@@ -25,6 +25,7 @@ class Language : public Chain {
   public:
     friend bool operator<(const Chain& a, const Chain& b); /// this is the overload of the operator <, neccesary to use the set structure with Chains objects.
     Language();
+    // Language operator+(Language language2);
     void IntroduceChainsGroup(std::vector<Chain> groupChains);
     void LanguageConcatenation(Language language1, Language language2);
     void LanguageUnion(Language language1, Language language2);

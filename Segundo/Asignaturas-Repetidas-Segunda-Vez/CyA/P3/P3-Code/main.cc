@@ -58,27 +58,28 @@ int main(int argc, char *argv[]) {
         std::vector<std::string> dividedAlphabet;
         std::string auxiliaryDivition;
         bool comprobationFlag = false;
-        for (int i = 0; i < dividedChains.size(); i++) {
-          auxiliaryDivition = dividedChains[i];
-          for (int j = 0; j < auxiliaryDivition.size(); j++) {
+        for (int j = 0; j < dividedChains.size(); j++) {
+          auxiliaryDivition = dividedChains[j];
+          for (int k = 0; k < auxiliaryDivition.size(); k++) {
             if ((dividedAlphabet.size() == 0)) { /// para el caso de que el vector esté vacío
               std::string auxiliary;
-              auxiliary = auxiliaryDivition[j];
+              auxiliary = auxiliaryDivition[k];
               if (auxiliary != "&") {
                 dividedAlphabet.push_back(auxiliary);
               }
             } else { /// si está completo
               std::string auxiliary;
-              auxiliary = auxiliaryDivition[j];
+              auxiliary = auxiliaryDivition[k];
               if (auxiliary != "&") {
-                for (int k = 0; k < dividedAlphabet.size(); k++) {
-                  if (dividedAlphabet[k] == auxiliary) {
+                for (int l = 0; l < dividedAlphabet.size(); l++) {
+                  if (dividedAlphabet[l] == auxiliary) {
                     comprobationFlag = true;
                   }
                 }
                 if (comprobationFlag == false) {
                   dividedAlphabet.push_back(auxiliary);
                 }
+                comprobationFlag = false;
               }
             }
           }

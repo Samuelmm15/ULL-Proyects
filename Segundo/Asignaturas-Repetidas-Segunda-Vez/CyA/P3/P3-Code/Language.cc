@@ -23,7 +23,11 @@
  */
 bool operator<(const Chain& a, const Chain& b) {
   return true;
-}
+};
+
+// Language operator+(Language language2) {
+
+// };
 
 /**
  * @brief This is the constructor of the class
