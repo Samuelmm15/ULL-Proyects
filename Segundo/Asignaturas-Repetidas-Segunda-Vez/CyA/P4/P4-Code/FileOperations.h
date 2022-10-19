@@ -10,3 +10,12 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#include <iostream>
+#include <fstream>
+
+class FileOperations {
+  public:
+    void ReadFile(std::string fileName);
+    void WriteFile(std::string fileName);
+};

@@ -22,7 +22,8 @@
 
 int main(int argc, char *argv[]) {
   if (argc == 4) {
-    std::cout << "Comienza el programa" << std::endl;
+    std::string inputFile = argv[1];
+    std::string outputFile = argv[2];
   } else {
     std::string option = argv[1];
     if (argc == 2) {
