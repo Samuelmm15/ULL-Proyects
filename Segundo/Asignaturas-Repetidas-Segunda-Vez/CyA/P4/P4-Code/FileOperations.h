@@ -16,6 +16,7 @@
 
 class FileOperations {
   public:
+    FileOperations();
     void ReadFile(std::string fileName);
     void WriteFile(std::string fileName);
 };

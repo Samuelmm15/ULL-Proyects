@@ -13,17 +13,30 @@
 
 #include <stdlib.h>
 #include <string.h>
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <regex>  /// Esta es la libraría para expresiones regulares
+#include <string>
 #include <vector>
 
 int main(int argc, char *argv[]) {
-  if (argc == 4) {
+  if (argc == 3) {
     std::string inputFile = argv[1];
     std::string outputFile = argv[2];
+    /// comprobación de si el primer fichero de entrada acaba en .cc con expresión regular
+    std::regex fileInComprobation (R"(*.cc)");
+    std::cout << "Entra" << std::endl;
+    std::smatch matches;
+    if (regex_search(inputFile, matches, fileInComprobation)) {
+      std::cout << "El fichero de entrada ha sido introducido de manera correcta." << std::endl;
+    } else {
+      std::cout << "ERROR >>> " << std::endl;
+      std::cout << "El fichero ha siso introducido de manera incorrecta" << std::endl;
+      exit(1); /// Salida del programa con error de tipo 1.
+    }
+
+    /// comprobación de si el segundo fichero de entrada acaba en .txt para comprobar si está correcto
   } else {
     std::string option = argv[1];
     if (argc == 2) {

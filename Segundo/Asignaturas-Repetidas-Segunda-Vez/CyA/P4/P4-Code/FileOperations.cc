@@ -10,3 +10,14 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#include "FileOperations.h"
+
+FileOperations::FileOperations() {
+};
+
+void FileOperations::ReadFile(std::string fileName) {
+};
+
+void FileOperations::WriteFile(std::string fileName) {
+};
