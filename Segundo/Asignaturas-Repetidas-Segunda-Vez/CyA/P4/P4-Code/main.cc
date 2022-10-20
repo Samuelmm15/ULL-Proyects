@@ -21,7 +21,7 @@
 #include <vector>
 
 #include "FileOperations.h"
-
+#include "CodeAnalyzer.h"
 
 int main(int argc, char *argv[]) {
   if (argc == 3) {
@@ -65,7 +65,8 @@ int main(int argc, char *argv[]) {
     // }
 
     /// Inicialización del programa
-    
+    CodeAnalyzer codeAnalyzer;
+    codeAnalyzer.VariablesAnalyzer(linesVector, outputFile);
 
   } else {
     std::string option = argv[1];
