@@ -20,23 +20,39 @@
 #include <string>
 #include <vector>
 
+
 int main(int argc, char *argv[]) {
   if (argc == 3) {
     std::string inputFile = argv[1];
     std::string outputFile = argv[2];
     /// comprobación de si el primer fichero de entrada acaba en .cc con expresión regular
-    std::regex fileInComprobation (R"(*.cc)");
-    std::cout << "Entra" << std::endl;
+    std::regex fileInComprobation(".+.cc$");
     std::smatch matches;
-    if (regex_search(inputFile, matches, fileInComprobation)) {
-      std::cout << "El fichero de entrada ha sido introducido de manera correcta." << std::endl;
+    if (std::regex_match(inputFile, matches, fileInComprobation) == true) {
+      std::cout << std::endl;
+      std::cout << "El fichero de  ha sido introducido de manera correcta." << std::endl;
     } else {
+      std::cout << std::endl;
       std::cout << "ERROR >>> " << std::endl;
       std::cout << "El fichero ha siso introducido de manera incorrecta" << std::endl;
+      std::cout << "La extensión correcta del fichero de comprobación es .cc" << std::endl;
       exit(1); /// Salida del programa con error de tipo 1.
     }
 
     /// comprobación de si el segundo fichero de entrada acaba en .txt para comprobar si está correcto
+    std::regex fileOutComprobation(".+.txt$");
+    std::smatch matches2;
+    if (std::regex_match(outputFile, matches2, fileOutComprobation) == true) {
+      std::cout << std::endl;
+      std::cout << "El fichero de salida ha sido introducido de manera correcta." << std::endl;
+    } else {
+      std::cout << std::endl;
+      std::cout << "ERROR >>> " << std::endl;
+      std::cout << "El fichero ha siso introducido de manera incorrecta" << std::endl;
+      std::cout << "La extensión correcta del fichero de comprobación es .txt" << std::endl;
+      exit(1);
+    }
+
   } else {
     std::string option = argv[1];
     if (argc == 2) {
