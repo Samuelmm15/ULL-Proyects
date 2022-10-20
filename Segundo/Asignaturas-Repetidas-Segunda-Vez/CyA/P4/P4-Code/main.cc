@@ -58,11 +58,14 @@ int main(int argc, char *argv[]) {
     /// Lectura del fichero de entrada para poder obtener las líneas del fichero
     std::vector<std::string> linesVector;
     FileOperations fileOperations;
-    linesVector = fileOperations.ReadFile(inputFile);
+    linesVector = fileOperations.ReadFile(inputFile); /// En este punto se tienen todas las líneas del fichero de entrada
 
-    for (int i = 0; i < linesVector.size(); i++) {
-      std::cout << linesVector[i] << std::endl;
-    }
+    // for (int i = 0; i < linesVector.size(); i++) {
+    //   std::cout << linesVector[i] << std::endl;
+    // }
+
+    /// Inicialización del programa
+    
 
   } else {
     std::string option = argv[1];
