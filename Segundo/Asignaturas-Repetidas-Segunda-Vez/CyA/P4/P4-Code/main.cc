@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include "FileOperations.h"
+
 
 int main(int argc, char *argv[]) {
   if (argc == 3) {
@@ -51,6 +53,15 @@ int main(int argc, char *argv[]) {
       std::cout << "El fichero ha siso introducido de manera incorrecta" << std::endl;
       std::cout << "La extensión correcta del fichero de comprobación es .txt" << std::endl;
       exit(1);
+    }
+
+    /// Lectura del fichero de entrada para poder obtener las líneas del fichero
+    std::vector<std::string> linesVector;
+    FileOperations fileOperations;
+    linesVector = fileOperations.ReadFile(inputFile);
+
+    for (int i = 0; i < linesVector.size(); i++) {
+      std::cout << linesVector[i] << std::endl;
     }
 
   } else {

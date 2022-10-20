@@ -11,12 +11,17 @@
  * 
  */
 
-#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+#include <algorithm>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 class FileOperations {
   public:
     FileOperations();
-    void ReadFile(std::string fileName);
+    std::vector<std::string> ReadFile(std::string fileName);
     void WriteFile(std::string fileName);
 };
