@@ -155,6 +155,25 @@ void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::stri
   fileOperations.WriteFile(auxiliaryVector, true,  printFlag, fileOutName, "Loops");
 };
 
-void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){};
+void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
+  std::regex MainProgramAnalyzer("^(\\s*)?(int|double)\\s+main\\s*\\(\\s*\\)\\s*\\{");
+
+  std::vector<std::string> vectorResult;
+  std::cout << std::endl;
+  for (int i = 0; i < linesVector.size(); i++) {
+    if (std::regex_search(linesVector[i], MainProgramAnalyzer)) {
+      std::cout << "Función main encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      std::string comprobation = "Sí";
+      vectorResult.push_back(comprobation);
+    }
+  }
+  if (vectorResult.size() == 0) {
+    std::cout << "No se ha encontrado la función main." << std::endl;
+    std::string comprobation = "No";
+    vectorResult.push_back(comprobation);
+  }
+  FileOperations fileOperations;
+  fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Main");
+};
 
 void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){};

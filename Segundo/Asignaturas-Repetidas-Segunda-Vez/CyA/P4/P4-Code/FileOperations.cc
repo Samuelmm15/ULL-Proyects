@@ -55,10 +55,6 @@ void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condi
         outputFile << "[ line " << vectorResult[0] << " ] "
                   << "TIPO: " << vectorResult[1]
                   << std::endl;
-      } else if (OptionFlag == "Functions") {
-        for (int i = 0; i < vectorResult.size(); i++) {
-          outputFile << vectorResult[i] << std::endl;
-        }
       } else if (OptionFlag == "Comments") {
         for (int i = 0; i < vectorResult.size(); i++) {
           outputFile << vectorResult[i] << std::endl;
@@ -95,18 +91,13 @@ void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condi
           outputFile << "Número de bucles for: " << vectorResult[0] << ";" << std::endl;
           outputFile << "Número de bucles while: " << vectorResult[1] << ";" << std::endl;
         }
-      } else if (OptionFlag == "Functions") {
-        for (int i = 0; i < vectorResult.size(); i++) {
-          outputFile << vectorResult[i] << std::endl;
-        }
       } else if (OptionFlag == "Comments") {
         for (int i = 0; i < vectorResult.size(); i++) {
           outputFile << vectorResult[i] << std::endl;
         }
       } else if (OptionFlag == "Main") {
-        for (int i = 0; i < vectorResult.size(); i++) {
-          outputFile << vectorResult[i] << std::endl;
-        }
+        outputFile << "MAIN: " << std::endl;
+        outputFile << vectorResult[0] << ";" << std::endl;
       }
     }
   }

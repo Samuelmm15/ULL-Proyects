@@ -9,3 +9,5 @@ BUCLES:
 BUCLES: 
 Número de bucles for: 2;
 Número de bucles while: 0;
+MAIN: 
+Sí;
