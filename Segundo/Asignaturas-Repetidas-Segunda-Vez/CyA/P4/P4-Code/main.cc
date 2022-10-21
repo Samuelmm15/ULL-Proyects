@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
     /// Inicialización del programa
     CodeAnalyzer codeAnalyzer;
     codeAnalyzer.VariablesAnalyzer(linesVector, outputFile);
+    codeAnalyzer.LoopsAnalyzer(linesVector, outputFile);
 
   } else {
     std::string option = argv[1];

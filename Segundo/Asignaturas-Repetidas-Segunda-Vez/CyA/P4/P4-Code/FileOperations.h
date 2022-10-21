@@ -23,5 +23,5 @@ class FileOperations {
   public:
     FileOperations();
     std::vector<std::string> ReadFile(std::string fileName);
-    void WriteFile(std::string fileName);
+    void WriteFile(std::vector<std::string> vectorResult, bool printFlag, bool condition, std::string fileName, std::string optionFlag);
 };

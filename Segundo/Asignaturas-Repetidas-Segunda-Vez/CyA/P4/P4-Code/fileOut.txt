@@ -1,0 +1,11 @@
+VARIABLES: 
+[ line 24 ] TIPO: int; NOMBRE: factorial; INICIALIZACIÓN: Sí;
+VARIABLES: 
+[ line 34 ] TIPO: int; NOMBRE: limit; INICIALIZACIÓN: No;
+BUCLES: 
+[ line 25 ] TIPO: for;
+BUCLES: 
+[ line 36 ] TIPO: for;
+BUCLES: 
+Número de bucles for: 2;
+Número de bucles while: 0;
