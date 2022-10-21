@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
     codeAnalyzer.VariablesAnalyzer(linesVector, outputFile);
     codeAnalyzer.LoopsAnalyzer(linesVector, outputFile);
     codeAnalyzer.MainProgramAnalyzer(linesVector, outputFile);
+    codeAnalyzer.CommentaryAnalyzer(linesVector, outputFile);
   } else {
     std::string option = argv[1];
     if (argc == 2) {

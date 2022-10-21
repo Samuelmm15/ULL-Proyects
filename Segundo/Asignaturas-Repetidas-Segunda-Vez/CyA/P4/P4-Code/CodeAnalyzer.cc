@@ -176,4 +176,34 @@ void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std
   fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Main");
 };
 
-void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){};
+void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
+  std::regex commentaryAnalyzer("^(\\s*)?\\/\\*");
+  std::regex commentaryAnalyzer2("^(\\s*)?\\*\\/");
+  std::regex commentaryAnalyzer3("^(\\s*)?\\/\\/");
+  std::regex commentaryAnalyzer4("^(\\s*)?\\*");
+
+  std::vector<std::string> vectorResult;
+  std::cout << std::endl;
+  for (int i = 0; i < linesVector.size(); i++) {
+    if (std::regex_search(linesVector[i], commentaryAnalyzer)) {
+      std::cout << "Comentario encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      vectorResult.push_back(linesVector[i]);
+    }
+    if (std::regex_search(linesVector[i], commentaryAnalyzer2)) {
+      std::cout << "Comentario encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      vectorResult.push_back(linesVector[i]);
+    }
+    if (std::regex_search(linesVector[i], commentaryAnalyzer3)) {
+      std::cout << "Comentario encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      vectorResult.push_back(linesVector[i]);
+    }
+    if (std::regex_search(linesVector[i], commentaryAnalyzer4)) {
+      std::cout << "Comentario encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      vectorResult.push_back(linesVector[i]);
+    }
+  }
+
+  for (int i = 0; i < vectorResult.size(); i++) {
+    std::cout << vectorResult[i] << std::endl;
+  }
+};
