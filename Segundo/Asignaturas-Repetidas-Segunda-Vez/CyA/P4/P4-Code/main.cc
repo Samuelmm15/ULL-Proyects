@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
 
     /// Inicialización del programa
     CodeAnalyzer codeAnalyzer;
+    codeAnalyzer.DescriptionAnalyzer(linesVector, outputFile);
     codeAnalyzer.VariablesAnalyzer(linesVector, outputFile);
     codeAnalyzer.LoopsAnalyzer(linesVector, outputFile);
     codeAnalyzer.MainProgramAnalyzer(linesVector, outputFile);
