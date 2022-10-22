@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.h
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief 
+ * @brief This file contents the class FileOperations.
  * @version 0.1
  * @date 2022-10-19
  * @signature Computabilidad y Algoritmia.
@@ -19,6 +19,10 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief This class is used to operate with files.
+ * 
+ */
 class FileOperations {
   public:
     FileOperations();

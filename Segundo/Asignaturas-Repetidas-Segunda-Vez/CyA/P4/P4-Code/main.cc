@@ -1,7 +1,7 @@
 /**
  * @file main.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief
+ * @brief This is the main function of the program.
  * @version 0.1
  * @date 2022-10-19
  * @signature Computabilidad y Algoritmia.
@@ -16,18 +16,25 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <regex>  /// Esta es la libraría para expresiones regulares
-#include <string>
+#include <regex>  /// This is the library for regular expressions.
 #include <vector>
 
 #include "FileOperations.h"
 #include "CodeAnalyzer.h"
 
+/**
+ * @brief This is the main function of the program.
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char *argv[]) {
   if (argc == 3) {
     std::string inputFile = argv[1];
     std::string outputFile = argv[2];
-    /// comprobación de si el primer fichero de entrada acaba en .cc con expresión regular
+    
+    /// Comprobation of the input file(.cc).
     std::regex fileInComprobation(".+.cc$");
     std::smatch matches;
     if (std::regex_match(inputFile, matches, fileInComprobation) == true) {
@@ -38,10 +45,10 @@ int main(int argc, char *argv[]) {
       std::cout << "ERROR >>> " << std::endl;
       std::cout << "El fichero ha siso introducido de manera incorrecta" << std::endl;
       std::cout << "La extensión correcta del fichero de comprobación es .cc" << std::endl;
-      exit(1); /// Salida del programa con error de tipo 1.
+      exit(1); /// Exit the program with error type 1.
     }
 
-    /// comprobación de si el segundo fichero de entrada acaba en .txt para comprobar si está correcto
+    /// Comprobation of the output file(.txt).
     std::regex fileOutComprobation(".+.txt$");
     std::smatch matches2;
     if (std::regex_match(outputFile, matches2, fileOutComprobation) == true) {
@@ -55,16 +62,12 @@ int main(int argc, char *argv[]) {
       exit(1);
     }
 
-    /// Lectura del fichero de entrada para poder obtener las líneas del fichero
+    /// Read the input file.
     std::vector<std::string> linesVector;
     FileOperations fileOperations;
-    linesVector = fileOperations.ReadFile(inputFile); /// En este punto se tienen todas las líneas del fichero de entrada
+    linesVector = fileOperations.ReadFile(inputFile);
 
-    // for (int i = 0; i < linesVector.size(); i++) {
-    //   std::cout << linesVector[i] << std::endl;
-    // }
-
-    /// Inicialización del programa
+    /// Starts the analysis of the introduced code.
     CodeAnalyzer codeAnalyzer;
     codeAnalyzer.DescriptionAnalyzer(linesVector, outputFile);
     codeAnalyzer.VariablesAnalyzer(linesVector, outputFile);
@@ -77,7 +80,7 @@ int main(int argc, char *argv[]) {
       if ((option == "-h") || (option == "--help")) {
         std::cout << "Ayuda de ejecución del programa >>> " << std::endl;
         std::cout << "./p04_code_analyzer [Fichero_de_Entrada] [Fichero_de_Salida]" << std::endl;
-        exit(1); /// Salida del programa con error de tipo 1.
+        exit(1);
       } else {
         std::cout << "ERROR >>> La opción introducida, no es válida." << std::endl;
         std::cout << "La opción introducida ha sido " << option << std::endl;

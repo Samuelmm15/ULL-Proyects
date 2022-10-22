@@ -1,7 +1,7 @@
 /**
  * @file CodeAnalyzer.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief
+ * @brief This file contents the implementation of the CodeAnalyzer methods.
  * @version 0.1
  * @date 2022-10-19
  * @signature Computabilidad y Algoritmia.
@@ -14,14 +14,23 @@
 #include "CodeAnalyzer.h"
 #include "FileOperations.h"
 
+/**
+ * @brief This is the constructor of the class.
+ * 
+ */
 CodeAnalyzer::CodeAnalyzer(){};
 
+/**
+ * @brief This method is used to analyze the variables.
+ * 
+ * @param linesVector The vector with the lines of the code.
+ * @param fileOutName The name of the output file.
+ */
 void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){
   std::regex variablesAnalyzer("^(\\s*)?(int|double) [a-zA-Z]+( = [0-9]+)?;$");
 
   std::vector<int> numberOfLine;
   std::cout << std::endl;
-  /// Comenzamos con la comprobación de las variables.
   for (int i = 0; i < linesVector.size(); i++) {
     if (std::regex_match(linesVector[i], variablesAnalyzer) == true) {
       std::cout << "Variable encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
@@ -29,21 +38,19 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
     }
   }
 
-  /// Creación de expresiones regulares para la obtención de los distintos datos;
-  std::regex typeOfVariable("^(\\s*)?(int|double)"); /// Expresión regular para obtener el tipo de variable.
-  std::regex nameOfVariable("((int|double) [a-zA-Z]+)"); /// Obtención del nombre de la variable.
-  std::regex initializationComprobation("( = )"); /// Comprobación de si la variable está inicializada.
+  /// These regex expressions are used to find the differents values of the variables.
+  std::regex typeOfVariable("^(\\s*)?(int|double)"); /// For the type of variable.
+  std::regex nameOfVariable("((int|double) [a-zA-Z]+)"); /// For the name of the variable.
+  std::regex initializationComprobation("( = )"); /// For the initialization of the variable.
 
   std::vector<std::string> vectorResult;
   for(int i = 0; i < numberOfLine.size(); i++) {
-    /// Comprobación del tipo de variable.
     std::string line = linesVector[numberOfLine[i]];
     std::smatch match;
     std::regex_search(line, match, typeOfVariable);
     std::string firstPosition = match[0];
-    firstPosition.erase(std::remove(firstPosition.begin(), firstPosition.end(), ' '), firstPosition.end()); /// Eliminación de los espacios en blanco.
+    firstPosition.erase(std::remove(firstPosition.begin(), firstPosition.end(), ' '), firstPosition.end()); /// Deleting the spaces.
     
-    /// comprobación del nombre de la variable.
     std::smatch match1;
     std::regex_search(line, match1, nameOfVariable);
     std::string secondPosition;
@@ -69,7 +76,6 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
       }
     }
 
-    /// Comprobación de si la variable está inicializada.
     std::smatch match2;
     std::regex_search(line, match2, initializationComprobation);
     std::string thirdPosition;
@@ -84,7 +90,6 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
     std::string linePosition = std::to_string(numberOfLine[i] + 1);
     vectorResult.push_back(linePosition);
 
-    /// Escritura de los resultados en el fichero de salida.
     FileOperations fileOperations;
     fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Variables");
 
@@ -95,22 +100,27 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
   }
 };
 
+/**
+ * @brief This method is used to analyze the loops.
+ * 
+ * @param linesVector The vector with the lines of the code.
+ * @param fileOutName The name of the output file.
+ */
 void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){
   std::regex loopsAnalyzer("^(\\s*)?(for|while)");
 
   std::vector<int> numberOfLine;
   std::vector<std::string> vectorResult;
-  /// Contador de bucles.
+  /// Loop counter.
   int forCounter = 0;
   int whileCounter = 0;
 
   std::cout << std::endl;
-  /// Comenzamos con la comprobación de los bucles.
   std::smatch match;
   for (int i = 0; i < linesVector.size(); i++) {
     std::regex_search(linesVector[i], match ,loopsAnalyzer);
     std::string auxiliary = match[0];
-    auxiliary.erase(std::remove(auxiliary.begin(), auxiliary.end(), ' '), auxiliary.end()); /// Eliminación de los espacios en blanco.
+    auxiliary.erase(std::remove(auxiliary.begin(), auxiliary.end(), ' '), auxiliary.end());
     if ((auxiliary == "for") || (auxiliary == "while")) {
       std::cout << "Bucle encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
       if (auxiliary == "for") {
@@ -123,7 +133,6 @@ void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::stri
     }
   }
 
-  /// Impresión de los resultados en el fichero de salida.
   FileOperations fileOperations;
   for (int i = 0; i < vectorResult.size(); i++) {
     std::vector<std::string> auxiliaryVector;
@@ -141,6 +150,12 @@ void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::stri
   fileOperations.WriteFile(auxiliaryVector, true,  true, fileOutName, "Loops");
 };
 
+/**
+ * @brief This method is used to analyze the main fuction of the program.
+ * 
+ * @param linesVector The vector with the lines of the code.
+ * @param fileOutName The name of the output file.
+ */
 void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
   std::regex mainProgramAnalyzer("^(\\s*)?(int|double)\\s+main\\s*\\(\\s*\\)\\s*\\{");
   std::regex mainProgramAnalyzer1("^(\\s*)?(int)\\smain\\((\\s*|[a-z A-z]*(,\\s)*[a-zA-z]*\\*?\\s[a-zA-Z]*\\[?\\]?)?\\)\\s*\\{");
@@ -168,6 +183,12 @@ void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std
   fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Main");
 };
 
+/**
+ * @brief This method is used to analyze the description comments of the program.
+ * 
+ * @param linesVector The vector with the lines of the code.
+ * @param fileOutName The name of the output file.
+ */
 void CodeAnalyzer::DescriptionAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
   std::regex descriptionAnalyzer("^(\\s*)?\\/\\*");
   std::regex descriptionAnalyzer1("^(\\s*)?\\*");
@@ -205,11 +226,16 @@ void CodeAnalyzer::DescriptionAnalyzer(std::vector<std::string> linesVector, std
     }
   }
 
-  /// Impresión de los resultados en el fichero de salida.
   FileOperations fileOperations;
   fileOperations.WriteFile(vectorResult, true, false, fileOutName, "Description");
 };
 
+/**
+ * @brief This method is used to analyze the variables of the program.
+ * 
+ * @param linesVector The vector with the lines of the code.
+ * @param fileOutName The name of the output file.
+ */
 void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
   std::regex commentaryAnalyzer("^(\\s*)?\\/\\/");
 

@@ -1,7 +1,7 @@
 /**
  * @file FileOperations.cc
  * @author Samuel Martín Morales (alu0101359526@ull.edu.es)
- * @brief
+ * @brief This file contents the implementation of the FileOperations methods.
  * @version 0.1
  * @date 2022-10-19
  * @signature Computabilidad y Algoritmia.
@@ -13,8 +13,18 @@
 
 #include "FileOperations.h"
 
+/**
+ * @brief This is the constructor of the FileOperations objects.
+ * 
+ */
 FileOperations::FileOperations(){};
 
+/**
+ * @brief This method is used to read the content of a file.
+ * 
+ * @param fileName The name of the input file.
+ * @return std::vector<std::string> 
+ */
 std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   std::ifstream fileInput(fileName);
   std::string line;
@@ -33,6 +43,15 @@ std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   return linesVector;
 };
 
+/**
+ * @brief This method is used to write the content of a file.
+ * 
+ * @param vectorResult The vector with the result of the analysis.
+ * @param condition The condition to print the result with a specified format.
+ * @param printFlag The condition to open the file in write mode or add mode.
+ * @param fileName The name of the outpurt file.
+ * @param optionFlag The option to print the result with a specified format.
+ */
 void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condition, bool printFlag, std::string fileName, std::string optionFlag) {
   std::fstream outputFile;
   if (printFlag == false) {
