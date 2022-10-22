@@ -17,15 +17,7 @@
 CodeAnalyzer::CodeAnalyzer(){};
 
 void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){
-  bool printFlag = false;
   std::regex variablesAnalyzer("^(\\s*)?(int|double) [a-zA-Z]+( = [0-9]+)?;$");
-
-//   std::string test = "int factorial = 1;";
-//   if (std::regex_match(test, variablesAnalyzer)) {
-//     std::cout << "Matched" << std::endl;
-//   } else {
-//     std::cout << "Not Matched" << std::endl;
-//   }
 
   std::vector<int> numberOfLine;
   std::cout << std::endl;
@@ -94,13 +86,8 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
 
     /// Escritura de los resultados en el fichero de salida.
     FileOperations fileOperations;
-    fileOperations.WriteFile(vectorResult, false, printFlag, fileOutName, "Variables");
-    printFlag = true;
-    // std::cout << std::endl;
-    // // /// Comprobación de los datos obtenidos.
-    // for (int i = 0; i < vectorResult.size(); i++) {
-    //   std::cout << vectorResult[i] << std::endl;
-    // }
+    fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Variables");
+
     vectorResult.clear();
     firstPosition.clear();
     secondPosition.clear();
@@ -109,7 +96,6 @@ void CodeAnalyzer::VariablesAnalyzer(std::vector<std::string> linesVector, std::
 };
 
 void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::string fileOutName){
-  bool printFlag = true;
   std::regex loopsAnalyzer("^(\\s*)?(for|while)");
 
   std::vector<int> numberOfLine;
@@ -146,13 +132,13 @@ void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::stri
     auxiliaryVector.push_back(auxiliary);
     vectorResult[i].erase(std::remove(vectorResult[i].begin(), vectorResult[i].end(), ' '), vectorResult[i].end());
     auxiliaryVector.push_back(vectorResult[i]);
-    fileOperations.WriteFile(auxiliaryVector, false, printFlag, fileOutName, "Loops");
+    fileOperations.WriteFile(auxiliaryVector, false, true, fileOutName, "Loops");
   }
   
   std::vector<std::string> auxiliaryVector;
   auxiliaryVector.push_back(std::to_string(forCounter));
   auxiliaryVector.push_back(std::to_string(whileCounter));
-  fileOperations.WriteFile(auxiliaryVector, true,  printFlag, fileOutName, "Loops");
+  fileOperations.WriteFile(auxiliaryVector, true,  true, fileOutName, "Loops");
 };
 
 void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
@@ -181,21 +167,35 @@ void CodeAnalyzer::DescriptionAnalyzer(std::vector<std::string> linesVector, std
   std::regex descriptionAnalyzer1("^(\\s*)?\\*");
   std::regex descriptionAnalyzer2("^(\\s*)?\\*\\/");
 
+  std::cout << std::endl;
   std::vector<std::string> vectorResult;
+  bool firstLineComprobationFlag = false;
   for (int i = 0; i < linesVector.size(); i++) {
     if (std::regex_search(linesVector[i], descriptionAnalyzer)) {
+      if (i == 0) {
+        firstLineComprobationFlag = true;
+      }
       std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
       vectorResult.push_back(linesVector[i]);
     }
-    if (std::regex_search(linesVector[i], descriptionAnalyzer1)) {
-      std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
-      vectorResult.push_back(linesVector[i]);
-    }
-    if (std::regex_search(linesVector[i], descriptionAnalyzer2)) {
-      std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
-      vectorResult.push_back(linesVector[i]);
+    if (firstLineComprobationFlag == true) {
+      if (std::regex_search(linesVector[i], descriptionAnalyzer1)) {
+        std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+        vectorResult.push_back(linesVector[i]);
+      }
+      if (std::regex_search(linesVector[i], descriptionAnalyzer2)) {
+        std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+        vectorResult.push_back(linesVector[i]);
+        firstLineComprobationFlag = false; /// Cuando finaliza la descripción inicial se pone a false.
+        int finalLine = i + 1;
+        vectorResult.push_back(std::to_string(finalLine));
+      }
     }
   }
+
+  /// Impresión de los resultados en el fichero de salida.
+  FileOperations fileOperations;
+  fileOperations.WriteFile(vectorResult, true, false, fileOutName, "Description");
 };
 
 void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
@@ -203,10 +203,15 @@ void CodeAnalyzer::CommentaryAnalyzer(std::vector<std::string> linesVector, std:
 
   std::vector<std::string> vectorResult;
   std::cout << std::endl;
+  FileOperations fileOperations;
   for (int i = 0; i < linesVector.size(); i++) {
     if (std::regex_search(linesVector[i], commentaryAnalyzer)) {
       std::cout << "Comentario encontrado en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
       vectorResult.push_back(linesVector[i]);
+      int position = i + 1;
+      vectorResult.push_back(std::to_string(position));
+      fileOperations.WriteFile(vectorResult, true, true, fileOutName, "Comments");
+      vectorResult.clear();
     }
   }
 

@@ -33,7 +33,7 @@ std::vector<std::string> FileOperations::ReadFile(std::string fileName) {
   return linesVector;
 };
 
-void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condition, bool printFlag, std::string fileName, std::string OptionFlag) {
+void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condition, bool printFlag, std::string fileName, std::string optionFlag) {
   std::fstream outputFile;
   if (printFlag == false) {
     outputFile.open(fileName, std::ios_base::out);
@@ -43,26 +43,13 @@ void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condi
       std::cout << "Compruebe si existe dicho fichero." << std::endl;
       exit(1);
     } else {
-      if (OptionFlag == "Variables") {
-        outputFile << "VARIABLES: " << std::endl;
-        outputFile << "[ line " << vectorResult[3] << " ] "
-                  << "TIPO: " << vectorResult[0]
-                  << "; NOMBRE: " << vectorResult[1]
-                  << "; INICIALIZACIÓN: " << vectorResult[2] << ";"
-                  << std::endl;
-      } else if (OptionFlag == "Loops") {
-        outputFile << "BUCLES: " << std::endl;
-        outputFile << "[ line " << vectorResult[0] << " ] "
-                  << "TIPO: " << vectorResult[1]
-                  << std::endl;
-      } else if (OptionFlag == "Comments") {
-        for (int i = 0; i < vectorResult.size(); i++) {
+      if (optionFlag == "Description") {
+        outputFile << "DESCRIPCIÓN: " << std::endl;
+        for (int i = 0; i < vectorResult.size() - 1; i++) {
           outputFile << vectorResult[i] << std::endl;
         }
-      } else if (OptionFlag == "Main") {
-        for (int i = 0; i < vectorResult.size(); i++) {
-          outputFile << vectorResult[i] << std::endl;
-        }
+        outputFile << "Descripción: [ lines 0 - " <<vectorResult[vectorResult.size() - 1] << " ];" << std::endl;
+        outputFile << "\n";
       }
     }
   } else {
@@ -73,31 +60,42 @@ void FileOperations::WriteFile(std::vector<std::string> vectorResult, bool condi
       std::cout << "Compruebe si existe dicho fichero." << std::endl;
       exit(1);
     } else {
-      if (OptionFlag == "Variables") {
+      if (optionFlag == "Variables") {
         outputFile << "VARIABLES: " << std::endl;
         outputFile << "[ line " << vectorResult[3] << " ] "
                   << "TIPO: " << vectorResult[0]
                   << "; NOMBRE: " << vectorResult[1]
                   << "; INICIALIZACIÓN: " << vectorResult[2] << ";"
                   << std::endl;
-      } else if (OptionFlag == "Loops") {
+        outputFile << "\n";
+      } else if (optionFlag == "Loops") {
         if (condition == false) {
           outputFile << "BUCLES: " << std::endl;
           outputFile << "[ line " << vectorResult[0] << " ] "
                   << "TIPO: " << vectorResult[1] << ";"
                   << std::endl;
+          outputFile << "\n";
         } else {
           outputFile << "BUCLES: " << std::endl;
           outputFile << "Número de bucles for: " << vectorResult[0] << ";" << std::endl;
           outputFile << "Número de bucles while: " << vectorResult[1] << ";" << std::endl;
+          outputFile << "\n";
         }
-      } else if (OptionFlag == "Comments") {
-        for (int i = 0; i < vectorResult.size(); i++) {
-          outputFile << vectorResult[i] << std::endl;
-        }
-      } else if (OptionFlag == "Main") {
+      } else if (optionFlag == "Comments") {
+        outputFile << "COMENTARIOS: " << std::endl;
+        outputFile << "[ line " << vectorResult[1] << " ] "
+                  << " COMENTARIO: " << vectorResult[0] << ";"
+                  << std::endl;
+      } else if (optionFlag == "Main") {
         outputFile << "MAIN: " << std::endl;
         outputFile << vectorResult[0] << ";" << std::endl;
+        outputFile << "\n";
+      } else if (optionFlag == "Description") {
+        outputFile << "DESCRIPCIÓN: " << std::endl;
+        for (int i = 0; i < vectorResult.size() - 1; i++) {
+          outputFile << vectorResult[i] << std::endl;
+        }
+        outputFile << "Descripción: [ lines 0 - " <<vectorResult[vectorResult.size() - 1] << "];" << std::endl;
       }
     }
   }
