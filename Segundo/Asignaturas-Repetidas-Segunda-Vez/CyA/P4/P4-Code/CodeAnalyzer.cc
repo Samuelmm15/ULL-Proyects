@@ -142,12 +142,18 @@ void CodeAnalyzer::LoopsAnalyzer(std::vector<std::string> linesVector, std::stri
 };
 
 void CodeAnalyzer::MainProgramAnalyzer(std::vector<std::string> linesVector, std::string fileOutName) {
-  std::regex MainProgramAnalyzer("^(\\s*)?(int|double)\\s+main\\s*\\(\\s*\\)\\s*\\{");
+  std::regex mainProgramAnalyzer("^(\\s*)?(int|double)\\s+main\\s*\\(\\s*\\)\\s*\\{");
+  std::regex mainProgramAnalyzer1("^(\\s*)?(int)\\smain\\((\\s*|[a-z A-z]*(,\\s)*[a-zA-z]*\\*?\\s[a-zA-Z]*\\[?\\]?)?\\)\\s*\\{");
 
   std::vector<std::string> vectorResult;
   std::cout << std::endl;
   for (int i = 0; i < linesVector.size(); i++) {
-    if (std::regex_search(linesVector[i], MainProgramAnalyzer)) {
+    if (std::regex_search(linesVector[i], mainProgramAnalyzer)) {
+      std::cout << "Función main encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+      std::string comprobation = "Sí";
+      vectorResult.push_back(comprobation);
+    }
+    if (std::regex_search(linesVector[i], mainProgramAnalyzer1)) {
       std::cout << "Función main encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
       std::string comprobation = "Sí";
       vectorResult.push_back(comprobation);
@@ -170,25 +176,31 @@ void CodeAnalyzer::DescriptionAnalyzer(std::vector<std::string> linesVector, std
   std::cout << std::endl;
   std::vector<std::string> vectorResult;
   bool firstLineComprobationFlag = false;
+  bool finishComprobationFlag = false;
   for (int i = 0; i < linesVector.size(); i++) {
-    if (std::regex_search(linesVector[i], descriptionAnalyzer)) {
-      if (i == 0) {
-        firstLineComprobationFlag = true;
-      }
-      std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
-      vectorResult.push_back(linesVector[i]);
-    }
-    if (firstLineComprobationFlag == true) {
-      if (std::regex_search(linesVector[i], descriptionAnalyzer1)) {
-        std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
+    if (finishComprobationFlag == false) {
+      if (std::regex_search(linesVector[i], descriptionAnalyzer)) {
+        if (i == 0) {
+          firstLineComprobationFlag = true;
+        }
+        std::cout << "Descripción encontrada en la línea " << i + 1 << ": "
+                  << linesVector[i] << std::endl;
         vectorResult.push_back(linesVector[i]);
       }
-      if (std::regex_search(linesVector[i], descriptionAnalyzer2)) {
-        std::cout << "Descripción encontrada en la línea " << i + 1 << ": " << linesVector[i] << std::endl;
-        vectorResult.push_back(linesVector[i]);
-        firstLineComprobationFlag = false; /// Cuando finaliza la descripción inicial se pone a false.
-        int finalLine = i + 1;
-        vectorResult.push_back(std::to_string(finalLine));
+      if (firstLineComprobationFlag == true) {
+        if (std::regex_search(linesVector[i], descriptionAnalyzer1)) {
+          std::cout << "Descripción encontrada en la línea " << i + 1 << ": "
+                    << linesVector[i] << std::endl;
+          vectorResult.push_back(linesVector[i]);
+        }
+        if (std::regex_search(linesVector[i], descriptionAnalyzer2)) {
+          std::cout << "Descripción encontrada en la línea " << i + 1 << ": "
+                    << linesVector[i] << std::endl;
+          vectorResult.push_back(linesVector[i]);
+          finishComprobationFlag = true;
+          int finalLine = i + 1;
+          vectorResult.push_back(std::to_string(finalLine));
+        }
       }
     }
   }

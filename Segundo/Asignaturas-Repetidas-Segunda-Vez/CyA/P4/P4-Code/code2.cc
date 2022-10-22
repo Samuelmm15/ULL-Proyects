@@ -1,4 +1,3 @@
-DESCRIPCIÓN: 
 /**
  * Universidad de La Laguna
  * Escuela Superior de Ingeniería y Tecnología
@@ -25,23 +24,28 @@ DESCRIPCIÓN:
  * @see http://www.cplusplus.com/reference/string/string/string/
  *
  */
- */
-Descripción: [ lines 0 - 26 ];
 
-BUCLES: 
-Número de bucles for: 0;
-Número de bucles while: 0;
+#include <iostream>
 
-MAIN: 
-Sí;
+int main(int argc, char* argv[]) {
+  // Check the number of parameters
+  std::cout << "No. of parameters: " << argc << std::endl;
+  if (argc < 2) {
+    // Tell the user how to run the program
+    std::cerr << "Usage: " << argv[0] << " NAME" << std::endl;
+    /* "Usage messages" are a conventional way of telling the user
+    * how to run a program if they enter the command incorrectly.
+    */
+    return 1;
+  }
+  // Print the user's name:
+  std::cout << argv[0] << " says hello, " << argv[1] << "!" << std::endl;
 
-COMENTARIOS: 
-[ line 31 ]  COMENTARIO:   // Check the number of parameters;
-COMENTARIOS: 
-[ line 34 ]  COMENTARIO:     // Tell the user how to run the program;
-COMENTARIOS: 
-[ line 41 ]  COMENTARIO:   // Print the user's name:;
-COMENTARIOS: 
-[ line 47 ]  COMENTARIO:   // How to convert a std::string into a number;
-COMENTARIOS: 
-[ line 48 ]  COMENTARIO:   // https://www.geeksforgeeks.org/converting-strings-numbers-cc/;
+  std::string name{argv[1]};  // Create a string object from the C-style (char* string)
+  std::cout << "The name is: " << name << std::endl;
+
+  // How to convert a std::string into a number
+  // https://www.geeksforgeeks.org/converting-strings-numbers-cc/
+
+  return 0;
+}
