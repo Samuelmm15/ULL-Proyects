@@ -1,0 +1,58 @@
+DESCRIPCIÓN: 
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Informática Básica
+ *
+ * @author F. de Sande
+ * @date 23.nov.2020
+ * @brief  Ejercicios propuestos en las prácticas de Informática Básica
+ *         Ejercicio 3. Práctica 7:
+ *         La función exponencial, f(x)=ex, se puede calcular mediante su desarrollo en serie de Taylor
+ *         Cuantos más términos tome de la serie, mayor será la precisión de la aproximación a la función.
+ *         Diseñe una función
+ *           double MyExp(double exponent, unsigned num_terms);
+ *         que calcule el valor de ex para un valor de x que se le pase como parámetro (exponent). 
+ *         El segundo parámetro de la función indica el número de términos del desarrollo en 
+ *         serie de Taylor a utilizar para el cálculo.
+ *
+ *         Versión 1: Función factorial
+ *         Versión 2: Función MyExponential, que caldula la serie. 
+ *                    Primera versión (aún incompleta)
+ *
+ * @see https://github.com/fsande/IB-P07-Functions/blob/master/Functions.md
+ * @see https://wesmckinney.com/blog/avoid-unsigned-integers/
+ */
+ */
+Descripción: [ lines 0 - 25 ];
+
+VARIABLES: 
+[ line 38 ] TIPO: int; NOMBRE: factorial; INICIALIZACIÓN: Sí;
+
+VARIABLES: 
+[ line 58 ] TIPO: int; NOMBRE: limit; INICIALIZACIÓN: No;
+
+VARIABLES: 
+[ line 61 ] TIPO: double; NOMBRE: exponent; INICIALIZACIÓN: No;
+
+BUCLES: 
+[ line 39 ] TIPO: for;
+
+BUCLES: 
+[ line 49 ] TIPO: for;
+
+BUCLES: 
+Número de bucles for: 2;
+Número de bucles while: 0;
+
+MAIN: 
+Sí;
+
+COMENTARIOS: 
+[ line 31 ]  COMENTARIO: // Returns the factorial of the argument;
+
+SWITCH: 
+[ line 33 ] Opción: number;
+[ line 34 ] Case;
+[ line 35 ] Case;
