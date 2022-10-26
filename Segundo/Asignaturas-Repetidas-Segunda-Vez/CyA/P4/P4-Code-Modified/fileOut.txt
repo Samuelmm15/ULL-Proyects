@@ -31,16 +31,16 @@ VARIABLES:
 [ line 38 ] TIPO: int; NOMBRE: factorial; INICIALIZACIÓN: Sí;
 
 VARIABLES: 
-[ line 58 ] TIPO: int; NOMBRE: limit; INICIALIZACIÓN: No;
+[ line 60 ] TIPO: int; NOMBRE: limit; INICIALIZACIÓN: No;
 
 VARIABLES: 
-[ line 61 ] TIPO: double; NOMBRE: exponent; INICIALIZACIÓN: No;
+[ line 63 ] TIPO: double; NOMBRE: exponent; INICIALIZACIÓN: No;
 
 BUCLES: 
-[ line 39 ] TIPO: for;
+[ line 40 ] TIPO: for;
 
 BUCLES: 
-[ line 49 ] TIPO: for;
+[ line 51 ] TIPO: for;
 
 BUCLES: 
 Número de bucles for: 2;

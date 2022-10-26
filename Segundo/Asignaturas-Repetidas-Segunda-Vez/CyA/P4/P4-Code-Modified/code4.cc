@@ -36,9 +36,11 @@ int Factorial(int number) {
       return 1;
     default:
       int factorial = 1;
-      for (int i = 1; i <= number; ++i) {
+      /** 
+       for (int i = 1; i <= number; ++i) {
         factorial *= i;
       }
+      */
       return factorial;
   }
 }
